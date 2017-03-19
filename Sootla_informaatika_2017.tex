@@ -1,6 +1,5 @@
 \documentclass[12pt]{article}
 
-
 % A package for setting layout and margins for your thesis 
 \usepackage[a4paper]{geometry}
 
@@ -211,15 +210,60 @@ In the final, concluding chapter, a summary of the contributions of this thesis 
 
 \subsection{Classical information theory}
 
+In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This subsection fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations and concrete examples.
+
 \subsubsection{Entropy}
 
-Let $X$ be a discrete random variable with a set of values from the set $\{x_1, x_2, ..., x_n\}$ and probability mass function $p(x_i) = P\{X = x_i\} \ (i = 1, ..., n)$. Shannon \cite{shannon} defines the \textit{entropy} of $X$ as follows: $$ H(X) = -\sum_{i = 1}^{n} p(x_i) \log_2 p(x_i).$$ 
+Entropy is the most fundamental quantity of information theory.\\
+
+Let $X$ be a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p(x_i) = P\{X = x_i\} \ (i = 1, ..., n)$. Shannon \cite{shannon} defines the \textit{entropy} of $X$ as follows: 
+
+\begin{equation}
+H(X) = -\sum_{i=1}^{n} p(x_i) \log_2 p(x_i)
+\label{eq:entropy}
+\end{equation}
+
+If the base of the logarithm is 2, the units the entropy is measured in are called \textit{bits}. Another common base for the logarithm is Euler's number $e \approx 2.718$, in which case the units of measurment are called \textit{nats}. \\
+
+Intuitively, entropy can be thought of as the average amount of uncertainty one has about a random variable. It is indeed the \textit{average} amount of uncertainty, because the uncertainty of a single relatization of $x_i$ of a random variable $X$ can be quantified by $-log_2 p(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-log_2 p(X)$: 
+
+$$H(X) = \mathbb{E} \left[ - \log_2 p(X) \right] = \mathbb{E} \left[ \log_2 \frac{1}{p(X)} \right].$$ \\ 
+
+To see why this intuition should correspond to the mathematical definition, it is instructive to look at a concrete example, inspired by \cite{cover-thomas}. Suppose we have a binary random variable $X$, defined as follows: 
+
+$$X = \begin{cases} 1 & \mbox{with probability } p, \\ 0, & \mbox{with probability } 1-p. \end{cases}$$ \\
+
+Essentially, this random variable encodes a coin toss, where the probability of flipping heads is $p$ and the probability of flipping tails is $1-p$. If $p=0.5$, the coin is considered to be unbiased, otherwise it is called biased. \\
+
+Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. When $p \in \{0, 1\}$, then the outcome of the coin toss is completely deterministic, and there is no uncertainty in the outcome. Accordingly, the entropy is 0 at these points. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition and intuition agree, as the entropy is indeed at its maximum when the coin is fair.
+
+\begin{figure} [h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{entropy}
+\caption{Entropy of $X$ plotted against the value of $p$.}
+\label{fig:entropy}
+\end{center}
+\end{figure}
+
+The fact that the entropy is maximal when the distribution is uniform is true in general. Another notable property of entropy is that it is non-negative.
+
+\subsubsection{Joint Entropy}
+
+Let $X$ and $Y$ be discrete random variables with realizations from the sets $\{x_1, x_2, ..., x_n\}$ and $\{y_1, y_2, ..., y_n\}$, respectively. Then the \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as $$H(X,Y) = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) log_2 p(x_i,y_j).$$ 
+
+\subsubsection{Conditional entropy}
 
 
 
-\subsubsection{Joint and Entropy}
 \subsubsection{Kullback-Leibler distance}
+
 \subsubsection{Mutual information}
+
+Given two discrete random variables $X$ and $Y$, the \textit{mutual information} \cite{cover-thomas} between them is given by $$MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x,y) \log_2 \frac{p(x,y)}{p(x)p(y)}.$$
+
+\subsubsection{Conditional mutual information}
+
+The \textit{conditional mutual information} \cite{cover-thomas} of discrete random variables $X$ and $Y$ given $Z$ is defined by $$MI(X;Y|Z) = H(X|Z) - H(X|Y,Z) = \mathbb{E}_p(x,y,z) log_2 \frac{p(X,Y|Z)}{p(X|Z)p(Y|Z)}.$$
 
 \subsection{Partial information decomposition}
 
