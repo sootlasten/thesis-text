@@ -288,7 +288,11 @@ MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)
 \label{eq:mutual-inf}
 \end{equation}
 
-An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$. Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter must hold, because if $X$ and $Y$ are independent, then by definition $p(x,y) = p_X(x)p_Y(y)$.
+An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$.
+
+Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter statement must hold, because if $X$ and $Y$ are independent, then $p(x,y) = p_X(x)p_Y(y)$ by definition. 
+
+Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring the distance between 
 
 
 
