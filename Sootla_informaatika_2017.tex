@@ -2,24 +2,12 @@
 
 \usepackage[parfill]{parskip}
 
+\usepackage[utf8]{inputenc}
+
 % A package for setting layout and margins for your thesis 
 \usepackage[a4paper]{geometry}
 
 \usepackage[english, estonian]{babel}
-
-% When you write in Estonian then you want to use text with right character set
-% By default LaTeX does not know what to do with õäöu letters. You have to specify
-% a correct input and font encoding. For that you have to Google the Web     
-%
-% For TexShop under MacOS X. The right lines are 
-%\usepackage[applemac]{inputenc}
-\usepackage[T1]{fontenc}
-%
-% For Windows and Linux the right magic lines are   
-% \usepackage[latin1]{inputenc}
-% \usepackage[latin5]{inputenc}
-% \usepackage[T1]{fontenc}
-
 
 % General packages for math in general, theorems and symbols 
 % Read ftp://ftp.ams.org/ams/doc/amsmath/short-math-guide.pdf for further information
@@ -195,7 +183,15 @@ Computer Science Curriculum\\[2mm]
 \newpage
 \section{Introduction}
 
-Complex systems 
+\selectlanguage{estonian}
+
+\textcolor{red}{Vabandust, et sissejuhatust veel hetkel ei ole. Minu jaoks on alati sissejuhatus kõige raskem osa olnud kirjatükkides, ja pole olnud kordagi, kus sissejuhatus poleks jäänud absoluutselt viimaseks osaks. Sissejuhatus annab ülevaate kogu minu tööle, mistõttu arvan, et seda on paslik koostada siis, kui on millest ülevaade teha.}
+
+\textcolor{red}{Lubage mul tuua näide elust. Kaks aastat tagasi kohtusin tüdrukuga, kes on nüüdseks minu ekstüdruk. Kui minult oleks palutud kirjutada sel hetkel ülevaade oma ülejäänud elust, siis suure osa kirjaruumist oleks kahtlemata hõlmanud see tüdruk. Õnneks ei alustanud ma tol hetkel ülevaate andmist oma tulevikust, sest nüüd oleme juba kuid lahus. Mõistagi muudab see resultaat minu elulooraamatu sisu märgatavalt. Hea, et ei hakanud elulooraamatusse ennatlikult tulevikust kirjutama, muidu oleks see olnud mahavisatud aeg. Veelgi enam, õnnelikel aegadel kirjutatud tulevikuplaanide lugemine ei oleks hetkel kindlasti kõige tervislikum ajaviide, mil suhe juba purunenud.}
+
+\textcolor{red}{Kui sissejuhatuse eesmärk nii varajases staadiumis on lihtsalt töö läbimõtlemine ja kirjutamisoskuse demonstreerimine, siis ehk piisab hetkel sisukorrast ja esimesest peatükist, mis tasapisi edeneb. Kui mitte, siis mõistagi tuleb mul see sissejuhatus lihtsalt ära teha kiiremas korras :/}
+
+\selectlanguage{english}
 
 In Chapter 1, the basics of classical information theory and partial information decomposition are covered. The chapter ends with an overview of the numerical estimator for PID.
 
@@ -292,9 +288,11 @@ An attentive reader might notice that the mutual information is the Kullback-Lei
 
 Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter statement must hold, because if $X$ and $Y$ are independent, then $p(x,y) = p_X(x)p_Y(y)$ by definition. 
 
-Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring the distance between 
+Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{eq:mutual-inf}.
 
+The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: when is there no information between two random variables? However, it does not help in answering the orthogonal question: when is the information maximized? To answer the latter, the following identity, which relates mutual information directly to entropies, is of importance: 
 
+$$MI(X;Y) = H(X) - H(X|Y)$$  
 
 \subsubsection{Conditional mutual information}
 
