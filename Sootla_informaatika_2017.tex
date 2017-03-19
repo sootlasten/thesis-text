@@ -185,23 +185,15 @@ Computer Science Curriculum\\[2mm]
 
 \selectlanguage{estonian}
 
+\textcolor{red}{TODO!}
+
 \textcolor{red}{Vabandust, et sissejuhatust veel hetkel ei ole. Minu jaoks on alati sissejuhatus kõige raskem osa olnud kirjatükkides, ja pole olnud kordagi, kus sissejuhatus poleks jäänud absoluutselt viimaseks osaks. Sissejuhatus annab ülevaate kogu minu tööle, mistõttu arvan, et seda on paslik koostada siis, kui on millest ülevaade teha.}
 
-\textcolor{red}{Lubage mul tuua näide elust. Kaks aastat tagasi kohtusin tüdrukuga, kes on nüüdseks minu ekstüdruk. Kui minult oleks palutud kirjutada sel hetkel ülevaade oma ülejäänud elust, siis suure osa kirjaruumist oleks kahtlemata hõlmanud see tüdruk. Õnneks ei alustanud ma tol hetkel ülevaate andmist oma tulevikust, sest nüüd oleme juba kuid lahus. Mõistagi muudab see resultaat minu elulooraamatu sisu märgatavalt. Hea, et ei hakanud elulooraamatusse ennatlikult tulevikust kirjutama, muidu oleks see olnud mahavisatud aeg. Veelgi enam, õnnelikel aegadel kirjutatud tulevikuplaanide lugemine ei oleks hetkel kindlasti kõige tervislikum ajaviide, mil suhe juba purunenud.}
-
-\textcolor{red}{Kui sissejuhatuse eesmärk nii varajases staadiumis on lihtsalt töö läbimõtlemine ja kirjutamisoskuse demonstreerimine, siis ehk piisab hetkel sisukorrast ja esimesest peatükist, mis tasapisi edeneb. Kui mitte, siis mõistagi tuleb mul see sissejuhatus lihtsalt ära teha kiiremas korras :/}
+\textcolor{red}{Kui sissejuhatuse eesmärk hetkel on lihtsalt töö läbimõtlemine ja kirjutamisoskuse demonstreerimine, siis ehk piisab hetkel sisukorrast ja esimesest peatükist, mis tasapisi edeneb. Kui mitte, siis mõistagi tuleb mul see sissejuhatus lihtsalt ära teha kiiremas korras.}
 
 \selectlanguage{english}
 
-In Chapter 1, the basics of classical information theory and partial information decomposition are covered. The chapter ends with an overview of the numerical estimator for PID.
-
-The subsequent 3 chapters each introduce a specific complex system and the results of measuring information distribution in it. 
-
-Chapter 2 - Elementary Cellular Automata 
-Chapter 3 - Ising model 
-Chapter 4 - Artificial Neural Networks
-
-In the final, concluding chapter, a summary of the contributions of this thesis is given, alongside suggestions for further work. 
+In Chapter 1, the basics of information theory and partial information decomposition are covered. The chapter ends with an overview of the numerical estimator for PID. The subsequent 3 chapters each introduce a specific complex system and the results of measuring information distribution in them, while they are naturally evolving. In the final, concluding chapter, a summary of the contributions of this thesis is given, alongside suggestions for further work. 
 
 \newpage
 \section{Background}
@@ -290,9 +282,14 @@ Because the mutual information is just a special case of Kullback-Leibler distan
 
 Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{eq:mutual-inf}.
 
-The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: when is there no information between two random variables? However, it does not help in answering the orthogonal question: when is the information maximized? To answer the latter, the following identity, which relates mutual information directly to entropies, is of importance: 
+The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: when is there no information between two random variables? However, it does not help in answering the orthogonal question: when is the information maximized? To answer the latter, the following identity, which relates mutual information directly to entropy, is of importance: 
 
-$$MI(X;Y) = H(X) - H(X|Y)$$  
+\begin{equation}
+MI(X;Y) = H(X) - H(X|Y)
+\label{mutual-inf-entropy}  
+\end{equation}
+
+
 
 \subsubsection{Conditional mutual information}
 
