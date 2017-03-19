@@ -1,5 +1,7 @@
 \documentclass[12pt]{article}
 
+\usepackage[parfill]{parskip}
+
 % A package for setting layout and margins for your thesis 
 \usepackage[a4paper]{geometry}
 
@@ -212,30 +214,30 @@ In the final, concluding chapter, a summary of the contributions of this thesis 
 
 In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This subsection fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations and concrete examples.
 
+In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$.
+
 \subsubsection{Entropy}
 
-Entropy is the most fundamental quantity of information theory.\\
-
-Let $X$ be a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p(x_i) = P\{X = x_i\} \ (i = 1, ..., n)$. Shannon \cite{shannon} defines the \textit{entropy} of $X$ as follows: 
+The most fundamental quantitiy of information theory is \textit{entropy}, being a basic building block of all the other information theoretic functionals introduced in this thesis. The entropy of the random variable $X$ is defined by Shannon \cite{shannon} as follows: 
 
 \begin{equation}
-H(X) = -\sum_{i=1}^{n} p(x_i) \log_2 p(x_i)
+H(X) = -\sum_{i=1}^{n} p_X(x_i) \log_2 p(x_i)
 \label{eq:entropy}
 \end{equation}
 
-If the base of the logarithm is 2, the units the entropy is measured in are called \textit{bits}. Another common base for the logarithm is Euler's number $e \approx 2.718$, in which case the units of measurment are called \textit{nats}. \\
+If the base of the logarithm is 2, the units the entropy is measured in are called \textit{bits}. Another common base for the logarithm is Euler's number $e \approx 2.718$, in which case the units of measurment are called \textit{nats}.
 
-Intuitively, entropy can be thought of as the average amount of uncertainty one has about a random variable. It is indeed the \textit{average} amount of uncertainty, because the uncertainty of a single relatization of $x_i$ of a random variable $X$ can be quantified by $-log_2 p(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-log_2 p(X)$: 
+Intuitively, entropy can be thought of as the average amount of uncertainty of a random variable. It is indeed an \textit{average}, as the uncertainty of a single relatization of $x_i$ of a random variable $X$ can be quantified by $-log_2 p(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-\log_2 p(X)$: 
 
-$$H(X) = \mathbb{E} \left[ - \log_2 p(X) \right] = \mathbb{E} \left[ \log_2 \frac{1}{p(X)} \right].$$ \\ 
+$$H(X) = \mathbb{E} \left[ - \log_2 p(X) \right] = \mathbb{E} \left[ \log_2 \frac{1}{p(X)} \right].$$
 
 To see why this intuition should correspond to the mathematical definition, it is instructive to look at a concrete example, inspired by \cite{cover-thomas}. Suppose we have a binary random variable $X$, defined as follows: 
 
-$$X = \begin{cases} 1 & \mbox{with probability } p, \\ 0, & \mbox{with probability } 1-p. \end{cases}$$ \\
+$$X = \begin{cases} 1 & \mbox{with probability } p, \\ 0, & \mbox{with probability } 1-p. \end{cases}$$
 
-Essentially, this random variable encodes a coin toss, where the probability of flipping heads is $p$ and the probability of flipping tails is $1-p$. If $p=0.5$, the coin is considered to be unbiased, otherwise it is called biased. \\
+Essentially, this random variable encodes a coin toss, where the probability of flipping heads is $p$ and the probability of flipping tails is $1-p$. If $p=0.5$, the coin is considered to be unbiased, otherwise it is called biased.
 
-Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. When $p \in \{0, 1\}$, then the outcome of the coin toss is completely deterministic, and there is no uncertainty in the outcome. Accordingly, the entropy is 0 at these points. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition and intuition agree, as the entropy is indeed at its maximum when the coin is fair.
+Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. When $p \in \{0, 1\}$, then the outcome of the coin toss is completely deterministic, meaning there is no uncertainty in the outcome. Accordingly, the entropy is 0 at these points. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition and intuition agree, as the entropy is indeed at its maximum when $p = 0.5$.
 
 \begin{figure} [h]
 \begin{center}
@@ -245,25 +247,54 @@ Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy 
 \end{center}
 \end{figure}
 
-The fact that the entropy is maximal when the distribution is uniform is true in general. Another notable property of entropy is that it is non-negative.
+\subsubsection{Joint and Conditional Entropy}
 
-\subsubsection{Joint Entropy}
+Let the joint distribution of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. The \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
-Let $X$ and $Y$ be discrete random variables with realizations from the sets $\{x_1, x_2, ..., x_n\}$ and $\{y_1, y_2, ..., y_n\}$, respectively. Then the \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as $$H(X,Y) = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) log_2 p(x_i,y_j).$$ 
+\begin{equation}
+H(X,Y) = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j)
+\label{eq:cond-etropy}
+\end{equation}
 
-\subsubsection{Conditional entropy}
+This is a direct generalization of entropy to multiple variables. Joint entropy for more than 2 random variables can be defined analogously.
 
+The \textit{conditional entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
+\begin{equation}
+H(Y|X) = - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i)
+\end{equation}
+
+Conditional entropy can be thought of as the amount of uncertainty one has about a random variable $Y$, given that $X$ has already been observed. As a special case, if $X$ and $Y$ are independent, observing $X$ does not reveal anything about $Y$, and $H(Y) = H(Y|X)$.
 
 \subsubsection{Kullback-Leibler distance}
 
+Let $p_X(x)$ and $q_X(x)$ be two probability mass functions over the support of the random variable $X$. The \textit{relative entropy} or \textit{Kullback-Leibler distance} \cite{cover-thomas} between $p_X(x)$ and $q_X(x)$ is defined as
+
+\begin{equation}
+D(p||q) = \sum_{i = 1}^n p(x_i) \log_2 \frac{p_X(x_i)}{q_X(x_i)}
+\label{eq:kl-distance}
+\end{equation} 
+
+The above quantity is called a distance, because it can be thought of as measuring the distance between two probability mass functions. Importantly, the relative entropy is non-negative, with inequality exactly when the 2 probability distributions are equal \cite{cover-thomas}, again corresponding to our intuitive notion of distance. Indeed, when the two probability mass functions are equal, the logarihm in equation \ref{eq:kl-distance} evaluates to 0, which in turn yields a relative entropy of 0. 
+
+However, it must be stressed that since the Kullback-Leibler distance it is not symmetric and does not satisfy the triangle inequality, it is not a formal distance in the mathematically rigorous sense.
+
 \subsubsection{Mutual information}
 
-Given two discrete random variables $X$ and $Y$, the \textit{mutual information} \cite{cover-thomas} between them is given by $$MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x,y) \log_2 \frac{p(x,y)}{p(x)p(y)}.$$
+The \textit{mutual information} \cite{cover-thomas} between the random variables $X$ and $Y$ is given by 
+
+\begin{equation}
+MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)}
+\label{eq:mutual-inf}
+\end{equation}
+
+An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$. Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter must hold, because if $X$ and $Y$ are independent, then by definition $p(x,y) = p_X(x)p_Y(y)$.
+
+
 
 \subsubsection{Conditional mutual information}
 
-The \textit{conditional mutual information} \cite{cover-thomas} of discrete random variables $X$ and $Y$ given $Z$ is defined by $$MI(X;Y|Z) = H(X|Z) - H(X|Y,Z) = \mathbb{E}_p(x,y,z) log_2 \frac{p(X,Y|Z)}{p(X|Z)p(Y|Z)}.$$
+The \textit{conditional mutual information} \cite{cover-thomas} of the discrete random variables $X$ and $Y$ given $Z$ is defined by $$MI(X;Y|Z) = H(X|Z) - H(X|Y,Z) = \mathbb{E}_p(x,y,z) log_2 \frac{p(X,Y|Z)}{p(X|Z)p(Y|Z)}.$$
 
 \subsection{Partial information decomposition}
 
