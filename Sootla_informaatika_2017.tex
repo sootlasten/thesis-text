@@ -196,15 +196,13 @@ Computer Science Curriculum\\[2mm]
 In Chapter 1, the basics of information theory and partial information decomposition are covered. The chapter ends with an overview of the numerical estimator for PID. The subsequent 3 chapters each introduce a specific complex system and the results of measuring information distribution in them, while they are naturally evolving. In the final, concluding chapter, a summary of the contributions of this thesis is given, alongside suggestions for further work. 
 
 \newpage
-\section{Background}
+\section{Classical information theory}
 
-\subsection{Classical information theory}
-
-In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This subsection fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations and concrete examples.
+In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations and concrete examples.
 
 In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$.
 
-\subsubsection{Entropy}
+\subsection{Entropy}
 
 The most fundamental quantitiy of information theory is \textit{entropy}, being a basic building block of all the other information theoretic functionals introduced in this thesis. The entropy of the random variable $X$ is defined by Shannon \cite{shannon} as follows: 
 
@@ -235,7 +233,7 @@ Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy 
 \end{center}
 \end{figure}
 
-\subsubsection{Joint and Conditional Entropy}
+\subsection{Joint and Conditional Entropy}
 
 Let the joint distribution of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. The \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
@@ -254,7 +252,7 @@ H(Y|X) = - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i)
 
 Conditional entropy can be thought of as the amount of uncertainty one has about a random variable $Y$, given that $X$ has already been observed. As a special case, if $X$ and $Y$ are independent, observing $X$ does not reveal anything about $Y$, and $H(Y) = H(Y|X)$.
 
-\subsubsection{Kullback-Leibler distance}
+\subsection{Kullback-Leibler distance}
 
 Let $p_X(x)$ and $q_X(x)$ be two probability mass functions over the support of the random variable $X$. The \textit{relative entropy} or \textit{Kullback-Leibler distance} \cite{cover-thomas} between $p_X(x)$ and $q_X(x)$ is defined as
 
@@ -267,7 +265,7 @@ The above quantity is called a distance, because it can be thought of as measuri
 
 However, it must be stressed that since the Kullback-Leibler distance it is not symmetric and does not satisfy the triangle inequality, it is not a formal distance in the mathematically rigorous sense.
 
-\subsubsection{Mutual information}
+\subsection{Mutual information}
 
 The \textit{mutual information} \cite{cover-thomas} between the random variables $X$ and $Y$ is given by 
 
@@ -291,7 +289,7 @@ MI(X;Y) = H(X) - H(X|Y)
 
 Intuitively, using identity \ref{mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Because mutual information is symmetric, the converse statement would also hold, meaning that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
 
-\subsubsection{Conditional mutual information}
+\subsection{Conditional mutual information}
 
 Let $Z$ be a discrete random variable. The \textit{conditional mutual information} \cite{cover-thomas} of the random variables $X$ and $Y$ given $Z$ is defined by 
 
@@ -301,21 +299,92 @@ MI(X;Y|Z) = H(X|Z) - H(X|Y,Z)
 
 Intutively, the conditional mutual information measures the reduction in the uncertainty of $X$ due to the knowledge of $Y$, given that $Z$ has already been observed. 
 
-When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
+When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of the other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
 
-\subsection{Partial information decomposition}
+\newpage
+\section{Partial information decomposition}
 
-Mutual information measures the amount of information two random variables, or more generally, two random vectors, have about each other. However, it is often worthwhile to ask how much information does an ensebmble of "input" random variables $X_1, X_2, ..., X_n$ carry about some "output" variable $Y$. 
+Mutual information measures the amount of information two random variables, or more generally, two random vectors have about each other. However, it is often worthwhile to ask how much information does an ensebmble of "input" random variables carry about some "output" variable. 
 
-A trivial solution would be to measure the mutual information between the whole input ensemble considered as a single random vector $X$ and the output $Y$. However, this would not capture the interactions between the input variables themselves. Moreover, by considering the input ensemble as a single unit, knowledge about how the interactions between specific individual units and the output differ is lost. 
+A trivial solution would be to measure the mutual information between the whole input ensemble considered as a single random vector and the output. However, this would not capture the interactions between the input variables themselves. Moreover, by considering the input ensemble as a single unit, knowledge about how the interactions between specific individual units and the output differ is lost. 
 
-The simplest non-trivial system to analyse that has an ensemble of inputs and a single output $Y$ is a system with 2 inputs $X_1$ and $X_2$. Given this setup, one can ask how much information does one input variable have about the output that the other does not, how much information do they share about the output, and how much information do they jointly have about the output such that both sources must be present for this information to exist.
+This section introduces \textit{partial information decomposition} - a mathematical framework for decomposing mutual information between a pair of input variables and single source variable.   
+
+\subsection{Formulation}
+
+The simplest non-trivial system to analyse that has an ensemble of inputs and a single output is a system with \textit{two} inputs. Given this setup, one can ask how much information does one input variable have about the output that the other does not, how much information do they share about the output, and how much information do they jointly have about the output such that both sources must be present for this information to exist.
+
+More formally, let $Y$ and $Z$ be two random variables that are considered as sources to a third random variable $X$. By equation \ref{eq:mutual-inf} the mutual information between the pair $(Y,Z)$ and $X$ is defined as 
+
+$$I(X:Y,Z) = H(X) - H(X|Y,Z).$$
+
+The partial information decompositon framework decomposes this mutual information into \textit{unique}, \textit{redundant} and \textit{complementary information} terms. 
+
+Unique information quantifies the amount of information that only one of the input variables has about the output variable. The unique information that $Y$ has about output $X$ is denoted as $UI(X:Y \setminus Z)$. Similarly, $UI(X:Z \setminus Y)$ denotes the unqiue information that $Z$ has about the output $X$.
+
+% unique information table
+\begin{table}
+\centering
+\begin{tabular}{|c c |c|c|}
+	\hline
+	Y & Z & X & Pr\\ 
+	\hline
+	0 & 1 & 01 & $1/4$ \\
+	0 & 3 & 03 & $1/4$ \\
+	2 & 1 & 21 & $1/4$ \\
+	2 & 3 & 23 & $1/4$ \\
+	\hline
+\end{tabular}
+\caption{unique information}
+\end{table}
+
+% redundant information table
+\begin{table}
+\centering
+\begin{tabular}{|c c |c|c|}
+	\hline
+	Y & Z & X & Pr\\ 
+	\hline
+	0 & 0 & 0 & $1/2$\\
+	1 & 1 & 1 & $1/2$\\ 
+	\hline
+\end{tabular}
+\caption{redundant information}
+\end{table}
+
+% synergy table
+\begin{table}
+\centering
+\begin{tabular}{|c c |c|c|}
+	\hline
+	Y & Z & X & Pr\\ 
+	\hline
+	0 & 0 & 0 & $1/4$ \\
+	0 & 1 & 1 & $1/4$ \\ 
+	1 & 0 & 1 & $1/4$ \\ 
+	1 & 1 & 0 & $1/4$ \\ 
+	\hline
+\end{tabular}
+\caption{Table lol}
+\label{table:1}
+\end{table}
+
+
+
+
+\textit{Shared information} 
+
+\textit{Complementary information}
+
+$$SI(X:Y,Z) = SI(X:Y;Z) + UI(X:Y \setminus Z) + UI(X:Z \setminus Y) + CI(X:Y;Z)$$
 
 Williams and Beer \cite{williams-beer} argued that Classical information theory as defined by Shannon is not able to quantify such intricate interactions. 
 
-\subsubsection{Numerical estimator}
-
 \cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets.
+
+\subsection{Calculating partial information decomposition}
+
+\subsection{Numerical estimator}
 
 \newpage
 \section{Elementary cellular automata}
@@ -328,15 +397,6 @@ Williams and Beer \cite{williams-beer} argued that Classical information theory 
 
 \newpage
 \section{Ising model}
-
-\subsection{Problem description}
-\subsection{Related work}
-\subsection{Experimental setup}
-\subsection{Results}
-\subsection{Discussion}
-
-\newpage
-\section{Neural networks}
 
 \subsection{Problem description}
 \subsection{Related work}
