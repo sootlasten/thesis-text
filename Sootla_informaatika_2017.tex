@@ -282,22 +282,40 @@ Because the mutual information is just a special case of Kullback-Leibler distan
 
 Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{eq:mutual-inf}.
 
-The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: when is there no information between two random variables? However, it does not help in answering the orthogonal question: when is the information maximized? To answer the latter, the following identity, which relates mutual information directly to entropy, is of importance: 
+The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: "when is there no information between two random variables?" However, it does not help in answering the orthogonal question: "when is the information maximized?" To answer the latter, the following identity, which relates mutual information directly to entropy, is of importance: 
 
 \begin{equation}
 MI(X;Y) = H(X) - H(X|Y)
 \label{mutual-inf-entropy}  
 \end{equation}
 
-
+Intuitively, using identity \ref{mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Because mutual information is symmetric, the converse statement would also hold, meaning that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
 
 \subsubsection{Conditional mutual information}
 
-The \textit{conditional mutual information} \cite{cover-thomas} of the discrete random variables $X$ and $Y$ given $Z$ is defined by $$MI(X;Y|Z) = H(X|Z) - H(X|Y,Z) = \mathbb{E}_p(x,y,z) log_2 \frac{p(X,Y|Z)}{p(X|Z)p(Y|Z)}.$$
+Let $Z$ be a discrete random variable. The \textit{conditional mutual information} \cite{cover-thomas} of the random variables $X$ and $Y$ given $Z$ is defined by 
+
+\begin{equation}
+MI(X;Y|Z) = H(X|Z) - H(X|Y,Z)
+\end{equation}
+
+Intutively, the conditional mutual information measures the reduction in the uncertainty of $X$ due to the knowledge of $Y$, given that $Z$ has already been observed. 
+
+When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
 
 \subsection{Partial information decomposition}
 
-\subsection{Numerical estimator}
+Mutual information measures the amount of information two random variables, or more generally, two random vectors, have about each other. However, it is often worthwhile to ask how much information does an ensebmble of "input" random variables $X_1, X_2, ..., X_n$ carry about some "output" variable $Y$. 
+
+A trivial solution would be to measure the mutual information between the whole input ensemble considered as a single random vector $X$ and the output $Y$. However, this would not capture the interactions between the input variables themselves. Moreover, by considering the input ensemble as a single unit, knowledge about how the interactions between specific individual units and the output differ is lost. 
+
+The simplest non-trivial system to analyse that has an ensemble of inputs and a single output $Y$ is a system with 2 inputs $X_1$ and $X_2$. Given this setup, one can ask how much information does one input variable have about the output that the other does not, how much information do they share about the output, and how much information do they jointly have about the output such that both sources must be present for this information to exist.
+
+Williams and Beer \cite{williams-beer} argued that Classical information theory as defined by Shannon is not able to quantify such intricate interactions. 
+
+\subsubsection{Numerical estimator}
+
+\cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets.
 
 \newpage
 \section{Elementary cellular automata}
