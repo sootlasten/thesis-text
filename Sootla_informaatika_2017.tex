@@ -308,7 +308,7 @@ Mutual information measures the amount of information two random variables, or m
 
 A trivial solution would be to measure the mutual information between the whole input ensemble considered as a single random vector and the output. However, this would not capture the interactions between the input variables themselves. Moreover, by considering the input ensemble as a single unit, knowledge about how the interactions between specific individual units and the output differ is lost. 
 
-This section introduces \textit{partial information decomposition} - a mathematical framework for decomposing mutual information between a pair of input variables and single source variable.   
+This section introduces \textit{partial information decomposition (PID)} - a mathematical framework for decomposing mutual information between a pair of input variables and single source variable.   
 
 \subsection{Formulation}
 
@@ -322,24 +322,31 @@ The partial information decompositon framework decomposes this mutual informatio
 
 Unique information quantifies the amount of information that only one of the input variables has about the output variable. The unique information that $Y$ has about output $X$ is denoted as $UI(X:Y \setminus Z)$. Similarly, $UI(X:Z \setminus Y)$ denotes the unqiue information that $Z$ has about the output $X$.
 
+As an example, consider Table \ref{table:1}, inspired by \cite{pid-synergy}, which depicts the joint distribution of the random vector $(X,Y,Z)$. From the table, it can be seen that the output variable $X$ has 4 equiprobable states, each of which is uniquely specified by the two inputs $Y$ and $Z$. There is unique information in both $Y$ and $Z$, because they contain different information about the output $X$ that is not present in the other input. Indeed, input $Y$ is able to differentiate between the sets $\{0,1\}$ and $\{2,3\}$, while $Z$ discriminates between $\{0, 2\}$ and $\{1,3\}$.
+
 % unique information table
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|c c |c|c|}
 	\hline
 	Y & Z & X & Pr\\ 
 	\hline
-	0 & 1 & 01 & $1/4$ \\
-	0 & 3 & 03 & $1/4$ \\
-	2 & 1 & 21 & $1/4$ \\
-	2 & 3 & 23 & $1/4$ \\
+	0 & 1 & 0 & $1/4$ \\
+	0 & 3 & 1 & $1/4$ \\
+	2 & 1 & 2 & $1/4$ \\
+	2 & 3 & 3 & $1/4$ \\
 	\hline
 \end{tabular}
-\caption{unique information}
+\caption{Example of unique information.}
+\label{table:1}
 \end{table}
 
+Shared information quantifies the amount of information both inputs share about the output variable. It is also sometimes called \textit{redundant} information, because if both inputs contain the same information about the output, it would suffice to observe only one of the input variables. The shared information is denoted as $SI(X:Y,Z)$.
+
+Table \ref{table:2}, again inspired by \cite{pid-synergy} gives a toy example of shared information. The output variable $X$ has 2 equiprobable states, each of which is again uniquely specified by the two inputs $Y$ and $Z$. However, in this example, it would actually suffice to observe only one of the inputs $Y$ or $Z$ to uniquely determine the ouput. In other words, one of the input variables is redundant, since the two inputs share all their information about the output.
+
 % redundant information table
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|c c |c|c|}
 	\hline
@@ -349,11 +356,16 @@ Unique information quantifies the amount of information that only one of the inp
 	1 & 1 & 1 & $1/2$\\ 
 	\hline
 \end{tabular}
-\caption{redundant information}
+\caption{Example of shared sinformation}
+\label{table:2}
 \end{table}
 
+Complementary or \textit{synergetic} information quantifies the amount of information that both inputs have about the output, but if one of the inputs is removed, this information is lost. The complementary information is denoted as $CI(X:Y,Z)$. 
+
+Table \ref{table:3} depicts the \texttt{XOR}-gate - the canonical example for illustrating the concept of synergy \cite{pid-synergy}. As before, the output $X$ is fully specified by the two inputs $Y$ and $Z$. However, in this case \textit{both} inputs $Y$ and $Z$ must be present for the output to be fully determined. Indeed, given a specific value of either $Y$ or $Z$, there remain two equiprobable values for $X$. 
+
 % synergy table
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|c c |c|c|}
 	\hline
@@ -365,26 +377,36 @@ Unique information quantifies the amount of information that only one of the inp
 	1 & 1 & 0 & $1/4$ \\ 
 	\hline
 \end{tabular}
-\caption{Table lol}
-\label{table:1}
+\caption{Synergy}
+\label{table:3}
 \end{table}
 
+Now that the PID terms have been defined, we can decompose the mutual information four terms as follows:
 
+\begin{equation}
+MI(X:Y,Z) = SI(X:Y;Z) + UI(X:Y \setminus Z) + UI(X:Z \setminus Y) + CI(X:Y;Z)
+\label{pid}
+\end{equation}
 
+It is also possible to decompose the information that a single variable, either $Y$ or $Z$, has about the output $X$: 
 
-\textit{Shared information} 
+\begin{equation}
+\begin{split}
+MI(X:Y) = UI(X:Y \setminus Z) + SI(X:Y,Z) \\
+MI(X:Z) = UI(X:Z \setminus Y) + SI(X:Y,Z)
+\label{pid-y}
+\end{split}
+\end{equation}
 
-\textit{Complementary information}
+\textcolor{red}{TODO!}
 
-$$SI(X:Y,Z) = SI(X:Y;Z) + UI(X:Y \setminus Z) + UI(X:Z \setminus Y) + CI(X:Y;Z)$$
+\subsection{Calculating PID terms}
 
 Williams and Beer \cite{williams-beer} argued that Classical information theory as defined by Shannon is not able to quantify such intricate interactions. 
 
-\cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets.
-
-\subsection{Calculating partial information decomposition}
-
 \subsection{Numerical estimator}
+
+\cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets.
 
 \newpage
 \section{Elementary cellular automata}
