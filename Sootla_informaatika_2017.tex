@@ -271,14 +271,14 @@ The \textit{mutual information} \cite{cover-thomas} between the random variables
 
 \begin{equation}
 MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)}
-\label{eq:mutual-inf}
+\label{mutual-inf}
 \end{equation}
 
 An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$.
 
 Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter statement must hold, because if $X$ and $Y$ are independent, then $p(x,y) = p_X(x)p_Y(y)$ by definition. 
 
-Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{eq:mutual-inf}.
+Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{mutual-inf}.
 
 The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: "when is there no information between two random variables?" However, it does not help in answering the orthogonal question: "when is the information maximized?" To answer the latter, the following identity, which relates mutual information directly to entropy, is of importance: 
 
@@ -360,7 +360,7 @@ Table \ref{table:2}, again inspired by \cite{pid-synergy} gives a toy example of
 \label{table:2}
 \end{table}
 
-Complementary or \textit{synergetic} information quantifies the amount of information that both inputs have about the output, but if one of the inputs is removed, this information is lost. The complementary information is denoted as $CI(X:Y,Z)$. 
+Complementary or \textit{synergetic} information quantifies the amount of information that is only present when both inputs are considered jointly. The complementary information is denoted as $CI(X:Y,Z)$. 
 
 Table \ref{table:3} depicts the \texttt{XOR}-gate - the canonical example for illustrating the concept of synergy \cite{pid-synergy}. As before, the output $X$ is fully specified by the two inputs $Y$ and $Z$. However, in this case \textit{both} inputs $Y$ and $Z$ must be present for the output to be fully determined. Indeed, given a specific value of either $Y$ or $Z$, there remain two equiprobable values for $X$. 
 
@@ -381,38 +381,57 @@ Table \ref{table:3} depicts the \texttt{XOR}-gate - the canonical example for il
 \label{table:3}
 \end{table}
 
-Now that the PID terms have been defined, we can decompose the mutual information four terms as follows:
-
+It is generally agreed (\cite{williams-beer}, \cite{bertschinger}, \cite{pid-redundant}, \cite{pid-synergy}) that mutual information can be docomposed into the four terms just described as follows \cite{pid-goal-functions}:
 \begin{equation}
 MI(X:Y,Z) = SI(X:Y;Z) + UI(X:Y \setminus Z) + UI(X:Z \setminus Y) + CI(X:Y;Z)
 \label{pid}
 \end{equation}
 
-It is also possible to decompose the information that a single variable, either $Y$ or $Z$, has about the output $X$: 
-
+The same sources also agree on the decomposition of information that a single variable, either $Y$ or $Z$, has about the output $X$: 
 \begin{equation}
 \begin{split}
 MI(X:Y) = UI(X:Y \setminus Z) + SI(X:Y,Z) \\
 MI(X:Z) = UI(X:Z \setminus Y) + SI(X:Y,Z)
-\label{pid-y}
+\label{pid-yz}
 \end{split}
 \end{equation}
 
-\textcolor{red}{TODO!}
+It is important to note that we have not actually obtained a way to actually calculate the PID terms yet, but have only stated several logical relationships that the decomposition should satisfy. The only computable quantities at the moment are the mutual information terms at the left hand side of equations \ref{pid} and \ref{pid-yz}, which can be computed using equation \ref{mutual-inf}. The discussion of calculating the specific PID terms is developer further in the next section. 
+
+\textcolor{red}{TODO! Why does the PID only work with 2 inputs?}
+
+\textcolor{red}{TODO? PID applications?}
 
 \subsection{Calculating PID terms}
 
-Williams and Beer \cite{williams-beer} argued that Classical information theory as defined by Shannon is not able to quantify such intricate interactions. 
+\textcolor{red}{TODO? Should I mention here that the section is based on the PID neural goal functions paper and omit the references after every passage?}
+
+It turns out that the current tools from classical information theory - entropy and various forms of mutual information - are not enough to calculate any of the terms of the PID \cite{williams-beer}. Indeed, there are only 3 equations (\ref{pid}, \ref{pid-yz}) relating to the 4 variables of interest, making the system underdetermined. In order to make the problem tractable, a definition of at least one of the PID terms must be given \cite{bertschinger}.
+
+Taking inspiration from game theory, \cite{bertschinger} were able to provide such a definition for unique information. Their insight was that if a variable contains unique information, there must be a way to exploit it. In other words, there must exist a situation such that an agent having access to unique information has an advantage over another agent who does not possess this knowledge. Given such a situation, the agent in posession of unique information can prove it to others by designing a bet on the output variable, such that on average, the bet is won by the designer. \cite{pid-goal-functions}
+
+In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from \ref{pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly modify $Y$ and observe the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. Similarly, Bob's reward will depend on the distributon $p(X,Z)$. Thus, the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals. \cite{pid-goal-functions}.
+
+Due to the last observation about the marginal distributions, as set of probability distributions can be defined which respect the margnials of $P$. 
+
+\begin{multline*}
+\Delta_P = \{Q \in \Delta: Q(X=x, Y=y) = P(X=x, Y=y) \\ 
+\text{ and }  Q(X=x, Z=z) = P(X=x, Z=z) \text{ for all } x \in X, y \in Y, z \in Z\}
+\end{multline*}
+
+
 
 \subsection{Numerical estimator}
 
 \cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets.
 
 \newpage
+\section{Related work}
+
+\newpage
 \section{Elementary cellular automata}
 
 \subsection{Problem description}
-\subsection{Related work}
 \subsection{Experimental setup}
 \subsection{Results}
 \subsection{Discussion}
@@ -421,13 +440,14 @@ Williams and Beer \cite{williams-beer} argued that Classical information theory 
 \section{Ising model}
 
 \subsection{Problem description}
-\subsection{Related work}
 \subsection{Experimental setup}
 \subsection{Results}
 \subsection{Discussion}
 
 \newpage
-\section{Conclusion}
+\section{Discussion}
+\subsection{Limitations}
+\subsection{Future work}
 
 
 \selectlanguage{english}
