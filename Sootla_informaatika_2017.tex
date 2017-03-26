@@ -252,6 +252,20 @@ H(Y|X) = - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i)
 
 Conditional entropy can be thought of as the amount of uncertainty one has about a random variable $Y$, given that $X$ has already been observed. As a special case, if $X$ and $Y$ are independent, observing $X$ does not reveal anything about $Y$, and $H(Y) = H(Y|X)$.
 
+The entropy of a pair of random variables is the entropy of one plus the conditional entropy of other \cite{cover-thomas}: 
+
+\begin{equation}
+\begin{split}
+H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j) \\
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i)p(y_j|x_i) \\ 
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\
+ 	   & = -\sum_{i=1}^n p(x_i) \log_2 p(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\ 
+ 	   & = H(X) + H(Y|X)
+\label{chain-rule-entropy}
+\end{split}
+\end{equation}
+
+
 \subsection{Kullback-Leibler distance}
 
 Let $p_X(x)$ and $q_X(x)$ be two probability mass functions over the support of the random variable $X$. The \textit{relative entropy} or \textit{Kullback-Leibler distance} \cite{cover-thomas} between $p_X(x)$ and $q_X(x)$ is defined as
@@ -280,11 +294,16 @@ Because the mutual information is just a special case of Kullback-Leibler distan
 
 Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{mutual-inf}.
 
-The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: "when is there no information between two random variables?" However, it does not help in answering the orthogonal question: "when is the information maximized?" To answer the latter, the following identity, which relates mutual information directly to entropy, is of importance: 
+The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: "when is there no information between two random variables?" However, it does not help in answering the orthogonal question: "when is the information maximized?" To answer the latter, the following identity from \cite{cover-thomas}, which relates mutual information directly to entropy, is of importance: 
 
 \begin{equation}
-MI(X;Y) = H(X) - H(X|Y)
-\label{mutual-inf-entropy}  
+\begin{split}
+MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)} \\
+ 		& = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i) + -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i|y_j) \\
+ 		& = -\sum_{i=1}^n \sum_{j=1}^m p_X(x_i) - \left( - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i|y_j) \right) \\ 
+ 		& = H(X) - H(X|Y)
+\label{mutual-inf-entropy} 
+\end{split}
 \end{equation}
 
 Intuitively, using identity \ref{mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Because mutual information is symmetric, the converse statement would also hold, meaning that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
@@ -298,6 +317,18 @@ MI(X;Y|Z) = H(X|Z) - H(X|Y,Z)
 \end{equation}
 
 Intutively, the conditional mutual information measures the reduction in the uncertainty of $X$ due to the knowledge of $Y$, given that $Z$ has already been observed. 
+
+Another useful property that will become important in the discussion on partial information decomposition is the \textit{chain rule for information} \cite{cover-thomas}, which allows to express the mutual information between a random vector and a random variable in terms of mutual informations between univariate random variables:
+
+\begin{equation}
+\begin{split}
+MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\ 
+		  & = H(Y) + H(Z|Y) - H(Y|X) - H(Z|Y,X) \\ 
+		  & = H(Y) - H(Y|X) + H(Z|Y) - H(Z|Y,X) \\ 
+		  & = MI(X;Y) + MI(X,Z|Y)
+\label{chain-rule-inf}
+\end{split}
+\end{equation}
 
 When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of the other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
 
@@ -410,16 +441,32 @@ It turns out that the current tools from classical information theory - entropy 
 
 Taking inspiration from game theory, \cite{bertschinger} were able to provide such a definition for unique information. Their insight was that if a variable contains unique information, there must be a way to exploit it. In other words, there must exist a situation such that an agent having access to unique information has an advantage over another agent who does not possess this knowledge. Given such a situation, the agent in posession of unique information can prove it to others by designing a bet on the output variable, such that on average, the bet is won by the designer. \cite{pid-goal-functions}
 
-In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from \ref{pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly modify $Y$ and observe the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. Similarly, Bob's reward will depend on the distributon $p(X,Z)$. Thus, the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals. \cite{pid-goal-functions}.
+In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from \ref{pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly modify $Y$ and observe the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. Similarly, Bob's reward will depend only on the distributon $p(X,Z)$ and as a result, the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals. \cite{pid-goal-functions}.
 
-Due to the last observation about the marginal distributions, as set of probability distributions can be defined which respect the margnials of $P$. 
+Under the assumption that the unique information depends only on the  marginal distribution,, a set of probability distributions can be defined which respect the margnials of $P$ such that the unique information stays constant for every element in this set.
 
 \begin{multline*}
 \Delta_P = \{Q \in \Delta: Q(X=x, Y=y) = P(X=x, Y=y) \\ 
 \text{ and }  Q(X=x, Z=z) = P(X=x, Z=z) \text{ for all } x \in X, y \in Y, z \in Z\}
 \end{multline*}
 
+From the fact that unique information is constant on $\Delta_P$ and equation \ref{pid-yz}, shared information will also be constant on $\Delta_P$. Thus, only synergy varies when considering arbitrary distribution $Q$ from $\Delta_P$.
 
+Now, if we would find a distribution $Q_0 \in \Delta_P$ such that the synergy vanishes, we could find unique information, since from the chain rule for information \ref{chain-rule-inf} and decompositions \ref{pid} \ref{pid-yz}, the following identities can be trivially derived: 
+
+\begin{equation}
+\begin{split}
+MI(X:Y|Z) = UI(X:Y \setminus Z) + CI(X:Y,Z) \\ 
+MI(X:Z|Y) = UI(X:Z \setminus Y) + CI(X:Y,Z)
+\label{eq:mi-ui-ci}
+\end{split}
+\end{equation}
+
+\begin{equation}
+\widetilde{UI}(X:Y \setminus Z) = \min_{Q \in \Delta P} MI_Q(X:Y|Z)
+\end{equation}
+
+\textcolor{red}{does this minimization always produce 0 synergy in \ref{eq:mi-ui-ci} ?? }
 
 \subsection{Numerical estimator}
 
