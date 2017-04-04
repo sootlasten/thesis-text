@@ -49,9 +49,6 @@
 \SetKwData{Defined}{Defined}
 \SetKwFunction{parseStatement}{parseStatement}
 
-% Nice todo notes
-\usepackage{todonotes}
-
 % Proper way to create coloured code listings
 \usepackage{listings}
 \lstset{ 
@@ -198,7 +195,7 @@ In Chapter 1, the basics of information theory and partial information decomposi
 \newpage
 \section{Classical information theory}
 
-In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations and concrete examples.
+In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations, concrete examples and practical applications.
 
 In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$.
 
@@ -207,13 +204,13 @@ In the following discussion, when not specified otherwise, it is assumed that $X
 The most fundamental quantitiy of information theory is \textit{entropy}, being a basic building block of all the other information theoretic functionals introduced in this thesis. The entropy of the random variable $X$ is defined by Shannon \cite{shannon} as follows: 
 
 \begin{equation}
-H(X) = -\sum_{i=1}^{n} p_X(x_i) \log_2 p(x_i)
+H(X) = -\sum_{i=1}^{n} p_X(x_i) \log_2 p_X(x_i)
 \label{eq:entropy}
 \end{equation}
 
 If the base of the logarithm is 2, the units the entropy is measured in are called \textit{bits}. Another common base for the logarithm is Euler's number $e \approx 2.718$, in which case the units of measurment are called \textit{nats}.
 
-Intuitively, entropy can be thought of as the average amount of uncertainty of a random variable. It is indeed an \textit{average}, as the uncertainty of a single relatization of $x_i$ of a random variable $X$ can be quantified by $-log_2 p(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-\log_2 p(X)$: 
+Intuitively, entropy can be thought of as the average amount of uncertainty of a random variable. It is indeed an \textit{average}, as the uncertainty of a single relatization $x_i$ of a random variable $X$ can be quantified by $-\log_2 p_X(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-\log_2 p(X)$: 
 
 $$H(X) = \mathbb{E} \left[ - \log_2 p(X) \right] = \mathbb{E} \left[ \log_2 \frac{1}{p(X)} \right].$$
 
@@ -223,7 +220,7 @@ $$X = \begin{cases} 1 & \mbox{with probability } p, \\ 0, & \mbox{with probabili
 
 Essentially, this random variable encodes a coin toss, where the probability of flipping heads is $p$ and the probability of flipping tails is $1-p$. If $p=0.5$, the coin is considered to be unbiased, otherwise it is called biased.
 
-Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. When $p \in \{0, 1\}$, then the outcome of the coin toss is completely deterministic, meaning there is no uncertainty in the outcome. Accordingly, the entropy is 0 at these points. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition and intuition agree, as the entropy is indeed at its maximum when $p = 0.5$.
+Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. If $p \in \{0, 1\}$, the outcome of the coin toss is completely deterministic, meaning there is no uncertainty in the outcome whatsoever. Accordingly, the entropy is 0 at these points. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition agrees with the intuition, as the entropy is indeed at its maximum when $p = 0.5$.
 
 \begin{figure} [h]
 \begin{center}
@@ -232,6 +229,11 @@ Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy 
 \label{fig:entropy}
 \end{center}
 \end{figure}
+
+Due to the fundamentality of the measure, entropy is ubiquitous throughout science and engineering. In finance, entropy is used to quantify the amount of risk in a portfolio. \textcolor{red}{TODO!} In civil engineering, where it is is a key ingredient in structural optimization design \cite{entropy-civil-eng} - a subfield of optimization that is conserned with improve the design of structures with respect to various specifications (safety, cost, weight etc.). In cognitive neuroscience, the measure has been used to quantify the consciousness. \cite{entropy-consciousness}.
+
+primary consciousness - less ordered (higher entropy) neurodynamics
+secondary conscousness - more ordered neurodynamics 
 
 \subsection{Joint and Conditional Entropy}
 
@@ -325,7 +327,7 @@ Another useful property that will become important in the discussion on partial 
 MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\ 
 		  & = H(Y) + H(Z|Y) - H(Y|X) - H(Z|Y,X) \\ 
 		  & = H(Y) - H(Y|X) + H(Z|Y) - H(Z|Y,X) \\ 
-		  & = MI(X;Y) + MI(X,Z|Y)
+		  & = MI(X;Y) + MI(X;Z|Y)
 \label{chain-rule-inf}
 \end{split}
 \end{equation}
@@ -452,7 +454,7 @@ Under the assumption that the unique information depends only on the  marginal d
 
 From the fact that unique information is constant on $\Delta_P$ and equation \ref{pid-yz}, shared information will also be constant on $\Delta_P$. Thus, only synergy varies when considering arbitrary distribution $Q$ from $\Delta_P$.
 
-Now, if we would find a distribution $Q_0 \in \Delta_P$ such that the synergy vanishes, we could find unique information, since from the chain rule for information \ref{chain-rule-inf} and decompositions \ref{pid} \ref{pid-yz}, the following identities can be trivially derived: 
+Now, if we would find a distribution $Q_0 \in \Delta_P$ such that the synergy vanishes, we could find unique information, since from the chain rule for information \ref{chain-rule-inf} and decompositions \ref{pid} \ref{pid-yz}, the following identities can be derived: 
 
 \begin{equation}
 \begin{split}
@@ -462,11 +464,33 @@ MI(X:Z|Y) = UI(X:Z \setminus Y) + CI(X:Y,Z)
 \end{split}
 \end{equation}
 
+From \ref{eq:mi-ui-ci} it can be seen that when synergy is 0, the mutual information and unique information terms coincide. However, \cite{bertschinger} prove that such a distribution $Q \in \delta_P$ only exist for a specific measures of unique, shared and complementary information. They define these measures as follows:
+
 \begin{equation}
 \widetilde{UI}(X:Y \setminus Z) = \min_{Q \in \Delta P} MI_Q(X:Y|Z)
+\label{eq:tilde_ui_y}
 \end{equation}
 
+\begin{equation}
+\widetilde{UI}(X:Z \setminus Y) = \min_{Q \in \Delta P} MI_Q(X:Z|Y)
+\label{eq:tilde_ui_z}
+\end{equation}
+
+\begin{equation}
+\widetilde{SI}(X:Y;Z) = \max_{Q \in \Delta_P} MI_Q (X:Y) - MI_Q(X:Y|Z)
+\label{eq:tilde_si}
+\end{equation}
+
+\begin{equation}
+\widetilde{CI}(X:Y;Z) = MI(X:Y,Z) - \min_{Q \in \Delta_P} MI_Q(X:Y,Z)
+\label{eq:tilde_ci}
+\end{equation}
+
+We can see that finding the partial information decomposition terms amount to minimization problems. It is important to though that only one of the optimization problems need to be found, beacuse when one of the terms is found, the remaining ones can be calculating using PID equations.
+
 \textcolor{red}{does this minimization always produce 0 synergy in \ref{eq:mi-ui-ci} ?? }
+
+
 
 \subsection{Numerical estimator}
 
