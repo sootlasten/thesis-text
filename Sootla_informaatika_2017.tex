@@ -2,6 +2,8 @@
 
 \usepackage[parfill]{parskip}
 
+\usepackage{url}  % for citing urls
+
 \usepackage[utf8]{inputenc}
 
 % A package for setting layout and margins for your thesis 
@@ -182,12 +184,6 @@ Computer Science Curriculum\\[2mm]
 
 \selectlanguage{estonian}
 
-\textcolor{red}{TODO!}
-
-\textcolor{red}{Vabandust, et sissejuhatust veel hetkel ei ole. Minu jaoks on alati sissejuhatus kõige raskem osa olnud kirjatükkides, ja pole olnud kordagi, kus sissejuhatus poleks jäänud absoluutselt viimaseks osaks. Sissejuhatus annab ülevaate kogu minu tööle, mistõttu arvan, et seda on paslik koostada siis, kui on millest ülevaade teha.}
-
-\textcolor{red}{Kui sissejuhatuse eesmärk hetkel on lihtsalt töö läbimõtlemine ja kirjutamisoskuse demonstreerimine, siis ehk piisab hetkel sisukorrast ja esimesest peatükist, mis tasapisi edeneb. Kui mitte, siis mõistagi tuleb mul see sissejuhatus lihtsalt ära teha kiiremas korras.}
-
 \selectlanguage{english}
 
 In Chapter 1, the basics of information theory and partial information decomposition are covered. The chapter ends with an overview of the numerical estimator for PID. The subsequent 3 chapters each introduce a specific complex system and the results of measuring information distribution in them, while they are naturally evolving. In the final, concluding chapter, a summary of the contributions of this thesis is given, alongside suggestions for further work. 
@@ -197,7 +193,7 @@ In Chapter 1, the basics of information theory and partial information decomposi
 
 In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations, concrete examples and practical applications.
 
-In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$.
+In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$. Furthermore, let the joint distribution of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. 
 
 \subsection{Entropy}
 
@@ -220,24 +216,21 @@ $$X = \begin{cases} 1 & \mbox{with probability } p, \\ 0, & \mbox{with probabili
 
 Essentially, this random variable encodes a coin toss, where the probability of flipping heads is $p$ and the probability of flipping tails is $1-p$. If $p=0.5$, the coin is considered to be unbiased, otherwise it is called biased.
 
-Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. If $p \in \{0, 1\}$, the outcome of the coin toss is completely deterministic, meaning there is no uncertainty in the outcome whatsoever. Accordingly, the entropy is 0 at these points. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition agrees with the intuition, as the entropy is indeed at its maximum when $p = 0.5$.
+Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy of $X$, given some specific value of $p$. Figure \ref{fig:entropy} graphs the value of $H(X)$ against every possible $p \in \left[ 0, 1 \right]$. If $p \in \{0, 1\}$, the outcome of the coin toss is completely deterministic, meaning there is no uncertainty in the result whatsoever. Accordingly, the entropy is 0 for these values of $p$. Conversely, when the coin is fair, we are completely uncertain about the outcome, unable to favour neither heads or tails. Again, the mathematical definition agrees with the intuition, as the entropy is indeed at its maximum when $p = 0.5$.
 
 \begin{figure} [h]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{entropy}
+\includegraphics[width=\textwidth]{entropy}
 \caption{Entropy of $X$ plotted against the value of $p$.}
 \label{fig:entropy}
 \end{center}
 \end{figure}
 
-Due to the fundamentality of the measure, entropy is ubiquitous throughout science and engineering. In finance, entropy is used to quantify the amount of risk in a portfolio. \textcolor{red}{TODO!} In civil engineering, where it is is a key ingredient in structural optimization design \cite{entropy-civil-eng} - a subfield of optimization that is conserned with improve the design of structures with respect to various specifications (safety, cost, weight etc.). In cognitive neuroscience, the measure has been used to quantify the consciousness. \cite{entropy-consciousness}.
-
-primary consciousness - less ordered (higher entropy) neurodynamics
-secondary conscousness - more ordered neurodynamics 
+Due to the fundamentality of the measure, the usage of entropy is ubiquitous throughout science and engineering. For example, in finance, it is extensively used in portfolio selection theory to measure the diversity and risk of the portfolio \cite{entropy-finance}. In civil engineering, it is is a key ingredient in structural optimization design \cite{entropy-civil-eng} - a subfield of optimization that is conserned with improving the design of structures with respect to various specifications (safety, cost, weight etc.). A rather interesting example of application of entropy comes from cognitive neuroscience, where it has been used to characterize different states of consciousness in the brain \cite{entropy-consciousness}.
 
 \subsection{Joint and Conditional Entropy}
 
-Let the joint distribution of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. The \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
+The \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
 \begin{equation}
 H(X,Y) = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j)
@@ -254,16 +247,16 @@ H(Y|X) = - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i)
 
 Conditional entropy can be thought of as the amount of uncertainty one has about a random variable $Y$, given that $X$ has already been observed. As a special case, if $X$ and $Y$ are independent, observing $X$ does not reveal anything about $Y$, and $H(Y) = H(Y|X)$.
 
-The entropy of a pair of random variables is the entropy of one plus the conditional entropy of other \cite{cover-thomas}: 
+The entropy of a pair of random variables is the entropy of one plus the conditional entropy of the other \cite{cover-thomas}: 
 
 \begin{equation}
 \begin{split}
 H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j) \\
- 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i)p(y_j|x_i) \\ 
- 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\
- 	   & = -\sum_{i=1}^n p(x_i) \log_2 p(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\ 
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i)p(y_j|x_i) \\ 
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\
+ 	   & = -\sum_{i=1}^n p_X(x_i) \log_2 p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\ 
  	   & = H(X) + H(Y|X)
-\label{chain-rule-entropy}
+\label{eq:chain-rule-entropy}
 \end{split}
 \end{equation}
 
@@ -277,7 +270,7 @@ D(p||q) = \sum_{i = 1}^n p(x_i) \log_2 \frac{p_X(x_i)}{q_X(x_i)}
 \label{eq:kl-distance}
 \end{equation} 
 
-The above quantity is called a distance, because it can be thought of as measuring the distance between two probability mass functions. Importantly, the relative entropy is non-negative, with inequality exactly when the 2 probability distributions are equal \cite{cover-thomas}, again corresponding to our intuitive notion of distance. Indeed, when the two probability mass functions are equal, the logarihm in equation \ref{eq:kl-distance} evaluates to 0, which in turn yields a relative entropy of 0. 
+The above quantity is called a distance, because it can be thought of as measuring how far two probability distributions are from each other. Importantly, the relative entropy is non-negative, with inequality exactly when the 2 distributions are equal \cite{cover-thomas}, again corresponding to our intuitive notion of distance. Indeed, when the two distributions are the same, the logarihm in equation \ref{eq:kl-distance} evaluates to 0, which in turn yields a relative entropy of 0. 
 
 However, it must be stressed that since the Kullback-Leibler distance it is not symmetric and does not satisfy the triangle inequality, it is not a formal distance in the mathematically rigorous sense.
 
@@ -287,14 +280,14 @@ The \textit{mutual information} \cite{cover-thomas} between the random variables
 
 \begin{equation}
 MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)}
-\label{mutual-inf}
+\label{eq:mutual-inf}
 \end{equation}
 
 An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$.
 
 Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter statement must hold, because if $X$ and $Y$ are independent, then $p(x,y) = p_X(x)p_Y(y)$ by definition. 
 
-Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is indeed the conclusion that was reached mathematically directly from equation \ref{mutual-inf}.
+Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is exactly the conclusion that was reached mathematically directly from equation \ref{eq:mutual-inf}.
 
 The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: "when is there no information between two random variables?" However, it does not help in answering the orthogonal question: "when is the information maximized?" To answer the latter, the following identity from \cite{cover-thomas}, which relates mutual information directly to entropy, is of importance: 
 
@@ -304,11 +297,13 @@ MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_
  		& = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i) + -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i|y_j) \\
  		& = -\sum_{i=1}^n \sum_{j=1}^m p_X(x_i) - \left( - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i|y_j) \right) \\ 
  		& = H(X) - H(X|Y)
-\label{mutual-inf-entropy} 
+\label{eq:mutual-inf-entropy} 
 \end{split}
 \end{equation}
 
-Intuitively, using identity \ref{mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Because mutual information is symmetric, the converse statement would also hold, meaning that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
+Intuitively, using identity \ref{eq:mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Thus, it is maximized when knowing $Y$ completely determines $X$, yielding $H(X|Y) = 0$. 
+
+Because mutual information is symmetric, the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
 
 \subsection{Conditional mutual information}
 
@@ -328,7 +323,7 @@ MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\
 		  & = H(Y) + H(Z|Y) - H(Y|X) - H(Z|Y,X) \\ 
 		  & = H(Y) - H(Y|X) + H(Z|Y) - H(Z|Y,X) \\ 
 		  & = MI(X;Y) + MI(X;Z|Y)
-\label{chain-rule-inf}
+\label{eq:chain-rule-inf}
 \end{split}
 \end{equation}
 
@@ -337,23 +332,23 @@ When the information between two random variables is measured in a system with m
 \newpage
 \section{Partial information decomposition}
 
-Mutual information measures the amount of information two random variables, or more generally, two random vectors have about each other. However, it is often worthwhile to ask how much information does an ensebmble of "input" random variables carry about some "output" variable. 
+Mutual information measures the amount of information two random variables, or more generally, two random vectors have about each other. However, it is often worthwhile to ask how much information does an ensemble of input (source) random variables carry about some output (target) variable. 
 
 A trivial solution would be to measure the mutual information between the whole input ensemble considered as a single random vector and the output. However, this would not capture the interactions between the input variables themselves. Moreover, by considering the input ensemble as a single unit, knowledge about how the interactions between specific individual units and the output differ is lost. 
 
-This section introduces \textit{partial information decomposition (PID)} - a mathematical framework for decomposing mutual information between a pair of input variables and single source variable.   
+This section introduces \textit{partial information decomposition (PID)} - a mathematical framework for decomposing mutual information between a group of input variables and single source variable.   
 
 \subsection{Formulation}
 
-The simplest non-trivial system to analyse that has an ensemble of inputs and a single output is a system with \textit{two} inputs. Given this setup, one can ask how much information does one input variable have about the output that the other does not, how much information do they share about the output, and how much information do they jointly have about the output such that both sources must be present for this information to exist.
+The simplest non-trivial system to analyse that has an ensemble of inputs and a single output is a system with \textit{two} inputs. Given this setup, one can ask how much information does one input variable have about the output that the other does not, how much information do they share about the output, and how much information do they jointly have about the output such that both inputs must be present for this information to exist.
 
-More formally, let $Y$ and $Z$ be two random variables that are considered as sources to a third random variable $X$. By equation \ref{eq:mutual-inf} the mutual information between the pair $(Y,Z)$ and $X$ is defined as 
+More formally, let $Y$ and $Z$ be two random variables that are considered as sources to a third random variable $X$. By equation \ref{eq:mutual-inf-entropy}, the mutual information between the pair $(Y,Z)$ and $X$ is defined as 
 
-$$I(X:Y,Z) = H(X) - H(X|Y,Z).$$
+$$MI(X:Y,Z) = H(X) - H(X|Y,Z).$$
 
 The partial information decompositon framework decomposes this mutual information into \textit{unique}, \textit{redundant} and \textit{complementary information} terms. 
 
-Unique information quantifies the amount of information that only one of the input variables has about the output variable. The unique information that $Y$ has about output $X$ is denoted as $UI(X:Y \setminus Z)$. Similarly, $UI(X:Z \setminus Y)$ denotes the unqiue information that $Z$ has about the output $X$.
+Unique information quantifies the amount of information that only one of the input variables has about the output variable. The unique information that $Y$ has about output $X$ is denoted as $UI(X:Y \setminus Z)$. Similarly, $UI(X:Z \setminus Y)$ denotes the unqiue information that $Z$ has about the target $X$.
 
 As an example, consider Table \ref{table:1}, inspired by \cite{pid-synergy}, which depicts the joint distribution of the random vector $(X,Y,Z)$. From the table, it can be seen that the output variable $X$ has 4 equiprobable states, each of which is uniquely specified by the two inputs $Y$ and $Z$. There is unique information in both $Y$ and $Z$, because they contain different information about the output $X$ that is not present in the other input. Indeed, input $Y$ is able to differentiate between the sets $\{0,1\}$ and $\{2,3\}$, while $Z$ discriminates between $\{0, 2\}$ and $\{1,3\}$.
 
@@ -417,7 +412,7 @@ Table \ref{table:3} depicts the \texttt{XOR}-gate - the canonical example for il
 It is generally agreed (\cite{williams-beer}, \cite{bertschinger}, \cite{pid-redundant}, \cite{pid-synergy}) that mutual information can be docomposed into the four terms just described as follows \cite{pid-goal-functions}:
 \begin{equation}
 MI(X:Y,Z) = SI(X:Y;Z) + UI(X:Y \setminus Z) + UI(X:Z \setminus Y) + CI(X:Y;Z)
-\label{pid}
+\label{eq:pid}
 \end{equation}
 
 The same sources also agree on the decomposition of information that a single variable, either $Y$ or $Z$, has about the output $X$: 
@@ -425,11 +420,11 @@ The same sources also agree on the decomposition of information that a single va
 \begin{split}
 MI(X:Y) = UI(X:Y \setminus Z) + SI(X:Y,Z) \\
 MI(X:Z) = UI(X:Z \setminus Y) + SI(X:Y,Z)
-\label{pid-yz}
+\label{eq:pid-yz}
 \end{split}
 \end{equation}
 
-It is important to note that we have not actually obtained a way to actually calculate the PID terms yet, but have only stated several logical relationships that the decomposition should satisfy. The only computable quantities at the moment are the mutual information terms at the left hand side of equations \ref{pid} and \ref{pid-yz}, which can be computed using equation \ref{mutual-inf}. The discussion of calculating the specific PID terms is developer further in the next section. 
+It is important to note that we have not actually obtained a way to actually calculate the PID terms yet, but have only stated several logical relationships that such a decomposition should satisfy. The only computable quantities at the moment are the mutual information terms at the left hand side of equations \ref{eq:pid} and \ref{eq:pid-yz}, which can be calculated using equation \ref{eq:mutual-inf}. The discussion of computing the specific PID terms is developed further in the next section, which is heavily inspired by an intuitive overview of \cite{bertschinger}, provided by \cite{pid-goal-functions}. 
 
 \textcolor{red}{TODO! Why does the PID only work with 2 inputs?}
 
@@ -437,24 +432,22 @@ It is important to note that we have not actually obtained a way to actually cal
 
 \subsection{Calculating PID terms}
 
-\textcolor{red}{TODO? Should I mention here that the section is based on the PID neural goal functions paper and omit the references after every passage?}
+It turns out that the current tools from classical information theory - entropy and various forms of mutual information - are not enough to calculate any of the terms of the PID \cite{williams-beer}. Indeed, there are only 3 equations (\ref{eq:pid}, \ref{eq:pid-yz}) relating to the 4 variables of interest, making the system underdetermined. In order to make the problem tractable, a definition of at least one of the PID terms must be given \cite{bertschinger}.
 
-It turns out that the current tools from classical information theory - entropy and various forms of mutual information - are not enough to calculate any of the terms of the PID \cite{williams-beer}. Indeed, there are only 3 equations (\ref{pid}, \ref{pid-yz}) relating to the 4 variables of interest, making the system underdetermined. In order to make the problem tractable, a definition of at least one of the PID terms must be given \cite{bertschinger}.
+Taking inspiration from game theory, \cite{bertschinger} were able to provide such a definition for unique information. Their insight was that if a variable contains unique information, there must be a way to exploit it. In other words, there must exist a situation such that an agent having access to unique information has an advantage over another agent who does not possess this knowledge. Given such a situation, the agent in posession of unique information can prove it to others by designing a bet on the output variable, such that on average, the bet is won by the designer.
 
-Taking inspiration from game theory, \cite{bertschinger} were able to provide such a definition for unique information. Their insight was that if a variable contains unique information, there must be a way to exploit it. In other words, there must exist a situation such that an agent having access to unique information has an advantage over another agent who does not possess this knowledge. Given such a situation, the agent in posession of unique information can prove it to others by designing a bet on the output variable, such that on average, the bet is won by the designer. \cite{pid-goal-functions}
+In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from equation \ref{eq:pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly modify $Y$ and observe the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. Similarly, Bob's reward will depend only on the distributon $p(X,Z)$. From this, it follows that the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals.
 
-In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from \ref{pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly modify $Y$ and observe the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. Similarly, Bob's reward will depend only on the distributon $p(X,Z)$ and as a result, the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals. \cite{pid-goal-functions}.
-
-Under the assumption that the unique information depends only on the  marginal distribution,, a set of probability distributions can be defined which respect the margnials of $P$ such that the unique information stays constant for every element in this set.
+Under the assumption that the unique information depends only on the  marginal distribution, a set of probability distributions can be defined which respect the margnials of $P$ such that the unique information stays constant for every element in this set.
 
 \begin{multline*}
 \Delta_P = \{Q \in \Delta: Q(X=x, Y=y) = P(X=x, Y=y) \\ 
 \text{ and }  Q(X=x, Z=z) = P(X=x, Z=z) \text{ for all } x \in X, y \in Y, z \in Z\}
 \end{multline*}
 
-From the fact that unique information is constant on $\Delta_P$ and equation \ref{pid-yz}, shared information will also be constant on $\Delta_P$. Thus, only synergy varies when considering arbitrary distribution $Q$ from $\Delta_P$.
+From the fact that unique information is constant on $\Delta_P$ and equation \ref{eq:pid-yz}, shared information will also be constant on $\Delta_P$. Thus, only synergy varies when considering arbitrary distribution $Q$ from $\Delta_P$.
 
-Now, if we would find a distribution $Q_0 \in \Delta_P$ such that the synergy vanishes, we could find unique information, since from the chain rule for information \ref{chain-rule-inf} and decompositions \ref{pid} \ref{pid-yz}, the following identities can be derived: 
+Now, if we would find a distribution $Q_0 \in \Delta_P$ such that the synergy vanishes, we could find unique information, since from the chain rule for information \ref{eq:chain-rule-inf} and decompositions \ref{eq:pid} \ref{eq:pid-yz}, the following identities can be derived: 
 
 \begin{equation}
 \begin{split}
@@ -464,7 +457,7 @@ MI(X:Z|Y) = UI(X:Z \setminus Y) + CI(X:Y,Z)
 \end{split}
 \end{equation}
 
-From \ref{eq:mi-ui-ci} it can be seen that when synergy is 0, the mutual information and unique information terms coincide. However, \cite{bertschinger} prove that such a distribution $Q \in \delta_P$ only exist for a specific measures of unique, shared and complementary information. They define these measures as follows:
+From \ref{eq:mi-ui-ci} it can indeed be seen that when synergy is $0$, the mutual information and unique information terms coincide. However, \cite{bertschinger} prove that such a distribution $Q_0 \in \Delta_P$ only exists for specific measures of unique, shared and complementary information. They define these measures as follows:
 
 \begin{equation}
 \widetilde{UI}(X:Y \setminus Z) = \min_{Q \in \Delta P} MI_Q(X:Y|Z)
@@ -486,34 +479,101 @@ From \ref{eq:mi-ui-ci} it can be seen that when synergy is 0, the mutual informa
 \label{eq:tilde_ci}
 \end{equation}
 
-We can see that finding the partial information decomposition terms amount to minimization problems. It is important to though that only one of the optimization problems need to be found, beacuse when one of the terms is found, the remaining ones can be calculating using PID equations.
+"For this particular choice of measures it can be shown that there is
+always at least one distribution $Q_0 \in \Delta P$ for which the synergy vanishes, as was desired above." - Neural goal functions paper.
 
-\textcolor{red}{does this minimization always produce 0 synergy in \ref{eq:mi-ui-ci} ?? }
+We can see that finding the partial information decomposition terms amount to solving various optimization problems. It is important to note that only one of the the problems needs to be solved, because when one of the terms is found, the remaining ones can be calculated using PID equations.
 
-
-
-\subsection{Numerical estimator}
+\subsection{Numerical Estimator}
 
 \cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets.
 
 \newpage
-\section{Related work}
+\section{Ising Model}
 
-\newpage
-\section{Elementary cellular automata}
+In nature, many systems have the property of abruptly transitioning from one state to a completely different state due to some change of external conditions that they are influenced by. Such a phenomenon, where a system does not change its state smoothly, but rather does it in an all-or-nothing fashion, is called a \textit{phase transition}. A large class of phase transitions, which are of great practical importance, can be thought of as shifts from an ordered state to a disordered one, or vice versa. A canonical example of this phenomenon comes form condensed matter phycics, where matter transitions from a fairly ordered solid state to a relatively less organized liquid state very abruptly when temperature passes a specific threshold.\cite{inf-flow-ising-commentary}.
 
-\subsection{Problem description}
-\subsection{Experimental setup}
+In this chapter, one of the simplest models that undergoes a phase transition - the Ising model - is analysed in terms of partial information decomposition. Of particular interest is the behaviour of PID terms in relation to the phase transition.
+
+\subsection{Background and Related Work}
+
+A substance is said to be ferromagnetic if it exhibits spontaneous magnetizations, meaning that it can stay magnetized even in the event that the external magnetic field is removed \cite{intro-solid-state-physics}.
+
+The Ising model, first conceived by Wilhelm Lenz in 1920, is a mathematical model of ferromagnetism. The model abstracts away the rather complex details of atomic structures of magnets, consisting simply of a discrete lattice of cells (sites), each of which has an associated binary value of either -1 or +1. Conceptually, the lattice can be thought of as a physical material, where the sites roughly represent the unpaired electrons of its atoms. The binary value of each site intuitively corresponds to the direction of the electron's spin. A value of -1 means that the spin is considered to point "down", otherwise it is said to be pointing "up". 
+
+In the Ising model, the immediate neighboring spins interact with each other 
+
+The central quantity associated with almost any model in physics is \textit{energy}. In the Ising mode, 
+
+If no external magnetic field interacts with the lattice, the \textit{energy} of a configuration $\sigma$ is given by the Hamiltonian
+
+\begin{equation}
+H(\sigma) = - \sum_{\langle i,j \rangle} J s_i s_j
+\label{eq:ising-hamiltonian}
+\end{equation}
+
+\begin{equation}
+P(\sigma) = \frac{e^{-\beta H(\sigma)}}{\sum_{\sigma} e^{-\beta H(\sigma)}}
+\label{eq:boltzmann-dist}
+\end{equation}
+
+1. energy
+2. boltzmann distribution 
+3. magnetization
+
+In this thesis, the focus is on the 2-dimensional Ising model. 
+
+Intuitively, we can think of it that the spins are trying to line up intrinsically, but the temperature of the system prohibits them from doing so. When the temperature decreases, the local interactions of the spins win out, the spins align, and the lattice becomes magnetized.
+
+Lizier et al show that it is possible to predict 
+
+Lizier et al show that it is possible to predict a measure of transfer entropy ... 
+
+\subsection{Experimental Setup}
+
 \subsection{Results}
-\subsection{Discussion}
 
-\newpage
-\section{Ising model}
+\begin{figure} [h]
+\begin{center}
+\includegraphics[width=\textwidth]{ising-128-mags}
+\caption{Magnetization}
+\label{fig:ising-128-mags}
+\end{center}
+\end{figure}
 
-\subsection{Problem description}
-\subsection{Experimental setup}
-\subsection{Results}
-\subsection{Discussion}
+\begin{figure} [h!]
+\begin{center}
+\includegraphics[width=\textwidth]{ising-128-pid-2-nbs}
+\caption{Ising 128x128 PID 2 nbs}
+\label{fig:ising-128-pid-2-nbs}
+\end{center}
+\end{figure}
+
+\begin{figure} [h!]
+\begin{center}
+\includegraphics[width=\textwidth]{ising-128-pid-4-nbs}
+\caption{Ising 128x128 PID 4 nbs}
+\label{fig:ising-128-pid-4-nbs}
+\end{center}
+\end{figure}
+
+\begin{figure} [h!]
+\begin{center}
+\includegraphics[width=\textwidth]{ising-64-pid-2-nbs}
+\caption{Ising 64x64 PID 2 nbs}
+\label{fig:ising-64-pid-2-nbs}
+\end{center}
+\end{figure}
+
+\begin{figure} [h!]
+\begin{center}
+\includegraphics[width=\textwidth]{ising-64-pid-4-nbs}
+\caption{Ising 64x64 PID 4 nbs}
+\label{fig:ising-64-pid-4-nbs}
+\end{center}
+\end{figure}
+
+We saw that in the Ising model synergy peaks before the phase transition. 
 
 \newpage
 \section{Discussion}
