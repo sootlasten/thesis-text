@@ -191,7 +191,7 @@ In Chapter 1, the basics of information theory and partial information decomposi
 \newpage
 \section{Classical information theory}
 
-In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations, concrete examples and practical applications.
+In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations, concrete examples and practical applications. 
 
 In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$. Furthermore, let the joint distribution of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. 
 
@@ -328,6 +328,9 @@ MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\
 \end{equation}
 
 When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of the other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
+
+\subsection{Transfer Entropy}
+\textcolor{red}{TODO!?}
 
 \newpage
 \section{Partial information decomposition}
@@ -495,42 +498,82 @@ In nature, many systems have the property of abruptly transitioning from one sta
 
 In this chapter, one of the simplest models that undergoes a phase transition - the Ising model - is analysed in terms of partial information decomposition. Of particular interest is the behaviour of PID terms in relation to the phase transition.
 
-\subsection{Background and Related Work}
+\subsection{Background}
 
-A substance is said to be ferromagnetic if it exhibits spontaneous magnetizations, meaning that it can stay magnetized even in the event that the external magnetic field is removed \cite{intro-solid-state-physics}.
+Before introducing the Ising model, a short overview of a phycsical mechanism that it is modelling - ferromagnetism - is in order. This is done in the following 2 paragraphs, both of which are based on \cite{memory-systems-cache-ram}.
 
-The Ising model, first conceived by Wilhelm Lenz in 1920, is a mathematical model of ferromagnetism. The model abstracts away the rather complex details of atomic structures of magnets, consisting simply of a discrete lattice of cells (sites), each of which has an associated binary value of either -1 or +1. Conceptually, the lattice can be thought of as a physical material, where the sites roughly represent the unpaired electrons of its atoms. The binary value of each site intuitively corresponds to the direction of the electron's spin. A value of -1 means that the spin is considered to point "down", otherwise it is said to be pointing "up". 
+Electrons in a material have magnetic moments, caused by their spins, which can be in either one of two states. These small magnetic properties of individual electrons do not usually yield a global net magnetization of the material, because the electron in the atoms often come in pairs of opposite spin states, cancelling each other out. However, in ferromagnets, there are many unpaired electrons, which line up with each other, producing a region called a \textit{domain}. While the magnetic field is strong within the domain, the material is still unmagnetized because the many domains themselves are oriented randomly with respect to one another. A characteristic property of a ferromagnetic materials is that even a rather weak external magnetic field can can cause the magnetic domains to line up with each other. When this happens, the material is said to be magnetized. Importantly, in the case of a ferromagnet, the material will remain magnetized even if the influencing external field is removed. 
 
-In the Ising model, the immediate neighboring spins interact with each other 
+The stability of the magnetization is also dependent on the temperature of the substance. Intuitively, at high temperatures, the atoms in the substance become agitated and start to vibrate. This thermal oscillation breaks the alignment of the spins and the material demagnetizes. This is yet another example of a phase transition in which an ordered, magnetized system abruptly changes it state to an unordered one. The critical temperature at which this transition happens is called the \textit{Curie temperature}.
 
-The central quantity associated with almost any model in physics is \textit{energy}. In the Ising mode, 
+The Ising model, first conceived by Wilhelm Lenz in 1920 \cite{ising-history}, is a mathematical model of ferromagnetism. The model abstracts away the rather complex details of atomic structures of magnets, consisting simply of a discrete lattice of cells or sites, denoted as $s_i$, each of which has an associated binary value of either -1 or +1. Conceptually, the lattice can be thought of as a physical material, where the sites roughly represent the unpaired electrons of its atoms. The binary value of each site intuitively corresponds to the direction of the electron's spin. A value of -1 means that the spin is considered to point "down", otherwise it is said to be pointing "up". A given set of spins, denoted as $\boldsymbol{s}$ (without the subscript), is called the \textit{configuration} of the lattice. \cite{statistical-mechanics}
 
-If no external magnetic field interacts with the lattice, the \textit{energy} of a configuration $\sigma$ is given by the Hamiltonian
+The magnetization of a configuration $\boldsymbol{s}$ of an Ising model with a lattice of $N$ sites is given by 
 
 \begin{equation}
-H(\sigma) = - \sum_{\langle i,j \rangle} J s_i s_j
-\label{eq:ising-hamiltonian}
+M(\boldsymbol{s}) = \frac{1}{N} \sum_{i=1}^N s_i
+\label{eq:magnetization}
 \end{equation}
 
+From equation \ref{eq:magnetization}, it can bee seen that the absolute magnetization is small when the number of "up" spins is roughly the same as the number of "down" spins. On the other hand, if all the spins point in the same direction, the absolute magnetization is at it maximum, having a value of 1. 
+
+The dynamics of the Ising model stem from the fact that the specific spin configurations of the Ising model are random variables. The probability of a configuration $\boldsymbol{s}$ at thermal equilibrium is given by the Boltzmann distribution: 
+
 \begin{equation}
-P(\sigma) = \frac{e^{-\beta H(\sigma)}}{\sum_{\sigma} e^{-\beta H(\sigma)}}
+P_\beta(\boldsymbol{s}) = \frac{e^{-\beta E(\boldsymbol{s})}}{\sum_{\boldsymbol{s}} e^{-\beta E(\boldsymbol{s})}}
 \label{eq:boltzmann-dist}
 \end{equation}
 
-1. energy
-2. boltzmann distribution 
-3. magnetization
+where $E(\boldsymbol{s})$ denotes the \textit{energy} associated with the configuration $\boldsymbol{s}$. $\beta = \frac{1}{k_B T}$ is the \textit{inverse temperature} of the system, where $T$ is the temperature and $k_B$ is the Boltzmann constant.  
 
-In this thesis, the focus is on the 2-dimensional Ising model. 
+Thus, the probability of a configuration $\boldsymbol{s}$ depends on 2 unrelated quantities: the internal energy of the configuration under discussion, and the temperature. Moreover, two important observations that stem from equation \ref{eq:boltzmann-dist} are important to be worth stating explicitly. First, the lower the energy of the configuration, the higher its probability. Second, the higher the temperature $T$ (or equivalently, the lower the inverse temperature $\beta$), the more diffuse the proabilities become. The latter mathematical property models the physical fact that at high temperatures, the thermal oscillation of the atoms break the alignment of the spins, demagnetizing the material. 
+
+Energy is a central quantitiy that is associated with almost any model in physics. In the Ising model, energy is given by the Hamiltonian
+
+\begin{equation}
+E(s) = - \sum_{\langle ij \rangle} \epsilon s_i s_j - H \sum_{i=1}^N s_i
+\label{eq:ising-hamiltonian}
+\end{equation}
+
+where the first sum is over all different neighboring spins, $\epsilon$ is the interaction strength between adjacent spins, and $H$ denotes the strength of an exetrnal magnetic field. The latter two quantities are given constants that are specified by the properties of the magnetic material and the external environment of the system, respectively.
+
+From equation \ref{eq:ising-hamiltonian}, it can be seen that the spins in the Ising model directly interact with only their nearest neighbors. If the interaction energy $\epsilon$ is positive, the configurations where neighboring spins have aligned have higher probability. Indeed, when $\epsilon > 0$, 
+
+the spins can be thought of as trying to align, as this would decrease the value of the energy function, which in turn would increase the probability of the configuration. Conversely, a negative interaction strength favors configurations where neighboring spins are pointing in the opposite directions. 
+
+More often than not, the model is simplified even further. In particular, the internal magnetic field interacting with the lattice is omitted, and the interaction strength between pairs of nearest neighbors is 1. After incorporating these assumptions into the model, the energy of a configuration $\boldsymbol{s}$ simplifies to 
+
+\begin{equation}
+H(\boldsymbol{s}) = - \sum_{\langle ij \rangle} s_i s_j
+\label{ising-hamiltonian-simple}
+\end{equation}
 
 Intuitively, we can think of it that the spins are trying to line up intrinsically, but the temperature of the system prohibits them from doing so. When the temperature decreases, the local interactions of the spins win out, the spins align, and the lattice becomes magnetized.
 
-Lizier et al show that it is possible to predict 
+Given a temperature, one can find the expected magnetization by the following formula 
 
-Lizier et al show that it is possible to predict a measure of transfer entropy ... 
+\begin{equation}
+\langle M \rangle = \sum_{\boldsymbol{s}} M(\boldsymbol{s}) P(\boldsymbol{s})
+\label{eq:expected-mag-ising}
+\end{equation}
+
+However, the number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices.  
+
+To overcome this problem, the expectation given by equation \ref{eq:expected-mag-ising} must be approximated. This can be done using the Metropolis algorithm \cite{metropolis} - an instance of a more general class of algorithms called the Markov Chain Monte Carlo algorithms. The Hastings algorithm works by iteratively drawing uncorrelated samples from the Boltzmann distribution according to their probabilities. An important charateristic of the algorithm, relevant to the methods section of this thesis, is that the initial samples that are drawn are not representative of the distribution. Thus, the algorithm has a warm-up period from which samples should be disgarded.
+
+\subsection{Related Work}
+
+It has been shown that the mutual information peaks at the phase transition. 
 
 \subsection{Experimental Setup}
 
+\subsection{Results}
+
+\newpage
+\section{Neural Networks}
+\subsection{Background}
+\subsection{Related Work}
+\subsection{Experimental Setup}
 \subsection{Results}
 
 \begin{figure} [h]
