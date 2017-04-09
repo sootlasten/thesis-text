@@ -515,7 +515,7 @@ M(\boldsymbol{s}) = \frac{1}{N} \sum_{i=1}^N s_i
 \label{eq:magnetization}
 \end{equation}
 
-From equation \ref{eq:magnetization}, it can bee seen that the absolute magnetization is small when the number of "up" spins is roughly the same as the number of "down" spins. On the other hand, if all the spins point in the same direction, the absolute magnetization is at it maximum, having a value of 1. 
+From equation \ref{eq:magnetization}, it can bee seen that the absolute magnetization is small when the number of "up" spins is roughly the same as the number of "down" spins. On the other hand, if all the spins point in the same direction, the absolute magnetization is at it maximum, having a value of 1. This is indeed analogous to the mechanism in play in physical ferromagnets, as described earlier. 
 
 The dynamics of the Ising model stem from the fact that the specific spin configurations of the Ising model are random variables. The probability of a configuration $\boldsymbol{s}$ at thermal equilibrium is given by the Boltzmann distribution: 
 
@@ -526,7 +526,7 @@ P_\beta(\boldsymbol{s}) = \frac{e^{-\beta E(\boldsymbol{s})}}{\sum_{\boldsymbol{
 
 where $E(\boldsymbol{s})$ denotes the \textit{energy} associated with the configuration $\boldsymbol{s}$. $\beta = \frac{1}{k_B T}$ is the \textit{inverse temperature} of the system, where $T$ is the temperature and $k_B$ is the Boltzmann constant.  
 
-Thus, the probability of a configuration $\boldsymbol{s}$ depends on 2 unrelated quantities: the internal energy of the configuration under discussion, and the temperature. Moreover, two important observations that stem from equation \ref{eq:boltzmann-dist} are important to be worth stating explicitly. First, the lower the energy of the configuration, the higher its probability. Second, the higher the temperature $T$ (or equivalently, the lower the inverse temperature $\beta$), the more diffuse the proabilities become. The latter mathematical property models the physical fact that at high temperatures, the thermal oscillation of the atoms break the alignment of the spins, demagnetizing the material. 
+Thus, the probability of a configuration $\boldsymbol{s}$ depends on 2 unrelated quantities: the internal energy of the configuration under discussion, and the temperature. Two observations that stem from equation \ref{eq:boltzmann-dist} are of importance. First, the lower the energy $E(\boldsymbol{s})$ of a configuration $\boldsymbol{s}$, the higher its probability. Second, the higher the temperature $T$ (or equivalently, the lower the inverse temperature $\beta$), the more diffuse the distribution becomes. The latter mathematical property models the physical fact that at high temperatures, the thermal oscillation of the atoms break the alignment of the spins, demagnetizing the material. 
 
 Energy is a central quantitiy that is associated with almost any model in physics. In the Ising model, energy is given by the Hamiltonian
 
@@ -537,33 +537,41 @@ E(s) = - \sum_{\langle ij \rangle} \epsilon s_i s_j - H \sum_{i=1}^N s_i
 
 where the first sum is over all different neighboring spins, $\epsilon$ is the interaction strength between adjacent spins, and $H$ denotes the strength of an exetrnal magnetic field. The latter two quantities are given constants that are specified by the properties of the magnetic material and the external environment of the system, respectively.
 
-From equation \ref{eq:ising-hamiltonian}, it can be seen that the spins in the Ising model directly interact with only their nearest neighbors. If the interaction energy $\epsilon$ is positive, the configurations where neighboring spins have aligned have higher probability. Indeed, when $\epsilon > 0$, 
-
-the spins can be thought of as trying to align, as this would decrease the value of the energy function, which in turn would increase the probability of the configuration. Conversely, a negative interaction strength favors configurations where neighboring spins are pointing in the opposite directions. 
-
-More often than not, the model is simplified even further. In particular, the internal magnetic field interacting with the lattice is omitted, and the interaction strength between pairs of nearest neighbors is 1. After incorporating these assumptions into the model, the energy of a configuration $\boldsymbol{s}$ simplifies to 
+Often, the model is simplified even further. In particular, the external magnetic field interacting with the lattice is omitted, and the interaction strength between pairs of nearest neighbors is fixed to be 1. After incorporating these assumptions into the model, the energy of a configuration $\boldsymbol{s}$ simplifies to 
 
 \begin{equation}
 H(\boldsymbol{s}) = - \sum_{\langle ij \rangle} s_i s_j
-\label{ising-hamiltonian-simple}
+\label{eq:ising-hamiltonian-simple}
 \end{equation}
 
-Intuitively, we can think of it that the spins are trying to line up intrinsically, but the temperature of the system prohibits them from doing so. When the temperature decreases, the local interactions of the spins win out, the spins align, and the lattice becomes magnetized.
+From equation \ref{eq:ising-hamiltonian-simple}, it can be seen that the spins in the Ising model directly interact with only their nearest neighbors. Moreover, since there is a minus sign in front of the sum, lower energy (and thus, a higher probability) is achieved when neighboring spins take on the same value, as this yields a positive product. It can be intuitively thought as if the spins are intrinsically trying to align with their neighbors, and the temperature of the system quantifies the amount of prohibition that prevents them from doing so. 
 
-Given a temperature, one can find the expected magnetization by the following formula 
+There are many questions one could ask about the dynamics of the Ising model, but perhaps the most interesting and most extensively studied is the following: how does the magnetization of the lattice change with temperature? Since for a fixed value of $\beta$, the lattice configurations are random variables, an \textit{expectation} of the magnetization must be found, using the following formula:
 
 \begin{equation}
-\langle M \rangle = \sum_{\boldsymbol{s}} M(\boldsymbol{s}) P(\boldsymbol{s})
+\langle M \rangle_\beta = \sum_{\boldsymbol{s}} M_\beta(\boldsymbol{s}) P_\beta(\boldsymbol{s})
 \label{eq:expected-mag-ising}
 \end{equation}
 
-However, the number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices.  
+However, the number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices. Despite the difficulties, in 1944, Lars Onsanger showed analytically that the 2-dimensional Ising model on a square lattice undergoes a phase transition, and furthermore gave the exact value of the inverse temperature $\beta$ at which the transition swift ordered-unordered transition takes place. \textcolor{red}{TODO! Lars Onsanger paper?}
 
-To overcome this problem, the expectation given by equation \ref{eq:expected-mag-ising} must be approximated. This can be done using the Metropolis algorithm \cite{metropolis} - an instance of a more general class of algorithms called the Markov Chain Monte Carlo algorithms. The Hastings algorithm works by iteratively drawing uncorrelated samples from the Boltzmann distribution according to their probabilities. An important charateristic of the algorithm, relevant to the methods section of this thesis, is that the initial samples that are drawn are not representative of the distribution. Thus, the algorithm has a warm-up period from which samples should be disgarded.
+To numerically simulate the Ising model, the expectation given by equation \ref{eq:expected-mag-ising} must be approximated. This can be done using the Metropolis algorithm \cite{metropolis} - an instance of a more general class of algorithms called the Markov Chain Monte Carlo algorithms. The Metropolis algorithm works by iteratively drawing uncorrelated samples from the Boltzmann distribution according to their probabilities. An important charateristic of the algorithm, relevant to the methods section of this thesis, is that the initial samples that are drawn are not representative of the distribution. Thus, the algorithm has a warm-up period from which samples should be disgarded.
 
 \subsection{Related Work}
 
-It has been shown that the mutual information peaks at the phase transition. 
+It has been shown that the mutual information peaks at the phase transition. Lizier showed that transfer entropy peaks before the phase transition. \cite{barnett-ising}
+
+
+
+Ising analytic \cite{mi-ising-analytic}
+
+Ising numeric \cite{mi-ising-numeric}
+
+Random boolean networks \cite{lizier-rand-bool-nets}
+
+Swarms \cite{mi-swarms}
+
+Financial markets \cite{mi-financial-markets}
 
 \subsection{Experimental Setup}
 
