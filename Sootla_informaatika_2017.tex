@@ -211,15 +211,15 @@ In the following discussion, when not specified otherwise, it is assumed that $X
 The most fundamental quantitiy of information theory is \textit{entropy}, being a basic building block of all the other information theoretic functionals introduced in this thesis. The entropy of the random variable $X$ is defined by Shannon \cite{shannon} as follows: 
 
 \begin{equation}
-H(X) = -\sum_{i=1}^{n} p_X(x_i) \log_2 p_X(x_i)
+H(X) = -\sum_{i=1}^{n} p_X(x_i) \log p_X(x_i)
 \label{eq:entropy}
 \end{equation}
 
-If the base of the logarithm is 2, the units the entropy is measured in are called \textit{bits}. Another common base for the logarithm is Euler's number $e \approx 2.718$, in which case the units of measurment are called \textit{nats}.
+If the base of the logarithm is 2, the units the entropy is measured in are called \textit{bits}. Another common base for the logarithm is Euler's number $e \approx 2.718$, in which case the units of measurment are called \textit{nats}. As in this definition, the base of the logarihm is also omitted in subsequent discussion for both generality and consistency with \cite{cover-thomas}.
 
-Intuitively, entropy can be thought of as the average amount of uncertainty of a random variable. It is indeed an \textit{average}, as the uncertainty of a single relatization $x_i$ of a random variable $X$ can be quantified by $-\log_2 p_X(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-\log_2 p(X)$: 
+Intuitively, entropy can be thought of as the average amount of uncertainty of a random variable. It is indeed an \textit{average}, as the uncertainty of a single relatization $x_i$ of a random variable $X$ can be quantified by $-\log p_X(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-\log p(X)$: 
 
-$$H(X) = \mathbb{E} \left[ - \log_2 p(X) \right] = \mathbb{E} \left[ \log_2 \frac{1}{p(X)} \right].$$
+$$H(X) = \mathbb{E} \left[ - \log p(X) \right] = \mathbb{E} \left[ \log \frac{1}{p(X)} \right].$$
 
 To see why this intuition should correspond to the mathematical definition, it is instructive to look at a concrete example, inspired by \cite{cover-thomas}. Suppose we have a binary random variable $X$, defined as follows: 
 
@@ -244,7 +244,7 @@ Due to the fundamentality of the measure, the usage of entropy is ubiquitous thr
 The \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
 \begin{equation}
-H(X,Y) = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j)
+H(X,Y) = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i,y_j)
 \label{eq:cond-etropy}
 \end{equation}
 
@@ -253,7 +253,7 @@ This is a direct generalization of entropy to multiple variables. Joint entropy 
 The \textit{conditional entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
 \begin{equation}
-H(Y|X) = - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i)
+H(Y|X) = - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i)
 \end{equation}
 
 Conditional entropy can be thought of as the amount of uncertainty one has about a random variable $Y$, given that $X$ has already been observed. As a special case, if $X$ and $Y$ are independent, observing $X$ does not reveal anything about $Y$, and $H(Y) = H(Y|X)$.
@@ -262,10 +262,10 @@ The entropy of a pair of random variables is the entropy of one plus the conditi
 
 \begin{equation}
 \begin{split}
-H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j) \\
- 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i)p(y_j|x_i) \\ 
- 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\
- 	   & = -\sum_{i=1}^n p_X(x_i) \log_2 p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(y_j|x_i) \\ 
+H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i,y_j) \\
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i)p(y_j|x_i) \\ 
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i) \\
+ 	   & = -\sum_{i=1}^n p_X(x_i) \log p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i) \\ 
  	   & = H(X) + H(Y|X)
 \label{eq:chain-rule-entropy}
 \end{split}
@@ -277,7 +277,7 @@ H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i,y_j) \\
 Let $p_X(x)$ and $q_X(x)$ be two probability mass functions over the support of the random variable $X$. The \textit{relative entropy} or \textit{Kullback-Leibler distance} \cite{cover-thomas} between $p_X(x)$ and $q_X(x)$ is defined as
 
 \begin{equation}
-D(p||q) = \sum_{i = 1}^n p(x_i) \log_2 \frac{p_X(x_i)}{q_X(x_i)}
+D(p||q) = \sum_{i = 1}^n p(x_i) \log \frac{p_X(x_i)}{q_X(x_i)}
 \label{eq:kl-distance}
 \end{equation} 
 
@@ -290,7 +290,7 @@ However, it must be stressed that since the Kullback-Leibler distance it is not 
 The \textit{mutual information} \cite{cover-thomas} between the random variables $X$ and $Y$ is given by 
 
 \begin{equation}
-MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)}
+MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)}
 \label{eq:mutual-inf}
 \end{equation}
 
@@ -304,9 +304,9 @@ The picture of mutual information as a distance between two probability distribu
 
 \begin{equation}
 \begin{split}
-MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)} \\
- 		& = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p_X(x_i) + -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i|y_j) \\
- 		& = -\sum_{i=1}^n \sum_{j=1}^m p_X(x_i) - \left( - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log_2 p(x_i|y_j) \right) \\ 
+MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)} \\
+ 		& = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i) + -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i|y_j) \\
+ 		& = -\sum_{i=1}^n \sum_{j=1}^m p_X(x_i) - \left( - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i|y_j) \right) \\ 
  		& = H(X) - H(X|Y)
 \label{eq:mutual-inf-entropy} 
 \end{split}
@@ -694,14 +694,13 @@ To be confident that the Ising model simulations behave as expected, the average
 \end{center}
 \end{figure}
 
-In figure \ref{fig:ising-128-pid-2-nbs}, the information theoretic functionals of the Ising model can be observed, where the mutual information is measured between 100 randomly chosen sites and their 2 random neighbours. It can be seen that mutual information peaks at the phase transition, which agrees with the previous work (for example \cite{barnett-ising}), further validating that the method of estimating the information theoretic terms used in this thesis works as expected. In addition, since in our experiment, the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only, it would be reasonable to expect that in our experiments, the mutual information is higher, because two neighbors should have more information about their center site than a single neighbor has. This is indeed the case - in \cite{barnett-ising}, the $I_{pw}$ measure peaks at the value of just under $0.3$, considerably less than $0.5$, which is the case in our experiment. 
+In figure \ref{fig:ising-128-pid-2-nbs}, the information theoretic functionals of the Ising model can be observed, where the mutual information is measured between 100 randomly chosen sites and their 2 random neighbours. Notice that the information is given in nats, meaning that the base of the logarithm in equation \ref{eq:mutual-inf} is taken to be $e$. 
 
-\textcolor{red}{Nats!?}
+From the figure, it can be seen that mutual information peaks at the phase transition, which agrees with the previous work (for example \cite{barnett-ising}), further validating that the method of estimating the information theoretic terms used in this thesis works as expected. In addition, since in our experiment, the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only, it would be reasonable to expect that in our experiments, the mutual information is higher, because two neighbors should have more information about their center site than a single neighbor has. This is indeed the case - in \cite{barnett-ising}, the $I_{pw}$ measure peaks at the value of just under $0.3$, considerably less than $0.5$, which is the case in our experiment. 
 
-Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, what pops out right away is that the nonzero terms peak exactly at the phase transition, just like mutual information itself. Visually, the shared information curve follows the mutual information curve almost exactly, being shifted about 
+Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, what pops out right away is that the nonzero terms peak exactly at the phase transition, just like mutual information itself. Visually, the shared information curve follows the mutual information graph almost exactly, with the expection of being shifted downwads about $1.5$ nats at every temperature point. The synergetic information term is more interesting. It still peaks at the phase transition, but it behaves differently from the mutual information, being quite a bit flatter. Both of the unique information terms are rather unintering, as they are near zero throughout the entire observational period of the Ising model.  
 
-
-This means that there is an unproportional amount of redundancy between the neighbors with respect to their center site. Intuitively, this is to be expected, as the neighbors of the center site are directly influencing it to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$.
+Shared information is the most dominant term in the partial information decomposition in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy between the neighbors with respect to their center site at all temperature points. Intuitively, this is to be expected, as the neighbors of the center site are directly influencing it to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is reasonable to assume that they have a lot of redundancy between them. 
 
 The complementary information ... 
 
