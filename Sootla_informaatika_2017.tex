@@ -154,8 +154,8 @@ Computer Science Curriculum\\[2mm]
  {
  \setlength{\extrarowheight}{5pt}
  \begin{tabular}{r l} 
-  \sffamily Supervisor: & \sffamily Raul Vicente Zafra, PhD \\
-  \sffamily Supervisor: & \sffamily Dirk Oliver Theis, PhD
+  \sffamily Supervisors: & \sffamily Raul Vicente Zafra, PhD \\
+  \sffamily & \sffamily Dirk Oliver Theis, PhD
  \end{tabular}
  }
 \end{flushright}
@@ -194,17 +194,33 @@ Computer Science Curriculum\\[2mm]
 
 \selectlanguage{english}
 
-In Chapter 1, the basics of information theory and partial information decomposition are covered. The chapter ends with an overview of the numerical estimator for PID. The subsequent 3 chapters each introduce a specific complex system and the results of measuring information distribution in them, while they are naturally evolving. In the final, concluding chapter, a summary of the contributions of this thesis is given, alongside suggestions for further work. 
+The universe is full of systems that comprise of a large number of interacting elements. Even if the immediate local interactions of these elements are rather simple, the global observable behaviour that they give rise to is often complex. Such systems, intuitively understood to be physical manifestations of the expression "the whole is more than the sum of its parts", are aptly called \textit{complex systems}. Canonical examples of complex systems include the human brain, ant colonies and financial markets. Indeed, all these systems have many relatively simple parts (e.g. neurons) whose collective behavior engenders complex phenomena (e.g. consciousness). 
+
+In addition to physical systems, many mathematical models have been developed that fall under the umbrella of complex systems. These man-made models are particularly interesting, because one has complete knowledge of how their various parts are connected together and which rules they obey while interacting with each other, but nevertheless, the emergent global structures are so complex that their emergence is impossible to predict from the initial conditions and the interaction rules without actually simulating the system.  Cellular automata and the Ising model are the quientessential examples of such models.
+
+One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well known quantity from classical information theory called \textit{mutual information} and its various derivations, which measure the information between a pair of interacting agents. 
+
+However, measuring information only between two variables of interest does not tell how to information is \textit{distributed} between the agents. 
+
+it has been argued that an information theoretic description of computation (as opposed to simply communication) requires to quantify the distribution of information that a set of input variables has about an output variable. In particular, such information could be provided individually (unique), redundantly (shared), or exclusively jointly (synergetic). The recently developed partial information decomposition is an axiomatic framework to define such information distributions. 
+
+The goal of this thesis is to charaterize the dynamics of complex systems in terms of partial information decomposition. The particular system of interest is the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism. It has been shown that this model undergoes a phase transition - an abrupt change from unordered to ordered state - and that the information between the parts of the system peaks exactly at that point. 
+
+In Chapter 1, a sufficiently in depth overview of basic information theory, partial information decomposition and the Ising model is given. Chapter 2 provides an overview of how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how the model was analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model are given in Chapter 4. The last chapter  discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
 
 \newpage
 
 \section{Background}
 
+This chapter introduces the preliminary topics that are integral to understanding and fully appreciating the methods and results of this thesis. The first section of this chapter reviews the basics of information theory. The second section builds on the first, introducing a recently proposed, more advanced concept of information theory - \textit{partial information decomposition}. The last section familiarizes the reader with the Ising model - a dynamical complex system whose analysis with information theoretic tools is the focus of this work. 
+
+The chapter assumes no previous knowledge of information theory and complex systems science from the reader, although familiarity with elementary probability theory is a prerequisite. 
+
 \subsection{Classical information theory}
 
 In order to understand partial information decomposition, which is the mathematical framework that is used in this thesis to analyse complex systems, a solid understanding of basic information theory is essential. This section fills that gap, giving a brief overview of the fundamental concepts of information theory. Where appropriate, the rather abstract definitions are further elaborated on by providing the reader with intuitive explanations, concrete examples and practical applications. 
 
-In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$. Furthermore, let the joint distribution of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. 
+In the following discussion, when not specified otherwise, it is assumed that $X$ is a discrete random variable with possible realizations from the set $\{x_1, x_2, ..., x_n\}$ and a probability mass function $p_X(x_i) = Pr\{X = x_i\} \ (i = 1, ..., n)$. Similiarly, $Y$ is a discrete random variable with possible realizations from the set $\{y_1, y_2, ..., y_m\}$ and a probability mass function $p_Y(y_j) = Pr\{Y = y_j\} \ (j = 1, ..., m)$. Furthermore, let the joint probability mass function of the random variables $X$ and $Y$ be $p(x_i, y_j) = Pr\{X = x_i, Y = y_j\} \ (i = 1, ..., n; \ j = 1, ..., m)$. 
 
 \subsubsection{Entropy}
 
@@ -339,9 +355,6 @@ MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\
 \end{equation}
 
 When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of the other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
-
-\subsubsection{Transfer Entropy}
-\textcolor{red}{TODO!?}
 
 \newpage
 \subsection{Partial information decomposition}
@@ -511,7 +524,7 @@ In this chapter, one of the simplest models that undergoes a phase transition - 
 
 \subsubsection{Ferromagnetism}
 
-Before introducing the Ising model, a short overview of a phycsical mechanism that it is modelling - ferromagnetism - is in order. This is done in this subsection, which are based on \cite{memory-systems-cache-ram}.
+Before introducing the Ising model, a short overview of a phycsical mechanism that it is modelling - ferromagnetism - is in order. This is done in this subsection, which is based on \cite{memory-systems-cache-ram}.
 
 Electrons in a material have magnetic moments, caused by their spins, which can be in either one of two states. These small magnetic properties of individual electrons do not usually yield a global net magnetization of the material, because the electron in the atoms often come in pairs of opposite spin states, cancelling each other out. However, in ferromagnets, there are many unpaired electrons, which line up with each other, producing a region called a \textit{domain}. While the magnetic field is strong within the domain, the material is still unmagnetized because the many domains themselves are oriented randomly with respect to one another. A characteristic property of a ferromagnetic materials is that even a rather weak external magnetic field can can cause the magnetic domains to line up with each other. When this happens, the material is said to be magnetized. Importantly, in the case of a ferromagnet, the material will remain magnetized even if the influencing external field is removed. 
 
@@ -567,7 +580,7 @@ There are many questions one could ask about the dynamics of the Ising model, bu
 \label{eq:expected-mag-ising}
 \end{equation}
 
-By saying that there is a phase transition in the Ising model, what is meant that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the absolute value of the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is 1. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition, in the 1-dimensional model \cite{Ising1925}. In 1944, Lars Onsanger showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice in the absence of an external magnetic field indeed undergoes a phase transition, and furthermore gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimension, no analytic solution exists. 
+By saying that there is a phase transition in the Ising model, what is meant that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the absolute value of the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is 1. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition, in the 1-dimensional model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
 \newpage
 \section{Related Work} 
@@ -589,9 +602,9 @@ Ising numeric \cite{mi-ising-numeric}s
 
 \subsection{Numerical simulation of the Ising model}
 
-In theory, finding the expected magnetization for a given temperature $T$ is trivial. According to equation \ref{eq:expected-mag-ising}, one simply has to enumerate all lattice configurations, multiply their probabilities by their magnetizations, and sum the products. The problems arise in the very first part - enumerating all the configurations. The number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices. This is of course a more general problem that is not only present when calculating the expected magnetization, but rather appears in any task where one has to deal with expectations in the Ising model. For example, in this thesis, we would like to find the expected mutual information between the sites for each temperature point. Unable to do so anlytically, one must resort to simulating the dynamics of the model. 
+In theory, finding the expected magnetization for a given temperature $T$ is trivial. According to equation \ref{eq:expected-mag-ising}, one simply has to enumerate all lattice configurations, multiply their probabilities by their magnetizations, and sum the products. The problem arises in the very first part - doing an exhaustive search through all lattice configurations. The number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices. This is of course a more general problem that is not only present when calculating the expected magnetization, but rather appears in any task where one has to deal with expectations in the Ising model. For example, in this thesis, we would like to find the average mutual information between the sites for each temperature point. Unable to do so anlytically, one must resort to simulating the dynamics of the model. 
 
-Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become closer to the true expectation as the number of samples increases. Glauber dynamics \cite{metropolis}, a method of sampling a given probability distribution via a Markov chain \url{http://www4.ncsu.edu/~dyeun/pub/techrep-csma12.pdf}, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
+Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become closer to the true expectation as the number of samples increases. Glauber dynamics, a method of sampling a given probability distribution using a Markov chain, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
 
 The Glauber dynamics method works as follows. First, an initial lattice configuration is chosen arbitrarily (as discussed later, some clever tricks in choosing the initial configuration can be done, however). Then, iteratively, a site is chosen uniformly at random from the lattice, and the spin associated with this site is flipped. The new configuration is either accepted or rejected. The probability of acceptance is given by equation \ref{eq:glauber-accept-prob}, where $\boldsymbol{s}_n$ denotes the new lattice configuration with a flipped spin, $T$ denotes the temperature and $\Delta E(\boldsymbol{s} -> \boldsymbol{s}_n) = E(\boldsymbol{s}) - E(\boldsymbol{s}_{n})$ is the difference between the energies of the two configurations. For a more compact overview, a pseudocode for a single iteration of this method is given in algorithm \ref{alg:glauber-update}.
 
@@ -615,7 +628,7 @@ Generate a random number $x$ uniformly at random from the interval [0, 1]\;
 \caption{A single iteration of Glauber dynamics.}
 \end{algorithm}
 
-There are two noteworthy additions to the naive algorithm \ref{alg:glauber-update} that must be discussed. First, to uncorrelate the samples, many potential spin flips are considered before a sample is actually drawn, meaning that not every lattice configuration returned by algorithm \ref{alg:glauber-update} is considered as a sample, but rather every $L$-th. The parameter $L$ is a called the $lag$. This procedure is illustrated in algorithm \ref{alg:glauber-update-lag}. Notice that indeed, all the intermediate configurations on line $3$ are discarded,  only the $L$-th configuration is eventually returned. Second, in order to avoid biasing the initial samples towards the initial random configuration, the very first samples are discarded. The number of initial discarded samples is referred to as the \textit{burn in period}. The entire Glauber dynamics method, along with the random initialization, burn-in period and lag is illustrated in algorithm \ref{alg:glauber-full}
+There are two noteworthy additions to the naive algorithm \ref{alg:glauber-update} that must be discussed. First, to uncorrelate the samples, many potential spin flips are considered before a sample is actually drawn, meaning that not every lattice configuration returned by algorithm \ref{alg:glauber-update} is considered as a sample, but rather every $L$-th. The parameter $L$ is a called the $lag$. This procedure is illustrated in algorithm \ref{alg:glauber-update-lag}. Notice that indeed, all the intermediate configurations on line $3$ are discarded,  only the $L$-th configuration is eventually returned. Second, in order to avoid biasing the initial samples towards the initial random configuration, the very first samples are discarded. The number of initial discarded samples is referred to as the \textit{burn in period}. The entire Glauber dynamics method, along with the random initialization, burn-in period and lag is illustrated in algorithm \ref{alg:glauber-full}.
 
 \begin{algorithm}
 \textbf{Input:} A lattice configuration $\boldsymbol{s}$ and lag $L$ \\
@@ -646,11 +659,14 @@ samples = [ ]  \Comment{List to save the sampled configurations to}\\
 \caption{The full Glauber dynamics method.}
 \end{algorithm}
 
+A small implementation detail that must also be dealt with is to decide how are the neighbors for the sites on the edges of the lattice chosen. For example, if a site is on the right edge of the lattice, it does not have an immediate neighbor on the right hand side. There are two common way to deal with this complication. First, one can use \textit{periodic boundary conditions}, in which the lattice "wraps around" itself, such that the sites on one edge of the lattice have as neighbors sites on the opposite edge, yielding all sites to have the same number of neighbours no matter their position on the lattice \cite{spin-models-thesis}. Second, the sites on the edges of the lattice can be made to have only their usual immediate neighbors, so that sites on the edges have fewer neighbors than sites at the center of the lattice. In this case, the model is said to have \textit{free boundary conditions} \cite{spin-models-thesis}.
+
+\textcolor{red}{TODO! Ising domains and lattice pictures} \\ 
 \textcolor{red}{TODO! Faster calculation of energy difference}
 
 \subsection{Experimental setup}
 
-To estimate the PID terms in the Ising model, a 2-dimensional Ising model with a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in \cite{barnett-ising}, each update comprised of $N$ potential spin-flips according to Glauber transition probabilities, where $N$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$, where $B=10^4$, $L=128x128$ and $N=10^5$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the phase transition at $T = 2.268$
+To estimate the PID terms in the Ising model, a 2-dimensional Ising model with a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in \cite{barnett-ising}, each update comprised of $N$ potential spin-flips according to Glauber transition probabilities, where $N$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$, where $B=10^4$, $L=128x128$ and $N=10^5$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the phase transition at $T = 2.268$. 
 
 The obtained $10^5$ lattice configurations were subsequently used to construct the probability distributions that the PID estimator takes as input. In particular, 100 sites were chosen uniformly at random, and for each of these sites, the relative frequency its configuration along with 4 of its immediate neighbors was measured at each temperature point. Thus, for each temperature point, 100 joint probability distributions of 5 random variables that can take on 32 different values was generated. An illustrative example of one such distribution is given by table 2, where the first random variable $X$ represents center site, and the 4 other random variables represent its immediate neighbors. For example, the second row of the table tells us that the configuration where the center site has a downward spin, along with all its neighbors except the left, appears $30$ of the time (out of a total $10^5$ configurations that were simulated) at some specific temperature $T_i$. 
 
@@ -684,7 +700,9 @@ This procedure was performed for 8 runs at 102 temperature points spaced evenly 
 \newpage
 \section{Results}
 
-To be confident that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c = 2.68$. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1. This agrees with the physical observations of ferromagnetisms as well as with previous practical and theoretical works, thus validating that the simulation of the Ising model is done correctly. 
+\subsection{Magnetization} 
+
+To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1. This agrees with the physical observations of ferromagnetism as well as with previous practical and theoretical works, thus validating that the simulation of the Ising model is done correctly. 
 
 \begin{figure} [h!]
 \begin{center}
@@ -694,20 +712,9 @@ To be confident that the Ising model simulations behave as expected, the average
 \end{center}
 \end{figure}
 
+\subsection{PID on 128x128 Ising model}
+
 In figure \ref{fig:ising-128-pid-2-nbs}, the information theoretic functionals of the Ising model can be observed, where the mutual information is measured between 100 randomly chosen sites and their 2 random neighbours. Notice that the information is given in nats, meaning that the base of the logarithm in equation \ref{eq:mutual-inf} is taken to be $e$. 
-
-From the figure, it can be seen that mutual information peaks at the phase transition, which agrees with the previous work (for example \cite{barnett-ising}), further validating that the method of estimating the information theoretic terms used in this thesis works as expected. In addition, since in our experiment, the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only, it would be reasonable to expect that in our experiments, the mutual information is higher, because two neighbors should have more information about their center site than a single neighbor has. This is indeed the case - in \cite{barnett-ising}, the $I_{pw}$ measure peaks at the value of just under $0.3$, considerably less than $0.5$, which is the case in our experiment. 
-
-Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, what pops out right away is that the nonzero terms peak exactly at the phase transition, just like mutual information itself. Visually, the shared information curve follows the mutual information graph almost exactly, with the expection of being shifted downwads about $1.5$ nats at every temperature point. The synergetic information term is more interesting. It still peaks at the phase transition, but it behaves differently from the mutual information, being quite a bit flatter. Both of the unique information terms are rather unintering, as they are near zero throughout the entire observational period of the Ising model.  
-
-Shared information is the most dominant term in the partial information decomposition in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy between the neighbors with respect to their center site at all temperature points. Intuitively, this is to be expected, as the neighbors of the center site are directly influencing it to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is reasonable to assume that they have a lot of redundancy between them. 
-
-The complementary information ... 
-
-What is also interesting and noteworthy is that both redundant and synergetic information peak at the phase transition. 
-
-The unique information terms are not ... 
-
 
 \begin{figure} [h!]
 \begin{center}
@@ -717,6 +724,28 @@ The unique information terms are not ...
 \end{center}
 \end{figure}
 
+From the figure, it can be seen that mutual information peaks at the phase transition, which agrees with previous work (for example \cite{barnett-ising}), further validating that the method of estimating the information theoretic terms used in this thesis works as expected. In addition, since in our experiment, the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only, it would be reasonable to expect that the mutual information is higher in current experiments, because two neighbors should have more information about their center site than a single neighbor has. This is indeed the case: in \cite{barnett-ising}, the $I_{pw}$ (mutual information measured between 2 neighboring sites) quantity  peaks at the value of just under $0.3$, considerably less than $0.5$, which is the case in our experiment. 
+
+Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, one can see that that the nonzero terms peak exactly at the phase transition, just like mutual information itself. Visually, the shared information curve follows the mutual information graph almost exactly, with the expection of being shifted downwads about $1.5$ nats at every temperature point. The synergetic information term is more interesting. It still peaks at the phase transition, but it behaves differently from the mutual information, being quite a bit flatter. Both of the unique information terms are rather uninteresting, as their values are essentially zero at every temperature point under discussion. 
+
+Shared information is the most dominant term in the partial information decomposition in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy in the system. This is to be expected, as the neighbors of the center site are directly influencing the latter to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is reasonable to assume that if the spin of one neighbor is known, the spin of the other neighor is also likely to be that same value. 
+
+The complementary information ...  
+
+The unique information terms are always near 0, no matter which neighbor is considered. It is logical that $UI_Y$ and $UI_Z$ have almost identical values, because the neighbors are chosen randomly and it does not matter which neighbor we are considering. Moreover, it is reasonable that the unique information functionals are not present, because it is rather unlikely that a single randomly chosen neighbor has more information about the center site as some other random neighbor from the remaining 3 neighbors does, as the system is symmetric.
+
+In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about 1 nat), as considering all the sites that interact with the center site should reduce the amount of uncertainty we have about its value in the next timestep, compared to the case when we only observe 2 of its neighbors. Further inspection shows that the PID term responsible for the increased mutual information is shared information. Indeed, the complementary and unique information terms are have roughly the same values as was the case when only 2 neighbors was considered. Specifically, for all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
+
+Peaks 2 nbs:
+MI - 2.2930
+CI - 2.3326
+SI - 2.2930
+
+Peaks 4 nbs:
+MI - 2.2930
+CI - 2.5544
+SI - 2.2930
+
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-128-pid-4-nbs}
@@ -724,6 +753,12 @@ The unique information terms are not ...
 \label{fig:ising-128-pid-4-nbs}
 \end{center}
 \end{figure}
+
+An unanticipated difference between the first and second experiment is that when all neighbors are considered, the synergetic information term is rather flat and peaks \textit{before} the phase transition. This observation is of great importance and could have many practical applications. Its implications are thoroughly examined in the discussion section. 
+
+\subsection{PID on 64x64 Ising model}
+
+To validate that the obtained measurments and the observed phenomena are not only specific to the lattice of size 128x128, but more general, the simulations were repeated for a smaller lattice of size 64x64. The experimental setups was analogous to the setup used for the Ising model with a bigger lattice, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The model is simulated on 102 temperature points spaced evenly over the interval [2.0, 3.0]. 
 
 \begin{figure} [h!]
 \begin{center}
@@ -733,6 +768,8 @@ The unique information terms are not ...
 \end{center}
 \end{figure}
 
+Figure \ref{fig:ising-64-pid-2-nbs} depicts the results when only 2 random immediate neighbors are considered as input to the center site in the PID framework. Although the mutual, shared and synergetic information graphs are more shaky at the phase transition due to statistical fluctuations at the phase transition, overall graphs are almost identical to the corresponding graphs in figure \ref{fig:ising-128-pid-2-nbs}. 
+
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-64-pid-4-nbs}
@@ -741,11 +778,35 @@ The unique information terms are not ...
 \end{center}
 \end{figure}
 
+
+From figure \ref{fig:ising-64-pid-4-nbs}, one can observe that the 
+
+Peaks 2 nbs:
+MI - 2.2772
+CI - 2.3267
+SI - 2.2772
+
+Peaks 4 nbs:
+MI - 2.2772
+CI - 2.5148
+SI - 2.2772
+
+
+\textcolor{red}{TODO!} Standard deviations?
+
 \newpage
 \section{Discussion}
+
+This chapter starts by putting the results obtained in the Ising model into a larger context and by discussing their implications.  The possibility of analysing other dynamical complex systems with the information theoretic tools used in this thesis is crticially examined in the second section. The chapter concludes with numerous suggestions for future work. 
+
 \subsection{Implications of the results}
+
+
+
 \subsection{Limitations}
 \subsection{Future work}
+
+fun expression to use: promising research directions.
 
 \newpage
 \section*{Conclusion}
