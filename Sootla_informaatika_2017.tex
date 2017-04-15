@@ -200,11 +200,11 @@ In addition to physical systems, many mathematical models have been developed th
 
 One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well known quantity from classical information theory - \textit{mutual information} - and its various derivations, which all measure the information between a pair of interacting agents. Among other things, such measures allow one to quantify the amount of information that is stored, transferred and modified in different parts of the system. 
 
-However, only measuring the information that is processed between \textit{two} subcomponents is rather restrictive. Indeed, even the simplest of logic gates have more interacting elements, composing of a pair of inputs and an output. While one could consider the inputs as a single subcomponent, this would not capture the intricate interactions between the inputs themselves. In particular, components in the input ensemble can provide information uniquely, redundantly, or synergetically about the output.  
+However, only measuring the information that is processed between \textit{two} subcomponents is rather restrictive. Indeed, even the simplest of logic gates have more interacting elements, being composed of a pair of inputs and an output. While one could consider the inputs as a single subcomponent, this would not capture the intricate interactions between the inputs themselves. In particular, components in the input ensemble can provide information uniquely, redundantly, or synergetically about the output.  
 
 To capture this subtle distribution of information between two inputs and a single output, an extension to classical information theory is needed. The recently developed axiomatic framework called \textit{partial information decomposition (PID)} is such an extension. Computing this decomposition in actual probability distributions is non-trivial, however. Despite the difficulties, the computational neuroscience and theoretical computer science groups at the University of Tartu have jointly managed to develop a much-needed numerical estimator. 
 
-Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism - are simulated while measuring the information distribution between the interacting parts of the system with the PID estimator. To the author's knowledge, the work done in this thesis is the very first example of practically applying the novel PID framework to analyse complex systems, in part because the numerical estimator that makes it possible has not been published yet.
+Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. To the author's knowledge, the work done in this thesis is the very first example of practically applying the novel PID framework to analyse complex systems, in part because the numerical estimator that makes it possible has not been published yet.
 
 In addition to the Ising model, two other well-known dynamical complex systems are analysed in terms of partial information decomposition: feedforward neural networks and elementary cellular automata. These did not make it to the main body of the thesis, but are discussed in the appendices. They are also referred to in the discussion section, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
@@ -805,10 +805,21 @@ This chapter starts by putting the results obtained in the Ising model into a la
 
 \subsection{Implications of the results}
 
+1. First, we see that partial information decomposition is able to give informat ..
 
+2. As for the specific results obtained in the Ising model, they are very practical.
 
 \subsection{Limitations}
+
+1. Limitations of the estimator
+2. Limitations when inputs are not easily partitioned into 2 classes
+
 \subsection{Future work}
+
+1. Other discrete dynamical systems like cellular automata
+2. Interpretation of the Ising model 
+3. Neural networks
+4. More generally, the PID estimator should be developed further
 
 fun expression to use: promising research directions.
 
@@ -820,7 +831,16 @@ fun expression to use: promising research directions.
 
 \newpage
 \bibliographystyle{alpha}
+\addcontentsline{toc}{section}{Bibliography}
 \bibliography{bachelor-thesis}
+
+\newpage
+\section*{Appendix A: Elementary Cellular Automata}
+\addcontentsline{toc}{section}{Appendix A: Elementary Cellular Automata}
+
+\newpage
+\section*{Appendix B: Feedforward Neural Networks}
+\addcontentsline{toc}{section}{Appendix B: Feedforward Neural Networks}
 
 
 \appendix
