@@ -198,7 +198,7 @@ The universe is full of systems that comprise of a large number of interacting e
 
 In addition to physical systems, many mathematical models have been developed that fall under the umbrella of complex systems. These man-made models are particularly interesting, because one has complete knowledge of how their various parts are connected together and which rules they obey while interacting with each other, but nevertheless, the emergent global structures are so complex that their emergence is impossible to predict from the initial conditions and the interaction rules without actually simulating the system.  Cellular automata and the Ising model are the quientessential examples of such models.
 
-One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well known quantity from classical information theory - \textit{mutual information} - and its various derivations, which all measure the information between a pair of interacting agents. Among other things, such measures allow one to quantify the amount of information that is stored, transferred and modified in different parts of the system \textcolor{red}{cite stuff?}. 
+One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well known quantity from classical information theory - \textit{mutual information} - and its various derivations, which all measure the information between a pair of interacting agents. Among other things, such measures allow one to quantify the amount of information that is stored, transferred and modified in different parts of the system. \textcolor{red}{cite stuff?}
 
 However, only measuring the information that is processed between \textit{two} subcomponents is rather restrictive. Indeed, even the simplest of logic gates have more interacting elements, being composed of a pair of inputs and an output. While one could consider the inputs as a single subcomponent, this would not capture the intricate interactions between the inputs themselves. In particular, components in the input ensemble can provide information uniquely, redundantly, or synergetically about the output \cite{williams-beer}.  
 
@@ -208,7 +208,7 @@ Contextually, this thesis can be viewed as an extension to the growing body of w
 
 In addition to the Ising model, two other well-known dynamical complex systems are analysed in terms of partial information decomposition: feedforward neural networks and elementary cellular automata. These did not make it to the main body of the thesis, but are discussed in the appendices. They are also referred to in the discussion section, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
-The third noteworthy part of this thesis is the self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. To the author's knowledge, a thorough introduction to both is absent in the current literature at the time of writing this thesis (\cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific application specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
+A significant portion of this thesis is devoted to providing a self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. To the author's knowledge, a thorough introduction to both is absent in the literature at the time of writing this thesis (\cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific application specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
 
 In Chapter 1, a sufficiently in depth overview of basic information theory, partial information decomposition and the Ising model is given. Chapter 2 provides an overview of how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how the model was analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model are given in Chapter 4. The last chapter  discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
 
@@ -465,16 +465,16 @@ It turns out that the current tools from classical information theory - entropy 
 
 Taking inspiration from game theory, \cite{bertschinger} were able to provide such a definition for unique information. Their insight was that if a variable contains unique information, there must be a way to exploit it. In other words, there must exist a situation such that an agent having access to unique information has an advantage over another agent who does not possess this knowledge. Given such a situation, the agent in posession of unique information can prove it to others by designing a bet on the output variable, such that on average, the bet is won by the designer.
 
-In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from equation \ref{eq:pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly \textit{modify} $Y$ and \textit{observe} the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. Similarly, Bob's reward will depend only on the distributon $p(X,Z)$. From this, it follows that the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals $p(X,Y)$ and $p(X,Z)$.
+In particular, suppose there are two agents - Alice and Bob - Alice having access to the random variable $Y$ and Bob having access to the random variable $Z$ from equation \ref{eq:pid}. Neither of them have access to the other player's random variable, and both of them can observe, but not directly modify, the output variable $X$. Alice can prove to Bob that she has unique information about $X$ via $Y$ by constructing a bet on the outcomes of $X$. Since Alice can only directly \textit{modify} $Y$ and \textit{observe} the outcome $X$, her reward will depend only on the distribution $p(X,Y)$. \footnote{Again, for consistency with \cite{cover-thomas}, the probability distributions are denoted with small letters, instead of capital letters as is done in \cite{bertschinger}.} Similarly, Bob's reward will depend only on the distributon $p(X,Z)$. From this, it follows that the results of the bet are \textit{not} dependent on the full distribution $p(X,Y,Z)$, but rather only on its marginals $p(X,Y)$ and $p(X,Z)$.
 
-Let $P = P(X,Y,Z)$ be the original joint probability distribution  that we are interested in computing the PID of, and let $\Delta$ be the set of \textit{all} joint probability distributions of $X$, $Y$ and $Z$. Under the assumption that the unique information depends only on the two marginal distribution of $P$, a set of probability distributions $\Delta_P$ can be defined such that the unique information stays constant for any element in this set. Such a set must consist only of the probability distributions that have the same marginal distributions of the pairs $(X,Y)$ and $(X,Z)$ as $P$. It is defined as follows: 
+Let $p = p(X,Y,Z)$ be the original joint probability distribution  that we are interested in computing the PID of, and let $\Delta$ be the set of \textit{all} joint probability distributions of $X$, $Y$ and $Z$. Under the assumption that the unique information depends only on the two marginal distribution of $P$, a set of probability distributions $\Delta_P$ can be defined such that the unique information stays constant for any element in this set. Such a set must consist only of the probability distributions that have the same marginal distributions of the pairs $(X,Y)$ and $(X,Z)$ as $P$. It is defined as follows: 
 
 \begin{multline*}
-\Delta_P = \{Q \in \Delta: Q(X=x, Y=y) = P(X=x, Y=y) \\ 
-\text{ and }  Q(X=x, Z=z) = P(X=x, Z=z) \text{ for all } x \in X, y \in Y, z \in Z\}
+\Delta_p = \{q \in \Delta: q(X=x, Y=y) = p(X=x, Y=y) \\ 
+\text{ and }  q(X=x, Z=z) = p(X=x, Z=z) \text{ for all } x \in X, y \in Y, z \in Z\}
 \end{multline*}
 
-Putting the observation that unique information is constant on $\Delta_P$ and equation \ref{eq:pid-yz} together, it becomes apparent that shared information will also be constant on $\Delta_P$. Thus, only complementary information varies when considering arbitrary distribution $Q$ from $\Delta_P$. The last observation makes sense intuitively and is to be expected, since "complementary information should capture precisely the information that is carried by the joint dependencies between $X$, $Y$ and $Z$" \cite{bertschinger}. 
+Putting the observation that unique information is constant on $\Delta_p$ and equation \ref{eq:pid-yz} together, it becomes apparent that shared information will also be constant on $\Delta_P$. Thus, only complementary information varies when considering arbitrary distribution $q$ from $\Delta_p$. The last observation makes sense intuitively and is to be expected, since "complementary information should capture precisely the information that is carried by the joint dependencies between $X$, $Y$ and $Z$" \cite{bertschinger}. 
 
 Using the chain rule for information (equation \ref{eq:chain-rule-inf}) as well as decompositions \ref{eq:pid} and \ref{eq:pid-yz}, the following identities can be derived: 
 
@@ -486,37 +486,42 @@ MI(X;Z|Y) = UI(X:Z \setminus Y) + CI(X:Y;Z)
 \end{split}
 \end{equation}
 
-Now, if a distribution $Q_0 \in \Delta_P$ could be found that yields vanishing synergy, the unique information could be calculated using quantities from classical information theory. Indeed, from equation \ref{eq:mi-ui-ci} it can be seen that when synergy is $0$, the mutual information and unique information terms coincide. However, \cite{bertschinger} prove that a distribution $Q_0 \in \Delta_P$ with this property only exists for specific measures of unique, shared and complementary information. They define the suitable measures as follows:
+Now, if a distribution $q_0 \in \Delta_p$ could be found that yields vanishing synergy, the unique information could be calculated using quantities from classical information theory. Indeed, from equation \ref{eq:mi-ui-ci} it can be seen that when synergy is $0$, the mutual information and unique information terms coincide. However, \cite{bertschinger} prove that a distribution $q_0 \in \Delta_p$ with this property only exists for specific measures of unique, shared and complementary information. They define the suitable measure for unique information as follows:
 
 \begin{equation}
-\widetilde{UI}(X:Y \setminus Z) = \min_{Q \in \Delta P} MI_Q(X;Y|Z)
+\widetilde{UI}(X:Y \setminus Z) = \min_{q \in \Delta p} MI_q(X;Y|Z)
 \label{eq:tilde_ui_y}
 \end{equation}
 
 \begin{equation}
-\widetilde{UI}(X:Z \setminus Y) = \min_{Q \in \Delta P} MI_Q(X;Z|Y)
+\widetilde{UI}(X:Z \setminus Y) = \min_{q \in \Delta_p} MI_q(X;Z|Y)
 \label{eq:tilde_ui_z}
 \end{equation}
 
+where the subscript $q$ under the mutual information symbol means that the quantity is calculated over the distribution $q$.
+
+Replacing these measures with the corresponding quantities in equations \ref{eq:pid} and \ref{eq:pid-yz}, measures for shared and complementary information can be defined: 
+
 \begin{equation}
-\widetilde{SI}(X:Y;Z) = \max_{Q \in \Delta_P} MI_Q (X;Y) - MI_Q(X;Y|Z)
+\widetilde{SI}(X:Y;Z) = \max_{q \in \Delta_p} MI_q (X;Y) - MI_q(X;Y|Z)
 \label{eq:tilde_si}
 \end{equation}
 
 \begin{equation}
-\widetilde{CI}(X:Y;Z) = MI(X;Y,Z) - \min_{Q \in \Delta_P} MI_Q(X:Y,Z)
+\widetilde{CI}(X:Y;Z) = MI(X;Y,Z) - \min_{q \in \Delta_p} MI_q(X:Y,Z)
 \label{eq:tilde_ci}
 \end{equation}
 
-From these equations, it can be seen that finding the partial information decomposition terms amount to solving various optimization problems. It is important to note, however, that only one of the these optimization problems need to be solved in practice. Once one of the PID terms is found, the system of equations (\ref{eq:pid}, \ref{eq:pid-yz}) becomes determined, being composed of 3 equations and 3 unknowns, and as such, the other PID components can be calculated with basic algebra.
-
-\textcolor{red}{TODO! Get the probability distribution notations straight!}
+These 4 constrained optimization problems (\ref{eq:tilde_ui_y}, \ref{eq:tilde_ui_z}, \ref{eq:tilde_si}, \ref{eq:tilde_ci}) are all equivalent in the sense that it would suffice to solve only one of these problems and the obtained optimal joint distribution $q$ would produce the optimal value for all the remaining three measures as well. 
 
 \subsubsection{Numerical Estimator}
 
-\cite{bertschinger} show that the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ are convex optimization problems on convex sets. 
+Bertschinger et al. show that "the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ . . . are convex optimization problems on convex sets" \cite{bertschinger}. A notable property of convex functions is that their local and global minimums coincide, making the optimization problems that involve such functions relatively easy to solve. Indeed, many effictive  algorithms have been developed that solve even large convex problems both efficiently and reliably \cite{boyd}.
 
-\textcolor{red}{Consult Dirk on the estimator?}
+"The optimization problems in Lemma 4 can be very ill-conditioned, in the sense that there are directions in which the function varies fast, and other directions in which the function varies slowly." - BROJA. \textcolor{red}{Why is this bad?}
+\textcolor{red}{TODO! Consult Dirk on the estimator.}
+
+The numerical estimator takes the approach of solving the optimization problem given in equation \ref{eq:tilde_ci} and then using the resulting distribution $q$ to find the other quantities of interest. The interface of the estimator is rather simple, abstracting away all the details of its inner workings: it takes as input a  probability distribution $p(X, Y, Z)$ and outputs the scalars $MI(X;Y,Z)$, $UI(X:Y \setminus Z)$, $UI(X:Z \setminus Y)$, $SI(X:Y;Z)$ and $CI(X:Y;Z)$. Currently, the estimator is only able to handle discrete distributions. The software is written in Python 3. The convex programming is done in CVXOPT \cite{cvxopt}, while all linear progams are solved using Gurobi \cite{gurobi}. 
 
 \newpage
 \subsection{Ising Model}
@@ -583,7 +588,7 @@ There are many questions one could ask about the dynamics of the Ising model, bu
 \label{eq:expected-mag-ising}
 \end{equation}
 
-By saying that there is a phase transition in the Ising model, what is meant that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the absolute value of the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is 1. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition, in the 1-dimensional model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
+By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the absolute value of the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is 1. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition, in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
 \newpage
 \section{Related Work} 
