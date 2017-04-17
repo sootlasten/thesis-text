@@ -198,7 +198,7 @@ The universe is full of systems that comprise of a large number of interacting e
 
 In addition to physical systems, many mathematical models have been developed that fall under the umbrella of complex systems. These man-made models are particularly interesting, because one has complete knowledge of how their various parts are connected together and which rules they obey while interacting with each other, but nevertheless, the emergent global structures are so complex that their emergence is impossible to predict from the initial conditions and the interaction rules without actually simulating the system.  Cellular automata and the Ising model are the quientessential examples of such models.
 
-One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well known quantity from classical information theory - \textit{mutual information} - and its various derivations, which all measure the information between a pair of interacting agents. Among other things, such measures allow one to quantify the amount of information that is stored, transferred and modified in different parts of the system. \textcolor{red}{cite stuff?}
+One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well-known quantity from classical information theory - \textit{mutual information} - and its various derivations, which all measure the information between a pair of interacting agents. These measures are particularly useful because of their sensitivity to both linear as well as non-linear interactions between random variables. Among other things, they allow one to quantify the amount of information that is stored \cite{active-inf-storage}, transferred \cite{transfer-entropy} and modified \cite{inf-modification} in different parts of the system.
 
 However, only measuring the information that is processed between \textit{two} subcomponents is rather restrictive. Indeed, even the simplest of logic gates have more interacting elements, being composed of a pair of inputs and an output. While one could consider the inputs as a single subcomponent, this would not capture the intricate interactions between the inputs themselves. In particular, components in the input ensemble can provide information uniquely, redundantly, or synergetically about the output \cite{williams-beer}.  
 
@@ -208,7 +208,7 @@ Contextually, this thesis can be viewed as an extension to the growing body of w
 
 In addition to the Ising model, two other well-known dynamical complex systems are analysed in terms of partial information decomposition: feedforward neural networks and elementary cellular automata. These did not make it to the main body of the thesis, but are discussed in the appendices. They are also referred to in the discussion section, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
-A significant portion of this thesis is devoted to providing a self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. To the author's knowledge, a thorough introduction to both is absent in the literature at the time of writing this thesis (\cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific application specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
+A significant portion of this thesis is devoted to providing a self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. To the author's knowledge, a thorough introduction to both is absent in the literature at the time of writing this thesis (\cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific applications specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
 
 In Chapter 1, a sufficiently in depth overview of basic information theory, partial information decomposition and the Ising model is given. Chapter 2 provides an overview of how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how the model was analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model are given in Chapter 4. The last chapter  discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
 
@@ -317,7 +317,7 @@ MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)p_
 
 An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$.
 
-Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter statement must hold, because if $X$ and $Y$ are independent, then $p(x,y) = p_X(x)p_Y(y)$ by definition. 
+Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. The latter statement must hold, because if $X$ and $Y$ are independent, then $p(x,y) = p_X(x)p_Y(y)$ by definition. Unlike the general Kullback-Leibler distance, however, the mutual information is symmetric. It follows that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
 
 Considering mutual information as a special case of Kullback-Leibler distance, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Indeed, when the two are completely independent, one would expect that they contain no information about each other, and this is exactly the conclusion that was reached mathematically directly from equation \ref{eq:mutual-inf}.
 
@@ -334,9 +334,7 @@ MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)
 \end{split}
 \end{equation}
 
-Intuitively, using identity \ref{eq:mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Thus, it is maximized when knowing $Y$ completely determines $X$, yielding $H(X|Y) = 0$. 
-
-Unlike Kullback-Leibler distance, the mutual information is symmetric. It follows that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
+Intuitively, using identity \ref{eq:mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Thus, it is maximized when knowing $Y$ completely determines $X$, yielding $H(X|Y) = 0$.  
 
 \subsubsection{Conditional mutual information}
 
@@ -593,17 +591,11 @@ By saying that there is a phase transition in the Ising model, what is meant is 
 \newpage
 \section{Related Work} 
 
-Barnett et al \cite{barnett-ising} argue that "In a system comprising a large number of interacting elements with an order-disorder phase transition, it is easy to argue that mutual information between elements must peak at an intermediate order: for a highly ordered system, there is little indeterminacy about the state of individual elements and hence mutual information between elements will be small, while for a highly disordered system, elements will behave near independently and again mutual information between elements will be small. It also seems reasonable ... to expect that the peak will occur at the phase transition, where susceptibility peaks."
+There is a large body of previous work in applying information theory to analyse dynamical complex systems that undergo a phase transition. Specifically, it has been shown that mutual information and other related information-theoretic measures peak at the critical point where the systems undergo an order-disorder transition. Such is the case for several mathematical models like random boolean networks \cite{lizier-rand-bool-nets} and Vicsek's self-propelled particle model \cite{mi-swarms}. 
 
-Indeed, it has been shown that in various dynamical complex systems, mutual information peaks at the critical point where the system undergoes an order-disorder transition. For example, such is the case for random boolean networks \cite{lizier-rand-bool-nets}, swarms models \cite{mi-swarms}, as well as in real world systems, such as \cite{mi-financial-markets}
+As for real-world systems, \cite{mi-financial-markets} measured mutual information between pairs of selected stocks and found that the peaks in information take place around known market crashes. To better understand phase transitions in cognitive behaviours, \cite{mi-go} analysed mutual information between successive moves in the ancient game of Go as a function of player's skill level. They found that information peaks around the transition from amateur to professional, "agreeing with other evidence that a radical shift in strategic thinking occurs at this juncture" \cite{mi-social-systems}. 
 
-In the case of the Ising model, it has been both analytically 
-
-Lizier showed that transfer entropy peaks before the phase transition. \cite{barnett-ising}
-
-Ising analytic \cite{mi-ising-analytic}
-
-Ising numeric \cite{mi-ising-numeric}s
+Particularly relevant to the work at hand is the information-theoretic analysis of the Ising model. It has been analytically shown that in a 2-dimensional Ising model, the mutual information between joint states of two spin systems peaks at the critical temperature \cite{mi-ising-analytic}. \cite{barnett-ising} show empirically  that mutual information measured between pairs of spins peaks at the phase transition. In the current thesis, this result is replicated and extended by also measuring the decomposition terms of this mutual information. \cite{barnett-ising} further discover that another related quantity called transfer entropy, which measures the information, peaks strictly in the disorder phase \textit{before} the phase transition. 
 
 \newpage
 \section{Methods}
