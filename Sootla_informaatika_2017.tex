@@ -600,18 +600,19 @@ Particularly relevant to the work at hand is the information-theoretic analysis 
 \newpage
 \section{Methods}
 
-This chapter describes the approach taken in this thesis to analyse the Ising model in terms of partial information decomposition . The first section of this chapter is devoted to motivating the use of computational simulations in investigating the Ising model, as well as to an overview of a specific algorithm used to carry out such simulations in this thesis. The second section desribes in detail how the PID estimator is utilised to measure the information distribution in the Ising model while the model's dynamics are simulated. To ensure reproducibility of the results, the exact values of various parameters of the experiments are given. 
+This chapter describes the approach taken in this thesis to analyse the Ising model in terms of partial information decomposition. The first section is devoted to motivating the use of computational simulations in investigating the Ising model, as well as to an overview of a specific algorithm used to carry out such simulations in the current dissertation. The second section of this chapter desribes in detail how the PID estimator is utilised to measure the information distribution in the Ising model while the model's dynamics are simulated. To ensure reproducibility of the results, the exact values of all the parameters of the experiments are given. 
 
 \subsection{Numerical simulation of the Ising model}
 
-In theory, finding the expected magnetization for a given temperature $T$ is trivial. According to equation \ref{eq:expected-mag-ising}, one simply has to enumerate all lattice configurations, multiply their probabilities by their magnetizations, and sum the products. The problem arises in the very first part - doing an exhaustive search through all lattice configurations. The number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices. This is of course a more general problem that is not only present when calculating the expected magnetization, but rather appears in any task where one has to deal with expectations in the Ising model. For example, in this thesis, we would like to find the average mutual information between the neighboring sites for each temperature point. Unable to do so anlytically, one must resort to simulating the dynamics of the model. 
+In theory, finding the expected magnetization of the Ising model at a given temperature $T$ is trivial. According to equation \ref{eq:expected-mag-ising}, one simply has to enumerate all lattice configurations, multiply their probabilities by their magnetizations, and sum the products. The problem arises in the very first part - doing an exhaustive search through all lattice configurations. The number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices. This is of course a more general problem that is not only present when calculating the expected magnetization, but rather appears in any task where one has to deal with expectations in the Ising model. For example, in this thesis, 
+the average mutual informaton between the neighboring sites at each temperature point is of interest. Unable to derive it anlytically, one must resort to simulating the dynamics of the model. 
 
-Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become closer to the true expectation as the number of samples increases. Glauber dynamics, a method of sampling a given probability distribution using a Markov chain, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
+Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become increasingly closer to the true expectation as the sample size increases. Glauber dynamics, a method of sampling a given probability distribution using a Markov chain, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
 
-The Glauber dynamics method works as follows. First, an initial lattice configuration is chosen arbitrarily (as discussed later, some clever tricks in choosing the initial configuration can be done, however). Then, iteratively, a site is chosen uniformly at random from the lattice, and the spin associated with this site is flipped. The new configuration is either accepted or rejected. The probability of acceptance is given by equation \ref{eq:glauber-accept-prob}, where $\boldsymbol{s}_n$ denotes the new lattice configuration with a flipped spin, $T$ denotes the temperature and $\Delta E(\boldsymbol{s} -> \boldsymbol{s}_n) = E(\boldsymbol{s}) - E(\boldsymbol{s}_{n})$ is the difference between the energies of the two configurations. For a more compact overview, a pseudocode for a single iteration of this method is given in algorithm \ref{alg:glauber-update}.
+The Glauber dynamics method works as follows. First, an initial lattice configuration is generated arbitrarily (as demonstrated in the next section, some clever tricks in choosing the initial configuration can be done, however). Then, iteratively, a site is chosen uniformly at random from the lattice, and the spin associated with this site is flipped. The resulting configuration with a single flipped spin is either accepted or rejected. The probability of acceptance is given by equation \ref{eq:glauber-accept-prob}, where $\boldsymbol{s}$ and $\boldsymbol{s_n}$ denote the old and new lattice configurations, respectively, $T$ stands for temperature and $\Delta E(\boldsymbol{s} -> \boldsymbol{s_n}) = E(\boldsymbol{s}) - E(\boldsymbol{s_n})$ is the difference between the energies of the two successive configurations. For a more compact overview, a pseudocode for a single iteration of Glauber dynamics is given in algorithm \ref{alg:glauber-update}.
 
 \begin{equation}
-P(\boldsymbol{s} -> \boldsymbol{s}_{n}) = \frac{1}{1 + e^\frac{\Delta E(\boldsymbol{s} -> \boldsymbol{s}_n)}{T}}
+P(\boldsymbol{s} -> \boldsymbol{s_n}) = \frac{1}{1 + e^\frac{\Delta E(\boldsymbol{s} -> \boldsymbol{s_n})}{T}}
 \label{eq:glauber-accept-prob}
 \end{equation}
 
@@ -619,18 +620,18 @@ P(\boldsymbol{s} -> \boldsymbol{s}_{n}) = \frac{1}{1 + e^\frac{\Delta E(\boldsym
 \textbf{Input:} A lattice configuration $\boldsymbol{s}$ \\
 Choose a random site from the lattice\;
 Flip the spin associated with the chosen site to obtain a configuration $\boldsymbol{s}_n$\;
-Calculate the energy difference: $\Delta E(\boldsymbol{s} -> \boldsymbol{s}_n) = E(\boldsymbol{s}) - E(\boldsymbol{s}_{n})$\;
-Generate a random number $x$ uniformly at random from the interval [0, 1]\;
-\eIf{$x \leq P(\boldsymbol{s} -> \boldsymbol{s}_n)$}{
-	\Return $\boldsymbol{s}_n$  \Comment{accept the new configuration $\boldsymbol{s}_n$ by returning it}
+Calculate the energy difference: $\Delta E(\boldsymbol{s} -> \boldsymbol{s_n}) = E(\boldsymbol{s}) - E(\boldsymbol{s_n})$\;
+Generate a random number $x$ uniformly at random within the range [0, 1]\;
+\eIf{$x \leq P(\boldsymbol{s} -> \boldsymbol{s_n})$}{
+	\Return $\boldsymbol{s_n}$;  \Comment{accept the new configuration $\boldsymbol{s_n}$ by returning it}
 }{
-	\Return $\boldsymbol{s}$  \Comment{reject $\boldsymbol{s}_n$ by returning $\boldsymbol{s}$}
+	\Return $\boldsymbol{s}$;  \Comment{reject $\boldsymbol{s_n}$ by returning $\boldsymbol{s}$}
 }
+\caption{A single iteration of Glauber dynamics}
 \label{alg:glauber-update}
-\caption{A single iteration of Glauber dynamics.}
 \end{algorithm}
 
-There are two noteworthy additions to the naive algorithm \ref{alg:glauber-update} that must be discussed. First, to uncorrelate the samples, many potential spin flips are considered before a sample is actually drawn, meaning that not every lattice configuration returned by algorithm \ref{alg:glauber-update} is considered as a sample, but rather every $L$-th. The parameter $L$ is a called the $lag$. This procedure is illustrated in algorithm \ref{alg:glauber-update-lag}. Notice that indeed, all the intermediate configurations on line $3$ are discarded,  only the $L$-th configuration is eventually returned. Second, in order to avoid biasing the initial samples towards the initial random configuration, the very first samples are discarded. The number of initial discarded samples is referred to as the \textit{burn in period}. The entire Glauber dynamics method, along with the random initialization, burn-in period and lag is illustrated in algorithm \ref{alg:glauber-full}.
+There are two noteworthy additions to the naive algorithm \ref{alg:glauber-update} that must be discussed. First, to uncorrelate the samples, many potential spin flips are considered before a sample is actually drawn, meaning that not every lattice configuration returned by algorithm \ref{alg:glauber-update} is considered as a sample, but rather every $L$-th. The parameter $L$ is a called the $lag$. This procedure is illustrated in algorithm \ref{alg:glauber-update-lag}. Notice that indeed, all the intermediate configurations on line $3$ are discarded,  only the $L$-th configuration is eventually returned. Second, in order to avoid biasing the initial samples towards the random starting configuration, the very first samples are discarded. The number of initial disposable samples is referred to as the \textit{burn in period}. The entire simulation algorithm with Glauber dynamics, along with the random initialization of the lattice, burn-in period and lag, is illustrated in algorithm \ref{alg:glauber-full}.
 
 \begin{algorithm}
 \textbf{Input:} A lattice configuration $\boldsymbol{s}$ and lag $L$ \\
@@ -638,8 +639,8 @@ There are two noteworthy additions to the naive algorithm \ref{alg:glauber-updat
 	$\boldsymbol{s}$ = Run algorithm \ref{alg:glauber-update} on input $\boldsymbol{s}$\;
 }
 \Return $\boldsymbol{s}$\;
+\caption{A single Glauber dynamics update, which consists of $L$ spin-flip attempts}
 \label{alg:glauber-update-lag}
-\caption{An update of the Glauber dynamics where one unit of time is considered to be $N$ spin-flip attempts.}
 \end{algorithm}
 
 \begin{algorithm}
@@ -650,63 +651,63 @@ Initialize a random lattice configuration $\boldsymbol{s}$\;
 	$s$ = Run algorithm \ref{alg:glauber-update-lag} on input $s$ and $L$\;
 }
 
-samples = [ ]  \Comment{List to save the sampled configurations to}\\
+set \textit{samples} to empty list  \Comment{List to save the sampled configurations to}\\
 \For{$i = 1 ... N$} {
 	$s$ = Run algorithm \ref{alg:glauber-update-lag} on input $s$ and $L$\;
-	save configuration $\boldsymbol{s}$ to $samples$\;
+	save configuration $\boldsymbol{s}$ to \textit{samples}\;
 }
 
-\Return $samples$
+\Return \textit{samples}
+\caption{The full Glauber dynamics algorithm}
 \label{alg:glauber-full}
-\caption{The full Glauber dynamics method.}
 \end{algorithm}
 
-A small implementation detail that must also be dealt with is to decide how are the neighbors for the sites on the edges of the lattice chosen. For example, if a site is on the right edge of the lattice, it does not have an immediate neighbor on the right hand side. There are two common way to deal with this complication. First, one can use \textit{periodic boundary conditions}, in which the lattice "wraps around" itself, such that the sites on one edge of the lattice have as neighbors sites on the opposite edge, yielding all sites to have the same number of neighbours no matter their position on the lattice \cite{spin-models-thesis}. Second, the sites on the edges of the lattice can be made to have only their usual immediate neighbors, so that sites on the edges have fewer neighbors than sites at the center of the lattice. In this case, the model is said to have \textit{free boundary conditions} \cite{spin-models-thesis}.
+When implementing the Ising model with a finite lattice, one also has to decide how are the neighbors for the sites on the edges of the lattice chosen. For example, if a site is on the right edge of the lattice, it does not have an immediate right-hand neighbor. There are two common way to deal with this complication. First, \textit{periodic boundary conditions} can be used, in which the lattice "wraps around" itself, such that the sites on one edge of the lattice have as neighbors sites on the opposite edge, yielding all sites to have the same number of neighbours no matter their position on the lattice \cite{spin-models-thesis}. Second, the sites on the edges of the lattice can be made to have only their usual immediate neighbors, so that sites on the edges have fewer neighbors than sites at the center of the lattice \cite{spin-models-thesis}. In this case, the model is said to have \textit{free boundary conditions}.
 
 \subsection{Experimental setup}
 
-To estimate the PID terms in the Ising model, a 2-dimensional model with a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in \cite{barnett-ising}, "each update comprised $L$ (potential) spin-flips according to Glauber transition probabilities", where $L$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$ with $B=10^4$, $N=10^5$ and $L=128\times128$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the theoretical phase transition at $T_c \approx 2.269$. 
+To estimate the PID terms in the Ising model, a 2-dimensional model with Glauber dynamics, periodic boundary conditions and a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in \cite{barnett-ising}, "each update comprised $L$ (potential) spin-flips according to Glauber transition probabilities", where $L$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$ with $B=10^4$, $N=10^5$ and $L=128\times128$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the theoretical phase transition at $T_c \approx 2.269$. 
 
-The obtained $10^5$ lattice configurations at each temperature  were subsequently used to construct the probability distributions that the PID estimator takes as input. In particular, 100 sites were chosen uniformly at random, and for each of these sites, the relative frequency of its configuration along with 4 of its immediate neighbors was measured at each temperature point. Thus, for each temperature point, 100 joint probability distributions of 5 random variables that can take on 32 different values was generated. An illustrative example of one such distribution is given by table 2, where the first random variable $X$ represents center site, and the 4 other random variables represent its immediate neighbors. For example, the second row of the table tells us that the configuration where the center site has a downward spin, along with all its neighbors except the left, appears $30$ of the time (out of a total $10^5$ configurations that were simulated) at some specific temperature $T_i$. 
-
-The PID estimator works with probability distributions of 3 random variables, where one of them is thought of as input and the remaining as outputs. Thus, it must be decided how are neighboring sites paritioned into input and outputs, and how are 2 outputs chosen out of 4 random variables. Answering the first question, the neighbors were considered as sources and the center site was chosen as a target random variable. As for the second question, to different approaches were taken. First, only 2 neighbors were chosen without repetitions uniformly at random out of the possible set of 4 neighbors. Second, the 4 neighbors of a site were randomly partitioned into 2 disjoint pairs, such that each pair was now a 2-
-dimensional random vector.
+The obtained $10^5$ lattice configurations at each temperature  point were subsequently used to construct the probability distributions that the PID estimator takes as input. 100 sites were chosen uniformly at random at the beginning of the simulation, and they stayed the same for all temperature points. For each site, the relative frequency of its local neighborhood (the site itself along with 4 of its neighbors) was measured, yielding a total of 100 joint probability distributions of 5 random variables per temperature point. An example of one such distribution at temperature $T \approx 2.119$ is given by table 2, where the first random variable $C$ represents the center site, and the following 4 random variables represent its immediate neighbors. For example, the last row of the table illustrates that the configuration where all the spins point upwards at a specific location on the lattice has a probability of $0.776$, meaning that is appears approximately $0.776 \times 10^5 = 77 600$ times out of a total of $10^5$ configurations sampled. The high probability of all aligned spins is to be expected, since the samples are taken while the Ising model is in the ordered, low temperature resigme.
 
 % synergy table
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{c c c c c c}
 	\hline
 	C & U & R & D & L & Pr\\ 
 	\hline
-	-1 & -1 & -1 & -1 & -1 & 0.1 \\
-	-1 & -1 & -1 & -1 & 1 & 0.05 \\
-	-1 & -1 & -1 & 1 & -1 & 0.03 \\
-	-1 & -1 & -1 & 1 & 1 & 0.25 \\
-	 
+	-1 & -1 & -1 & -1 & -1 & 0.004 \\
+	-1 & -1 & -1 & -1 & 1 & 0.002 \\
+	-1 & -1 & -1 & 1 & -1 & 0.003 \\
+	-1 & -1 & -1 & 1 & 1 & 0.003 \\
+	.. & .. & .. &  .. & .. & .. \\
+	1 & 1 & 1 & -1 & 1 & 0.035 \\
+ 	1 & 1 & 1 & 1 & -1 & 0.033 \\
+ 	1 & 1 & 1 & 1 & 1 & 0.776 \\
+ 	\hline
 \end{tabular}
-\caption{}
-\label{table:3}
+\caption{Joint probability distribution of a random site and its 4 neighbors at temperature $T \approx 2.119$. The column labels represent the location of the sites with respect to the neighboring center (C) site: upper (U), right (R), down (D), left (L).}
+\label{table:4}
 \end{table}
 
-This procedure was performed for 8 runs at 102 temperature points spaced evenly over the interval [2.0, 2.8]. In the very first run, each configuration was initialized randomly for each temperature point, and the lattice configuration that was arrived at after the burn in period of $10^4$ updates was saved. For subsequent 7 runs, the very first lattice configuration for temperature point $T_i$ was chosen to be equivalent to the saved lattice configuration from the very first run at temperature point $T_i$. To gather the $10^5$ lattice configurations for all temperature points for 8 different runs, simulations were run for 8 days on 41 computing nodes in parallel in the EENet computer clustser.
+Having created $100$ probability distributions for each of the $102$ temperature points, it remains to feed the distributions into the PID estimator for analysis. However, this can not be done naively with the current setup, as the estimator works with probability distributions of 3 random vectors only, where one of them is thought of as an output and the remaining as inputs. Thus, the distributions of the same form as the one in table \ref{table:4} must be reconfigured such that they are understood by the estimator, i.e. it must be decided how are neighboring sites paritioned into 2 sets of inputs and an output. Two different setups were considered. First, the center site was taken to be the output, and only 2 neighbors were chosen without repetitions uniformly at random (out of the possible set of 4 neighbors) as inputs. Second, the center was again considered as an output, but in this experiment all 4 neighbors were taken into consideration as inputs: the full set of neighbors was randomly partitioned into 2 disjoint pairs, such that each pair was a 2-dimensional random vector. After estimating the PID terms, an arithmetic mean across the sites was taken at each temperature point, yielding 102 average PID vectors, one for each temperature point. 
 
-
-\href{http://web.mit.edu/krish_s/www/files/ising_Model.pdf}{good ising slides}
-
-\href{http://www.hermetic.ch/compsci/thesis/contents.htm}{glauber dynamics}
+Due to the randomness present in the Glauber dynamics and in choosing the $100$ sites from the lattice for analysis, the results may vary across different runs. To gain more confidence in the results, the whole experiment described above (simulating the Ising model, choosing 100 random sites for analysis, estimating the PID of the local neighborhood of the sites) was repeated 8 times and the results averaged. In the very first run, each initial spin configuration was initialized randomly at each temperature point as in line 2 of algorithm \ref{alg:glauber-full}, and the configuration that was arrived at after the burn in period of $10^4$ updates was saved. For subsequent 7 runs, the very first lattice configuration for temperature point $T_i$ was chosen to be equivalent to the saved lattice configuration from the very first run at temperature point $T_i$. After doing the first run separately to obtain the initial configurations, the 7 remaining simulations to gather the relevant lattice configurations were run for 8 days on 41 computing nodes in parallel in the EENet computer cluster.
 
 \newpage
 \section{Results}
 
+In this chapter, the results obtained from numerically analysing the Ising model are given. The first section of this chapter  is dedicated to measuring the magnetization of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in Ising models with various lattice sizes are given in two subsequent sections.
+
 \subsection{Magnetization} 
 
-To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1. This agrees with the physical observations of ferromagnetism as well as with previous practical and theoretical works, thus validating that the simulation of the Ising model is done correctly. 
+To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1 as $T$ decreases. This agrees with previous practical as well as theoretical work done on the Ising model, thus validating that the simulation is done correctly.
 
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-128-mags}
-\caption{Average absolute magnetization of a 128x128 lattice evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
+\caption{Average absolute magnetization of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-mags}
 \end{center}
 \end{figure}
@@ -718,14 +719,14 @@ In figure \ref{fig:ising-128-pid-2-nbs}, the information-theoretic functionals o
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-128-pid-2-nbs}
-\caption{Average mutual information and PID terms of a 128x128 lattice Ising model.}
+\caption{Average mutual information and PID terms of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-pid-2-nbs}
 \end{center}
 \end{figure}
 
-From the figure, it can be seen that mutual information peaks at the phase transition, which agrees with previous work (for example \cite{barnett-ising}), further validating that the method of estimating the information-theoretic terms used in this thesis works as expected. In addition, since in our experiment, the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only, it would be reasonable to expect that the mutual information is higher in current experiments, because two neighbors should have more information about their center site than a single neighbor has. This is indeed the case: in \cite{barnett-ising}, the $I_{pw}$ (mutual information measured between 2 neighboring sites) quantity  peaks at the value of just under $0.3$, considerably less than $0.5$, which is the case in our experiment. 
+From the figure, it can be seen that mutual information peaks at the phase transition - a phenomenon that agrees with previous work, further validating that the method of estimating the information-theoretic terms used in this thesis works as expected. In addition, since in the experiment under discussion, the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only as was done in \cite{barnett-ising}, it would be reasonable to expect that the mutual information is higher in current experiments, because two neighbors should have more information about their center site than a single neighbor has. This is indeed the case: in \cite{barnett-ising}, the $I_{pw}$ (mutual information measured between 2 neighboring sites) quantity  peaks at the value of just under $0.3$, considerably less than $0.5$, which is the value around which the blue graph representing mutual information in figure \ref{fig:ising-128-pid-2-nbs} peaks. 
 
-Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, one can see that that the nonzero terms peak exactly at the phase transition, just like mutual information itself. Visually, the shared information curve follows the mutual information graph almost exactly, with the expection of being shifted downwads about $1.5$ nats at every temperature point. The synergetic information term is more interesting. It still peaks at the phase transition, but it behaves differently from the mutual information, being quite a bit flatter. Both of the unique information terms are rather uninteresting, as their values are essentially zero at every temperature point under discussion. 
+Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, one can see that that the non-zero terms peak exactly at the phase transition, just like mutual information itself. Visually, the shared information curve follows the mutual information graph almost exactly, with the expection of being shifted downwads about $1.5$ nats at every temperature point. The synergetic information term is more interesting. It still peaks at the phase transition, but it behaves differently from the mutual information, being quite a bit flatter. Both of the unique information terms are rather uninteresting, as their values are essentially zero at every temperature point under consideration. 
 
 Shared information is the most dominant term in the partial information decomposition in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy in the system. This is to be expected, as the neighbors of the center site are directly influencing the latter to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is reasonable to assume that if the spin of one neighbor is known, the spin of the other neighor is also likely to be that same value. 
 
@@ -733,7 +734,7 @@ The complementary information ...
 
 The unique information terms are always near 0, no matter which neighbor is considered. It is logical that $UI_Y$ and $UI_Z$ have almost identical values, because the neighbors are chosen randomly and it does not matter which neighbor we are considering. Moreover, it is reasonable that the unique information functionals are not present, because it is rather unlikely that a single randomly chosen neighbor has more information about the center site as some other random neighbor from the remaining 3 neighbors does, as the system is symmetric.
 
-In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about 1 nat), as considering all the sites that interact with the center site should reduce the amount of uncertainty we have about its value in the next timestep, compared to the case when we only observe 2 of its neighbors. Further inspection shows that the PID term responsible for the increased mutual information is shared information. Indeed, the complementary and unique information terms are have roughly the same values as was the case when only 2 neighbors was considered. Specifically, for all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
+In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about $1$ nat) compared to figure \ref{fig:ising-128-pid-2-nbs}, as considering all 4 of the sites that interact with the center site, as opposed to just 2, should reduce the amount of uncertainty one has about its value. Further inspection shows that the PID term responsible for the increased mutual information is shared information. Indeed, the complementary and unique information terms all have roughly the same values as was the case when only 2 neighbors was considered. Specifically, for all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
 
 Peaks 2 nbs:
 MI - 2.2930
@@ -757,7 +758,7 @@ An unanticipated difference between the first and second experiment is that when
 
 \subsection{PID on 64x64 Ising model}
 
-To validate that the obtained measurments and the observed phenomena are not only specific to the lattice of size 128x128, but more general, the simulations were repeated for a smaller lattice of size 64x64. The experimental setups was analogous to the setup used for the Ising model with a bigger lattice, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The model is simulated on 102 temperature points spaced evenly over the interval [2.0, 3.0]. 
+To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated in an Ising model with a smaller, 64x64 lattice. The experimental setups was analogous to the one used in the previous simulation, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0]. 
 
 \begin{figure} [h!]
 \begin{center}
@@ -799,6 +800,11 @@ SI - 2.2772
 This chapter starts by putting the results obtained in the Ising model into a larger context and by discussing their implications.  The possibility of analysing other dynamical complex systems with the information-theoretic tools used in this thesis is crticially examined in the second section. The chapter concludes with numerous suggestions for further work. 
 
 \subsection{Implications of the results}
+
+
+The fact that mutual information peaks at the phase transition also agrees with intuition. In the high temperature regime, the mutual information is low because the spins are uncorrelated, while at a high temperature resigme 
+
+ due to large thermal oscillations. Conversely, when temperature is low, all spins are aligned, there is no uncertainty about the . At the phase transition, the temperature   ...
 
 1. First, we see that partial information decomposition is able to give informat ..
 
