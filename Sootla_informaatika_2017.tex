@@ -204,7 +204,7 @@ However, only measuring the information that is processed between \textit{two} s
 
 To capture this subtle distribution of information between two inputs and a single output, an extension to classical information theory is needed \cite{williams-beer}. The recently developed axiomatic framework called \textit{partial information decomposition} \cite{bertschinger} is such an extension. Computing this decomposition in actual probability distributions is non-trivial, however. Despite the difficulties, the computational neuroscience and theoretical computer science groups at the University of Tartu have jointly managed to develop a much-needed numerical estimator. 
 
-Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, two different systems are analysed. First, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the information distribution in elementary cellular automata is quantified.   
+Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, two different systems are analysed. First, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism that undergoes a phase transition - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the information distribution in elementary cellular automata is quantified.
 
 In addition, another well-known class of dynamical complex system of increasing practical importance, feedforward neural networks,  were analysed in terms of partial information decomposition. The obtained results did not make it to the main body of the thesis, but are discussed in the appendix. The latter experiments are also referred to in the discussion section, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
@@ -216,7 +216,7 @@ In Chapter 1, a sufficiently in-depth overview of basic information theory, part
 
 \section{Background}
 
-This chapter introduces the preliminary topics that are integral to understanding and fully appreciating the methods and results of this thesis. The first section of this chapter reviews the basics of information theory. The second section builds on the first, introducing a recently proposed, more advanced concept of information theory - partial information decomposition. The last section familiarizes the reader with the Ising model - a dynamical complex system whose analysis with information-theoretic tools is the focus of this work. 
+This chapter introduces the preliminary topics that are integral to understanding and fully appreciating the methods and results of this thesis. The first section of this chapter reviews the basics of information theory. The second section builds on the first, introducing a recently proposed, more advanced concept of information theory called partial information decomposition. The last two sections familiarizes the reader with the systems whose analysis with novel information-theoretic tools is the focus of this work. In particular, the third section focuses on the Ising model, while the final section discusses elementary cellular automata.
 
 The chapter assumes no previous knowledge of information theory and complex systems science from the reader, although familiarity with elementary probability theory is a prerequisite. 
 
@@ -536,7 +536,6 @@ Electrons in a material have magnetic moments, caused by their spins, which can 
 
 The stability of the magnetization is also dependent on the temperature of the substance. Intuitively, at high temperatures, the atoms in the substance become agitated and start to vibrate. This thermal oscillation breaks the alignment of the spins and the material demagnetizes. This is yet another example of a phase transition in which an ordered, magnetized system abruptly changes it state to an unordered one. The critical temperature at which this transition happens is called the \textit{Curie temperature}.
 
-
 \subsubsection{Model} 
 
 The Ising model, first conceived by Wilhelm Lenz in 1920 \cite{ising-history}, is a mathematical model of ferromagnetism. The model abstracts away the rather complex details of atomic structures of magnets, consisting simply of a discrete lattice of cells or sites, denoted as $s_i$, each of which has an associated binary value of either -1 or +1. Conceptually, the lattice can be thought of as a physical material, where the sites roughly represent the unpaired electrons of its atoms. The binary value of each site intuitively corresponds to the direction of the electron's spin. A value of -1 means that the spin is considered to point "down", otherwise it is said to be pointing "up". A given set of spins, denoted as $\boldsymbol{s}$ (without the subscript), is called the \textit{configuration} of the lattice. \cite{statistical-mechanics}
@@ -589,7 +588,43 @@ There are many questions one could ask about the dynamics of the Ising model, bu
 By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is 1. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
 \newpage
+\subsection{Elementary Cellular Automata}
+
+Elementary cellular automata (ECA) are discrete dynamical complex systems that consist of a 1-dimensional array of cells, each of which has an associated binary value. Every automaton is uniquely defined by its rule table - a function that maps the value of a cell to a new value based on the cell's current value and the values of its 2 immediate neighbors. Since each rule table has a corresponds to a unique 8-bit binary number, there are only $2^8 = 256$ elementary cellular automata in total, each of which is associated with a unique decimal number from 0 to 255. Figure \ref{fig:eca-rule-table} gives an example of one such rule table, where the top row represents the state's all possible local neighborhoods and the bottom row represents the center state's new value. For example, one can infer from the table that if a cell has a value of 0 (white) while both of its neighbors have a value of 1 (black), then this cell will retain its value after the function has been applied. 
+
+\begin{figure} [!h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{eca-rule-example}
+\caption{Rule 30 \cite{weisstein-eca}.}
+\label{fig:eca-rule-table}
+\end{center}
+\end{figure}
+
+Elementary cellular automata can be simulated in time by simultaneously applying the update rule to each cell in the 1-dimensional array, producing a 2-dimensional plot where the vertical axis represents time. The result of evolving the rule illustrated in figure \ref{fig:eca-rule-table}, given an initial lattice configuration of all white cells except the center, can be seen in figure \ref{fig:eca-rule-dynamics}. Notably, the figure shows that the evolution of the dynamics is rather non-trivial. Indeed, cellular automata are interesting precisely because despite their simplicity, the patterns that emerge as a function of the rule table and the initial configuration can be quite complex. For example, elementary cellular automata have been shown to be capable of generating random numbers \cite{eca-random-gen}, modelling city traffic \cite{eca-city-traffic}, and perhaps most astonishingly, simulating any Turing machine \cite{eca-universal}. On the other hand, there exists a lot of rules which quickly converge into an uninteresting homogeneous or repetitive state. 
+
+\begin{figure} [!h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{eca-dynamics-example}
+\caption{Evolution of rule 30 \cite{weisstein-eca}.}
+\label{fig:eca-rule-dynamics}
+\end{center}
+\end{figure} 
+
+Because the set of all elementary cellular automata is rather diverse, consisting of both computationally interesting as well as uninteresting rules, it would make sense to try to group them based on the apparent complexity of their behvaiour. In the seminal paper Universality and Complexity in Cellular Automata \cite{wolfram-classification}, Stephen Wolfram does just that. After qualititively analysing the global structures that the different rules give rise to given random initial states, he proposes a classification scheme that partitions all elementary cellular automata into four classes. The proposed classes are as follows:
+
+\begin{itemize}
+\item Class 1: Cellular automata which converge to a homogeneous state. For example, rule 0, which takes any state into a 0 state, belongs to this class.
+\item Class 2: Ceullar automata which converge to a repetitive or periodic state. For example, rule 184, which has been used to model traffic, belongs to this class.
+\item Class 3: Cellular automata which evolve chaotically. For example, rule 30, which Mathematica uses as a random number generator \cite{NKS}, belongs to this class.
+\item Class 4: Cellular automata in which persistent propagating structures are formed. For example, rule 110, which is capable of universal computation, belongs to this class. It is conjectured that other rules in this class are also universal. 
+\end{itemize}
+
+\newpage
 \section{Related Work} 
+
+This chapter gives a brief overview of prior work closely related to this thesis. The first section introduces previous work on analysing complex systems that undergo a phase transition, such as the Ising model, with information-theoretic tools. The second section focuses on related work that analyse elementary cellular automata.    
+
+\subsection{Phase transition}
 
 There is a large body of previous work in applying information theory to analyse dynamical complex systems that undergo phase transitions. Specifically, it has been shown that mutual information and other related information-theoretic measures peak at the critical point where the systems undergo an order-disorder transition. Such is the case for several mathematical models like random boolean networks \cite{lizier-rand-bool-nets} and Vicsek's self-propelled particle model \cite{mi-swarms}. 
 
@@ -597,17 +632,19 @@ As for real-world systems, \cite{mi-financial-markets} measured mutual informati
 
 Particularly relevant to the work at hand is the information-theoretic analysis of the Ising model. It has been analytically shown that in a 2-dimensional Ising model, the mutual information between joint states of two spin systems peaks at the critical temperature \cite{mi-ising-analytic}. \cite{barnett-ising} show empirically  that mutual information measured between pairs of neighboring spins peaks at the phase transition. In the current thesis, this result is replicated and extended by also measuring the decomposition terms of this mutual information. \cite{barnett-ising} further discover that another related quantity called transfer entropy, a directed measure that quantifies the transfer of information between two stochastic processes, peaks strictly in the disorder phase \textit{before} the phase transition. 
 
+\subsection{Elementary cellular automata}
+
 \newpage
 \section{Methods}
 
-This chapter describes the approach taken in this thesis to analyse the Ising model in terms of partial information decomposition. The first section is devoted to motivating the use of computational simulations in investigating the Ising model, as well as to an overview of a specific algorithm used to carry out such simulations in the current dissertation. The second section of this chapter desribes in detail how the PID estimator is utilised to measure the information distribution in the Ising model while the model's dynamics are simulated. To ensure reproducibility of the results, the exact values of all the parameters of the experiments are given. 
+This chapter describes the approaches taken in this thesis to analyse the complex systems in terms of partial information decomposition. The first section is devoted to motivating the use of computational simulations in investigating the Ising model, as well as to an overview of a specific algorithm used to carry out such simulations in the current dissertation. The second and third sections of this chapter desribe in detail how the PID estimator is utilised to measure the information distribution in the Ising model and elementary cellular automata, respectively. To ensure reproducibility of the results, the exact values of all the parameters of the experiments are given. 
 
 \subsection{Numerical simulation of the Ising model}
 
 In theory, finding the expected magnetization of the Ising model at a given temperature $T$ is trivial. According to equation \ref{eq:expected-mag-ising}, one simply has to enumerate all lattice configurations, multiply their probabilities by their magnetizations, and sum the products. The problem arises in the very first part - doing an exhaustive search through all lattice configurations. The number of possible configurations of a lattice of size $N$ is $2^N$, meaning that the number of configurations increases exponentially in the size of the lattice. Therefore, the sum in equation \ref{eq:expected-mag-ising} is intractable for even rather modest sized lattices. This is of course a more general problem that is not only present when calculating the expected magnetization, but rather appears in any task where one has to deal with expectations in the Ising model. For example, in this thesis, 
 the average mutual informaton between the neighboring sites at each temperature point is of interest. Unable to derive it anlytically, one must resort to simulating the dynamics of the model. 
 
-Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become increasingly closer to the true expectation as the sample size increases. Glauber dynamics, a method of sampling a given probability distribution using a Markov chain, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
+Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become increasingly closer to the true expectation as the sample size increases. Glauber dynamics, an instance of a more general class of algorithms called Markov Chain Monte Carlo methods, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
 
 The Glauber dynamics method works as follows. First, an initial lattice configuration is generated arbitrarily (as demonstrated in the next section, some clever tricks in choosing the initial configuration can be done, however). Then, iteratively, a site is chosen uniformly at random from the lattice, and the spin associated with this site is flipped. The resulting configuration with a single flipped spin is either accepted or rejected. The probability of acceptance is given by equation \ref{eq:glauber-accept-prob}, where $\boldsymbol{s}$ and $\boldsymbol{s_n}$ denote the old and new lattice configurations, respectively, $T$ stands for temperature and $\Delta E(\boldsymbol{s} -> \boldsymbol{s_n}) = E(\boldsymbol{s}) - E(\boldsymbol{s_n})$ is the difference between the energies of the two successive configurations. For a more compact overview, a pseudocode for a single iteration of Glauber dynamics is given in algorithm \ref{alg:glauber-update}.
 
@@ -664,7 +701,7 @@ set \textit{samples} to empty list  \Comment{List to save the sampled configurat
 
 When implementing the Ising model with a finite lattice, one also has to decide how are the neighbors for the sites on the edges of the lattice chosen. For example, if a site is on the right edge of the lattice, it does not have an immediate right-hand neighbor. There are two common way to deal with this complication. First, \textit{periodic boundary conditions} can be used, in which the lattice "wraps around" itself, such that the sites on one edge of the lattice have as neighbors sites on the opposite edge, yielding all sites to have the same number of neighbours no matter their position on the lattice \cite{spin-models-thesis}. Second, the sites on the edges of the lattice can be made to have only their usual immediate neighbors, so that sites on the edges have fewer neighbors than sites at the center of the lattice \cite{spin-models-thesis}. In this case, the model is said to have \textit{free boundary conditions}.
 
-\subsection{Experimental setup}
+\subsection{Experimental setup of the Ising model}
 
 To estimate the PID terms in the Ising model, a 2-dimensional model with Glauber dynamics, periodic boundary conditions and a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in \cite{barnett-ising}, "each update comprised $L$ (potential) spin-flips according to Glauber transition probabilities", where $L$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$ with $B=10^4$, $N=10^5$ and $L=128\times128$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the theoretical phase transition at $T_c \approx 2.269$. 
 
@@ -695,12 +732,16 @@ Having created $100$ probability distributions for each of the $102$ temperature
 
 Due to the randomness present in the Glauber dynamics and in choosing the $100$ sites from the lattice for analysis, the results may vary across different runs. To gain more confidence in the results, the whole experiment described above (simulating the Ising model, choosing 100 random sites for analysis, estimating the PID of the local neighborhood of the sites) was repeated 8 times and the results averaged. In the very first run, each initial spin configuration was initialized randomly at each temperature point as in line 2 of algorithm \ref{alg:glauber-full}, and the configuration that was arrived at after the burn in period of $10^4$ updates was saved. For subsequent 7 runs, the very first lattice configuration for temperature point $T_i$ was chosen to be equivalent to the saved lattice configuration from the very first run at temperature point $T_i$. After doing the first run separately to obtain the initial configurations, the 7 remaining simulations to gather the relevant lattice configurations were run for 8 days on 41 computing nodes in parallel in the EENet computer cluster.
 
+\subsection{Experimental setup of elementary cellular automata}
+
 \newpage
 \section{Results}
 
-In this chapter, the results obtained from numerically analysing the Ising model are given. The first section of this chapter  is dedicated to measuring the magnetization of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in Ising models with various lattice sizes are given in two subsequent sections.
+In this chapter, the results obtained from analysing the Ising model are given. The first section of this chapter  is dedicated to measuring the magnetization of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in Ising models with various lattice sizes are given in two subsequent sections.
 
-\subsection{Magnetization} 
+\subsection{Ising model}
+
+\subsubsection{Phase transition} 
 
 To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1 as $T$ decreases. This agrees with previous practical as well as theoretical work done on the Ising model, thus validating that the simulation is done correctly.
 
@@ -712,7 +753,7 @@ To gain confidence that the Ising model simulations behave as expected, the aver
 \end{center}
 \end{figure}
 
-\subsection{PID on 128x128 Ising model}
+\subsubsection{PID on 128x128 Ising model}
 
 In figure \ref{fig:ising-128-pid-2-nbs}, the information-theoretic functionals of the Ising model can be observed, where the mutual information is measured between 100 randomly chosen sites and their 2 random neighbours. Notice that the information is given in nats, meaning that the base of the logarithm in equation \ref{eq:mutual-inf} is taken to be $e$. 
 
@@ -744,7 +785,7 @@ In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-th
 
 An unanticipated difference between the first and second experiment is that when all neighbors are considered, the synergetic information term is even flatter than in the previous experiment and peaks even further to the right in the disorder phase, at a value of $T \approx 2.554$, while shared information does not change its maximum point  across the 2 experiments. The former observation is of great importance and could have many practical applications. Its implications are thoroughly examined in the discussion section. 
 
-\subsection{PID on 64x64 Ising model}
+\subsubsection{PID on 64x64 Ising model}
 
 To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated in an Ising model with a smaller, 64x64 lattice. The experimental setups was analogous to the one used in the previous simulation, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0]. 
 
@@ -778,6 +819,8 @@ Peaks 4 nbs:
 MI - 2.2772
 CI - 2.5148
 SI - 2.2772
+
+\subsection{Elementary cellular automata}
 
 \newpage
 \section{Discussion}
@@ -821,12 +864,8 @@ fun expression to use: promising research directions.
 \bibliography{bachelor-thesis}
 
 \newpage
-\section*{Appendix A: Elementary Cellular Automata}
-\addcontentsline{toc}{section}{Appendix A: Elementary Cellular Automata}
-
-\newpage
-\section*{Appendix B: Feedforward Neural Networks}
-\addcontentsline{toc}{section}{Appendix B: Feedforward Neural Networks}
+\section*{Appendix A: Feedforward Neural Networks}
+\addcontentsline{toc}{section}{Appendix A: Feedforward Neural Networks}
 
 
 \appendix
