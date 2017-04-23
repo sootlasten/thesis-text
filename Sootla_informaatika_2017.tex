@@ -8,6 +8,8 @@
 
 \usepackage{algpseudocode}
 
+\usepackage{subcaption}
+
 % A package for setting layout and margins for your thesis 
 \usepackage[a4paper]{geometry}
 
@@ -360,7 +362,6 @@ MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\
 
 When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of the other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
 
-\newpage
 \subsection{Partial information decomposition}
 
 Mutual information measures the amount of information two random variables, or more generally, two random vectors have about each other. However, it is often worthwhile to ask how much information does an ensemble of input (source) random variables carry about some output (target) variable. 
@@ -521,7 +522,6 @@ Bertschinger et al. show that "the optimization problems involved in the definit
 
 The numerical estimator takes the approach of solving the optimization problem given in equation \ref{eq:tilde_ci} and then using the resulting distribution $q$ to find the other quantities of interest. The interface of the estimator is rather simple, abstracting away all the details of its inner workings: it takes as input a  probability distribution $p(X, Y, Z)$ and outputs the scalars $MI(X;Y,Z)$, $UI(X:Y \setminus Z)$, $UI(X:Z \setminus Y)$, $SI(X:Y;Z)$ and $CI(X:Y;Z)$. Currently, the estimator is only able to handle discrete distributions. The software is written in Python 3. The convex programming is done in CVXOPT \cite{cvxopt}, while all linear progams are solved using Gurobi \cite{gurobi}. 
 
-\newpage
 \subsection{Ising Model}
 
 In nature, many systems have the property of abruptly transitioning from one state to a completely different state due to some change in the external conditions that they are influenced by. Such a phenomenon, where a system does not change its state smoothly, but rather does it in an all-or-nothing fashion, is called a \textit{phase transition}. A large class of phase transitions, which are of great practical importance, can be thought of as shifts from an ordered state to a disordered one, or vice versa. A canonical example of this phenomenon comes form condensed matter phycics, where matter transitions quickly from a fairly ordered solid state to a relatively less organized liquid state when temperature passes a specific threshold.\cite{inf-flow-ising-commentary}
@@ -587,7 +587,6 @@ There are many questions one could ask about the dynamics of the Ising model, bu
 
 By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is 1. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
-\newpage
 \subsection{Elementary Cellular Automata}
 
 Elementary cellular automata (ECA) are discrete dynamical complex systems that consist of a 1-dimensional array of cells, each of which has an associated binary value. Every automaton is uniquely defined by its rule table - a function that maps the value of a cell to a new value based on the cell's current value and the values of its 2 immediate neighbors. Since each rule table has a corresponds to a unique 8-bit binary number, there are only $2^8 = 256$ elementary cellular automata in total, each of which is associated with a unique decimal number from 0 to 255. Figure \ref{fig:eca-rule-table} gives an example of one such rule table, where the top row represents the state's all possible local neighborhoods and the bottom row represents the center state's new value. For example, one can infer from the table that if a cell has a value of 0 (white) while both of its neighbors have a value of 1 (black), then this cell will retain its value after the function has been applied. 
@@ -747,13 +746,15 @@ Because the emergent dynamics of a cellular automaton depend on the initial conf
 \newpage
 \section{Results}
 
-In this chapter, the results obtained from analysing the Ising model are given. The first section of this chapter is dedicated to measuring the order parameter (magnetization) of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in Ising models with various lattice sizes are given in two subsequent sections.
+This chapter provides the main results of the thesis. The focus of the first section is on the Ising model, while the second section concentrates on elementary cellular automata. 
 
 \subsection{Ising model}
 
+The first subsection of this section is dedicated to measuring the order parameter (magnetization) of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in models with various lattice sizes are given in the two subsequent sections.
+
 \subsubsection{Phase transition} 
 
-To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1 as $T$ decreases. This agrees with previous practical as well as theoretical work done on the Ising model, thus validating that the simulation is done correctly.
+To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1 as $T$ decreases. This agrees with previous practical and theoretical research works conducted on the Ising model, thus validating that the simulation is done correctly.
 
 \begin{figure} [h!]
 \begin{center}
@@ -765,72 +766,158 @@ To gain confidence that the Ising model simulations behave as expected, the aver
 
 \subsubsection{PID on 128x128 Ising model}
 
-In figure \ref{fig:ising-128-pid-2-nbs}, the information-theoretic functionals of the Ising model can be observed, where the mutual information is measured between 100 randomly chosen sites and their 2 random neighbours. Notice that the information is given in nats, meaning that the base of the logarithm in equation \ref{eq:mutual-inf} is taken to be $e$. 
+In figure \ref{fig:ising-128-pid-2-nbs}, the information-theoretic functionals of the Ising model can be observed, where the mutual information is measured between a sites and their 2 random neighbours. Notice that the information is given in nats, meaning that the base of the logarithm in equation \ref{eq:mutual-inf} is taken to be $e$. 
 
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-128-pid-2-nbs}
-\caption{Average mutual information and PID terms of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
+\caption{Average mutual information and PID terms (with 2 random neighbors considered as inputs) of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-pid-2-nbs}
 \end{center}
 \end{figure}
 
-From the figure, it can be seen that mutual information peaks around the phase transition (more precisely, at $T \approx 2.293$) - a phenomenon that agrees with previous work, further validating that the method of estimating the information-theoretic terms used in this thesis works as expected. In addition, since in the experiment under discussion the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only (as was done in \cite{barnett-ising}), it would be reasonable to expect the resulting mutual information to be higher in the current experiment. Indeed, two neighbors should have more information about their center site than a single neighbor has. In \cite{barnett-ising}, the mutual information between 2 neighboring sites (the quantity $I_{pw}$ in the paper) is observed to achieve a maximum value of less than $0.3$. In agreement with intuition, the blue graph representing mutual information in figure \ref{fig:ising-128-pid-2-nbs} achieves a peak value of just under $0.5$.
+From the figure, it can be seen that mutual information peaks around the phase transition (more precisely, at $T \approx 2.293$) - a phenomenon that agrees with previous work, confirming that the method of estimating the information-theoretic terms used in this thesis works as expected. In addition, since in the experiment under discussion the mutual information was measured between a site and 2 of its neighbors, as opposed to measuring it between 2 neighboring sites only (as was done in \cite{barnett-ising}), it would be reasonable to expect the resulting mutual information to be higher in the current experiment. Indeed, two neighbors should have more information about their center site than a single neighbor has. In \cite{barnett-ising}, the mutual information between 2 neighboring sites (the quantity $I_{pw}$ in the paper) is observed to achieve a maximum value of less than $0.3$. In agreement with intuition, the blue graph representing mutual information in figure \ref{fig:ising-128-pid-2-nbs} achieves a peak value of just under $0.5$.
 
 Looking at the partial information decomposition of the Ising model in figure \ref{fig:ising-128-pid-2-nbs}, one can see that that the non-zero terms peak around the phase transition, just as mutual information itself. Visually, the shared information curve follows the mutual information graph almost exactly, with the expection of being shifted downwads about $1.5$ nats at every temperature point. The synergetic information term is more interesting. It peaks slightly before mutual information does, in the disorder phase at $T \approx 2.333$. In addition, its overall behaviour also deviates from that of mutual information, with the graph being quite a bit flatter, not exhibiting a sharp peak. Both of the unique information terms are rather uninteresting, as their values are essentially zero at every temperature point under consideration. 
 
 Shared information is the most dominant of the partial information decomposition terms in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy in the system. This is to be expected, as the neighbors of the center site are directly influencing the latter to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is not unreasonable to assume that if the spin of one neighbor is known, the spin of the other neighor is also likely to be that same value. 
 
-The unique information terms are always near 0, no matter which neighbor is considered. It is logical that they have almost identical values, because the neighbors are chosen randomly and it does not matter which neighbor we are considering. Moreover, it is reasonable that the unique information functionals are not present, because it is rather unlikely that a single randomly chosen neighbor has more information about the center site as some other random neighbor from the remaining 3 neighbors does, as the system is symmetric. \textcolor{red}{TODO! This paragraph}
+The unique information terms are always near 0, no matter which neighbor is considered. First, it is reasonable that both of the unique information terms are identical, as the neighbors are chosen randomly. Second, the fact that there is no unique information in the system is intuitively plausible, because the interactions between the spins are completely symmetric. As for the behaviour of synergetic information, the author has no intuitive explanation for the observed pheonomena. 
 
-In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about $1$ nat) compared to figure \ref{fig:ising-128-pid-2-nbs}, because considering all 4 of the sites that interact with the center site, as opposed to just 2, should reduce the amount of uncertainty one has about center's spin. Further inspection shows that the PID term responsible for the increased mutual information is shared information. Indeed, the complementary and unique information terms all have roughly the same values as was the case when only 2 neighbors were considered as inputs. Specifically, at all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
+In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about $1$ nat) compared to figure \ref{fig:ising-128-pid-2-nbs}, because considering all 4 of the sites that interact with the center site, as opposed to just 2, should reduce the amount of uncertainty one has about the center. Further inspection shows that the PID term responsible for the increased mutual information is shared information. The complementary and unique information terms have roughly the same values in both experiments. Specifically, at all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
 
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-128-pid-4-nbs}
-\caption{Ising 128x128 PID 4 nbs}
+\caption{Average mutual information and PID terms (with all random neighbors considered as inputs) of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-pid-4-nbs}
 \end{center}
 \end{figure}
 
-An unanticipated difference between the first and second experiment is that when all neighbors are considered, the synergetic information term is even flatter than in the previous experiment and peaks even further to the right in the disorder phase, at a value of $T \approx 2.554$, while shared information does not change its maximum point  across the 2 experiments. The former observation is of great importance and could have many practical applications. Its implications are thoroughly examined in the discussion section. 
+An unanticipated difference between the first and second experiment is that when all neighbors are considered, the synergetic information term is flatter than before and peaks even deeper in the disorder phase, at temperature $T \approx 2.554$, while shared information does not change its maximum point across the 2 experiments. The former observation is of great importance and could have many practical applications. Its implications are thoroughly examined in the discussion section. 
 
 \subsubsection{PID on 64x64 Ising model}
 
-To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated in an Ising model with a smaller, 64x64 lattice. The experimental setups was analogous to the one used in the previous simulation, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0]. 
+To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated with a smaller, 64x64 lattice. The experimental setup was analogous to the one used in the previous experiments, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0].
 
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-64-pid-2-nbs}
-\caption{Ising 64x64 PID 2 nbs}
+\caption{Average mutual information and PID terms (with 2 random neighbors considered as inputs) of a 64x64 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 3.0].}
 \label{fig:ising-64-pid-2-nbs}
 \end{center}
 \end{figure}
 
-Figure \ref{fig:ising-64-pid-2-nbs} depicts the results when only 2 random immediate neighbors are considered as input to the center site in the PID framework. Although the mutual, shared and synergetic information graphs are more shaky at the phase transition due to statistical fluctuations at the phase transition, overall graphs are almost identical to the corresponding graphs in figure \ref{fig:ising-128-pid-2-nbs}. 
+Figure \ref{fig:ising-64-pid-2-nbs} depicts the results when only 2 random immediate neighbors are considered as input to the center site in the PID framework. Although the mutual, shared and synergetic information graphs are more shaky at the phase transition due to fluctuations at the phase transition, in general the graphs are almost identical to the corresponding graphs in figure \ref{fig:ising-128-pid-2-nbs}. The mutual and shared information peaks at $T \approx 2.2772$, while synergetic information peaks at $T \approx 2.3267$.
 
 \begin{figure} [h!]
 \begin{center}
 \includegraphics[width=\textwidth]{ising-64-pid-4-nbs}
-\caption{Ising 64x64 PID 4 nbs}
+\caption{Average mutual information and PID terms (with all random neighbors considered as inputs) of a 64x64 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 3.0].}
 \label{fig:ising-64-pid-4-nbs}
 \end{center}
 \end{figure}
 
-
-From figure \ref{fig:ising-64-pid-4-nbs}, one can observe that the 
-
-Peaks 2 nbs:
-MI - 2.2772
-CI - 2.3267
-SI - 2.2772
-
-Peaks 4 nbs:
-MI - 2.2772
-CI - 2.5148
-SI - 2.2772
+The results of measuring PID terms when all neighboring sites are considered as inputs to the center site are illustrated in figure \ref{fig:ising-64-pid-4-nbs}. Both mutual and shared information again peak at $T \approx 2.772$. Complementary information peaks at $T \approx 2.5148$, a little nearer to the phase transition than was the case when the lattice size was twice the size (figure \ref{fig:ising-128-pid-4-nbs}). This observation validates that the peak in synergy does not gradually move nearer to the phase transition with increases lattice sizes, ensuring that it is a general property of the model, independent of the lattice size.
 
 \subsection{Elementary cellular automata}
+
+In figure \ref{fig:eca-characterization}, all 88 inequivalent elementary cellular automata have been depicted based on their partial information decomposition terms. Each point represents a single rule, and the points are colored according to their Wolfram's class. Because there are 4 terms in PID, making their joint visualization on a single plot impossible, principal component analysis was used to project the 4-dimensional PID vectors into 3-dimensional space. It is important to explicitly mention that some "points" in the plot are actually clusters of several rules, but due to their almost identical PID terms, they overlap with each other, yileding a single visual mark on the plot.  For example, the cluster numbered as $1$ appears to be a single point, but there are actually 5 different rules depicted at the same location.   
+
+From the figure, it can be seen that the rules corresponding of Wolfram's class I are all clustered together in a single location separate from the rest of the automata. This is natural, as these class I rules quickly converge to a homogeneous all-white state, such that there is no uncertainty left in the system. In an all-white state, the entropy of the system is 0, yielding mutual information and accordingly, all the PID terms to be 0 as well. While various other cluster appear, they do not correspond well to Wolfram's other 3 classes, meaning that there is no straighforward relationship between Wolfram's classification and the information distribution in elementary cellular automata. 
+
+The last claim is further justified by figure \ref{fig:eca-boxplots}, which shows the boxplots of all elementary cellular automata in terms of PID. Figure \ref{fig:eca-box-ci} shows that in general, the synergy goes up when the complexity of the automata in terms of Wolfram's classification increases. However, there are many outliers in the second class and the variance of the third class is extremely high, making it hard to draw any further conclusions. On average, shared information seems to be higher in class 2 automata, while it is almost 0 for the majority of class 3 and 4 automata. Focusing on the last two plots (figure \ref{fig:eca-box-ui-y} and \ref{fig:eca-box-ui-z}), it is evident that two neighbors at the previous timestep have more information about a cell's value at this timestep than its own value at the previous timestep does. Intuitively, this should indeed hold, since having two sources of information is usually better than having just one. 
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{eca-box-ci}
+  \caption{Complementary information.}
+  \label{fig:eca-box-ci}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{eca-box-si}
+  \caption{Shared information.}
+  \label{fig:eca-box-si}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{eca-box-ui-y}
+  \caption{Unique information of the cell itself.}
+  \label{fig:eca-box-ui-y}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{eca-box-ui-z}
+  \caption{Unique information of the neighbors.}
+  \label{fig:eca-box-ui-z}
+\end{subfigure}
+\caption{Boxplots}
+\label{fig:eca-boxplots}
+\end{figure}
+
+Coming back to \ref{fig:eca-characterization} and anlalysing some specific clusters, it becomes apparent that the PID is rather oblivious of the intuitive computational characteristics of elementary cellular automata that Wolfram's classification is based on. Instead, the PID terms seem to depend heavily on the specific local details of the emergent repeating, ubiquituous patterns in the space-time diagrams of cellular automata. For example, in cluster 
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule6}
+  \caption{Rule 6.}
+  \label{fig:rule6}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule38}
+  \caption{Rule 38.}
+  \label{fig:rule38}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule134}
+  \caption{Rule 134.}
+  \label{fig:rule134}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule24}
+  \caption{Rule 24.}
+  \label{fig:rule24}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule130}
+  \caption{Rule 130.}
+  \label{fig:rule130}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule152}
+  \caption{Rule 152.}
+  \label{fig:rule152}
+\end{subfigure}
+\caption{Space-time diagrams of various elementary cellular automata.}
+\label{fig:eca-boxplots}
+\end{figure}
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule6-zoomed}
+  \caption{Rule 6 zoomed.}
+  \label{fig:rule6-zoomed}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{rule130-zoomed}
+  \caption{Rule 130 zoomed.}
+  \label{fig:rule130-zoomed}
+\end{subfigure}
+\caption{Space-time diagrams of various elementary cellular automata.}
+\label{fig:eca-boxplots}
+\end{figure}
+
 
 \newpage
 \section{Discussion}
