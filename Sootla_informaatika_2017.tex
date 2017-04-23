@@ -204,7 +204,7 @@ However, only measuring the information that is processed between \textit{two} s
 
 To capture this subtle distribution of information between two inputs and a single output, an extension to classical information theory is needed \cite{williams-beer}. The recently developed axiomatic framework called \textit{partial information decomposition} \cite{bertschinger} is such an extension. Computing this decomposition in actual probability distributions is non-trivial, however. Despite the difficulties, the computational neuroscience and theoretical computer science groups at the University of Tartu have jointly managed to develop a much-needed numerical estimator. 
 
-Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, two different systems are analysed. First, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism that undergoes a phase transition - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the information distribution in elementary cellular automata is quantified.
+Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, two different systems are analysed. First, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism that undergoes a phase transition - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the estimator is deployed to measure the partial information decomposition terms in elementary cellular automata. Based on these measurements, a novel characterization of cellular automata is obtained.
 
 In addition, another well-known class of dynamical complex system of increasing practical importance, feedforward neural networks,  were analysed in terms of partial information decomposition. The obtained results did not make it to the main body of the thesis, but are discussed in the appendix. The latter experiments are also referred to in the discussion section, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
@@ -386,6 +386,7 @@ As an example, consider table \ref{table:1}, inspired by \cite{pid-synergy}, whi
 % unique information table
 \begin{table}[h!]
 \centering
+\caption{A joint distribution that provides an example of unique information.}
 \begin{tabular}{|c c |c|c|}
 	\hline
 	Y & Z & X & Pr\\ 
@@ -396,7 +397,6 @@ As an example, consider table \ref{table:1}, inspired by \cite{pid-synergy}, whi
 	2 & 3 & 3 & $1/4$ \\
 	\hline
 \end{tabular}
-\caption{Example of unique information.}
 \label{table:1}
 \end{table}
 
@@ -407,6 +407,7 @@ Table \ref{table:2}, again inspired by \cite{pid-synergy}, gives a toy example o
 % redundant information table
 \begin{table}[h!]
 \centering
+\caption{A joint distribution that provides an example of shared sinformation.}
 \begin{tabular}{|c c |c|c|}
 	\hline
 	Y & Z & X & Pr\\ 
@@ -415,7 +416,6 @@ Table \ref{table:2}, again inspired by \cite{pid-synergy}, gives a toy example o
 	1 & 1 & 1 & $1/2$\\ 
 	\hline
 \end{tabular}
-\caption{Example of shared sinformation}
 \label{table:2}
 \end{table}
 
@@ -426,6 +426,7 @@ Table \ref{table:3} depicts the \texttt{XOR}-gate - the canonical example for il
 % synergy table
 \begin{table}[h!]
 \centering
+\caption{Joint distribution of an \texttt{XOR} function that provides an example of complementary information.}
 \begin{tabular}{|c c |c|c|}
 	\hline
 	Y & Z & X & Pr\\ 
@@ -436,7 +437,6 @@ Table \ref{table:3} depicts the \texttt{XOR}-gate - the canonical example for il
 	1 & 1 & 0 & $1/4$ \\ 
 	\hline
 \end{tabular}
-\caption{Synergy}
 \label{table:3}
 \end{table}
 
@@ -605,7 +605,7 @@ Elementary cellular automata can be simulated in time by simultaneously applying
 \begin{figure} [!h]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{eca-dynamics-example}
-\caption{Evolution of rule 30 \cite{weisstein-eca}.}
+\caption{A space-time diagram of the evolution of rule 30 \cite{weisstein-eca}.}
 \label{fig:eca-rule-dynamics}
 \end{center}
 \end{figure} 
@@ -624,7 +624,7 @@ Because the set of all elementary cellular automata is rather diverse, consistin
 
 This chapter gives a brief overview of prior work closely related to this thesis. The first section introduces previous work on analysing complex systems that undergo a phase transition, such as the Ising model, with information-theoretic tools. The second section focuses on related work that analyse elementary cellular automata.    
 
-\subsection{Phase transition}
+\subsection{Phase transitions}
 
 There is a large body of previous work in applying information theory to analyse dynamical complex systems that undergo phase transitions. Specifically, it has been shown that mutual information and other related information-theoretic measures peak at the critical point where the systems undergo an order-disorder transition. Such is the case for several mathematical models like random boolean networks \cite{lizier-rand-bool-nets} and Vicsek's self-propelled particle model \cite{mi-swarms}. 
 
@@ -633,6 +633,10 @@ As for real-world systems, \cite{mi-financial-markets} measured mutual informati
 Particularly relevant to the work at hand is the information-theoretic analysis of the Ising model. It has been analytically shown that in a 2-dimensional Ising model, the mutual information between joint states of two spin systems peaks at the critical temperature \cite{mi-ising-analytic}. \cite{barnett-ising} show empirically  that mutual information measured between pairs of neighboring spins peaks at the phase transition. In the current thesis, this result is replicated and extended by also measuring the decomposition terms of this mutual information. \cite{barnett-ising} further discover that another related quantity called transfer entropy, a directed measure that quantifies the transfer of information between two stochastic processes, peaks strictly in the disorder phase \textit{before} the phase transition. 
 
 \subsection{Elementary cellular automata}
+
+Not directly related to this thesis, but contextually rather relevant are various works that have made use of information theory to quantitatively validate long-held hypothesis about information processing in elementary cellular automata. In \cite{active-inf-storage}, Lizier et al. found quantitative evidence that specific structures in elementary cellular automata called blinkers and background domains are "dominant information storage processes in these systems." In another closely related paper \cite{local-transfer-entropy-ca}, the same authors conclude that "local transfer entropy provides the first quantitative evidence for the long-held conjecture that the emergent traveling coherent structures known as particles . . . are the dominant information transfer agents in cellular automata."
+
+Of particular interest to this thesis is the work done in \cite{multi-inf-ca}, in which the behaviour of multi-information, a generalization of mutual information to multible variables, in elementary cellular automata was studied. It was found that while it could be possible to establish a classification of cellular automata rules based on this measure, it would not correspond with Wolfram's 4 classes. This is because multi-information failed to discriminate between all pairs of Wolfram's classes except between classes I and IV.
 
 \newpage
 \section{Methods}
@@ -701,7 +705,7 @@ set \textit{samples} to empty list  \Comment{List to save the sampled configurat
 
 When implementing the Ising model with a finite lattice, one also has to decide how are the neighbors for the sites on the edges of the lattice chosen. For example, if a site is on the right edge of the lattice, it does not have an immediate right-hand neighbor. There are two common way to deal with this complication. First, \textit{periodic boundary conditions} can be used, in which the lattice "wraps around" itself, such that the sites on one edge of the lattice have as neighbors sites on the opposite edge, yielding all sites to have the same number of neighbours no matter their position on the lattice \cite{spin-models-thesis}. Second, the sites on the edges of the lattice can be made to have only their usual immediate neighbors, so that sites on the edges have fewer neighbors than sites at the center of the lattice \cite{spin-models-thesis}. In this case, the model is said to have \textit{free boundary conditions}.
 
-\subsection{Experimental setup of the Ising model}
+\subsection{Methodology for analysing the Ising model}
 
 To estimate the PID terms in the Ising model, a 2-dimensional model with Glauber dynamics, periodic boundary conditions and a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in \cite{barnett-ising}, "each update comprised $L$ (potential) spin-flips according to Glauber transition probabilities", where $L$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$ with $B=10^4$, $N=10^5$ and $L=128\times128$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the theoretical phase transition at $T_c \approx 2.269$. 
 
@@ -710,6 +714,7 @@ The obtained $10^5$ lattice configurations at each temperature  point were subse
 % synergy table
 \begin{table}[h!]
 \centering
+\caption{Joint probability distribution of a random site and its 4 neighbors at temperature $T \approx 2.119$. The column labels represent the location of the sites with respect to the neighboring center (C) site: upper (U), right (R), down (D), left (L).}
 \begin{tabular}{c c c c c c}
 	\hline
 	C & U & R & D & L & Pr\\ 
@@ -724,7 +729,6 @@ The obtained $10^5$ lattice configurations at each temperature  point were subse
  	1 & 1 & 1 & 1 & 1 & 0.776 \\
  	\hline
 \end{tabular}
-\caption{Joint probability distribution of a random site and its 4 neighbors at temperature $T \approx 2.119$. The column labels represent the location of the sites with respect to the neighboring center (C) site: upper (U), right (R), down (D), left (L).}
 \label{table:4}
 \end{table}
 
@@ -732,12 +736,18 @@ Having created $100$ probability distributions for each of the $102$ temperature
 
 Due to the randomness present in the Glauber dynamics and in choosing the $100$ sites from the lattice for analysis, the results may vary across different runs. To gain more confidence in the results, the whole experiment described above (simulating the Ising model, choosing 100 random sites for analysis, estimating the PID of the local neighborhood of the sites) was repeated 8 times and the results averaged. In the very first run, each initial spin configuration was initialized randomly at each temperature point as in line 2 of algorithm \ref{alg:glauber-full}, and the configuration that was arrived at after the burn in period of $10^4$ updates was saved. For subsequent 7 runs, the very first lattice configuration for temperature point $T_i$ was chosen to be equivalent to the saved lattice configuration from the very first run at temperature point $T_i$. After doing the first run separately to obtain the initial configurations, the 7 remaining simulations to gather the relevant lattice configurations were run for 8 days on 41 computing nodes in parallel in the EENet computer cluster.
 
-\subsection{Experimental setup of elementary cellular automata}
+\subsection{Methodology for analysing elementary cellular automata}
+
+The average information distribution was estimated in all 88 inequivalent elementary cellular automata. \footnote{While there are 256 different rules in total, some of them are computationally equivalent. In particular, exchanging the roles of black and white in the rule table and reflecting the rule through a vertical axis does not change the computational capabilities of the automaton. Not considering rules that are equivalent under these transformations yields 88 rules that are of interest.} To gather the probability distributions for the PID estimator, 88 automata with $10 000$ cells were simulated for $1000$ time steps using periodic boundary conditions. For each automaton, a random initial configuration was generated, such that each cell at timestep $t=0$ was associated with a value taken uniformly at random from the set $\{0,1\}$.
+
+The input pair was taken to be the cell's 2 neighbors (considered as a single random vector) and the cell itself at timestep $t$, while the output was the cell's value at the next timestep $t+1$. This is indeed a logical setup to use, as it ensures that the input set contains all the variables that the output is a function of. Using these random variables, a single distribution was generated for each rule. Note that this differs from the methodology that was used in the case of the Ising model, where only a subset of the sites was chosen for analysis, yielding 100 different distributions for each temperature point. 
+
+Because the emergent dynamics of a cellular automaton depend on the initial configuration of the lattice, the above experiment (generating initial configurations for each of the 88 automata, simulating the dynamics and generating the distribution that is fed into the estimator) was repeated 5 times, after which the resulting 5 PIDs of each rule were averaged.  
 
 \newpage
 \section{Results}
 
-In this chapter, the results obtained from analysing the Ising model are given. The first section of this chapter  is dedicated to measuring the magnetization of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in Ising models with various lattice sizes are given in two subsequent sections.
+In this chapter, the results obtained from analysing the Ising model are given. The first section of this chapter is dedicated to measuring the order parameter (magnetization) of the Ising system to validate the simulation methodology. The results obtained from measuring the partial information decomposition terms in Ising models with various lattice sizes are given in two subsequent sections.
 
 \subsection{Ising model}
 
