@@ -824,6 +824,14 @@ The results of measuring PID terms when all neighboring sites are considered as 
 
 In figure \ref{fig:eca-characterization}, all 88 inequivalent elementary cellular automata have been depicted based on their partial information decomposition terms. Each point represents a single rule, and the points are colored according to their Wolfram's class. Because there are 4 terms in PID, making their joint visualization on a single plot impossible, principal component analysis was used to project the 4-dimensional PID vectors into 3-dimensional space. It is important to explicitly mention that some "points" in the plot are actually clusters of several rules, but due to their almost identical PID terms, they overlap with each other, yileding a single visual mark on the plot.  For example, the cluster numbered as $1$ appears to be a single point, but there are actually 5 different rules depicted at the same location.   
 
+\begin{figure} [h!]
+\begin{center}
+\includegraphics[width=\textwidth]{eca-pid-characterization}
+\caption{Lol}
+\label{fig:eca-pid-characterization}
+\end{center}
+\end{figure}
+
 From the figure, it can be seen that the rules corresponding of Wolfram's class I are all clustered together in a single location separate from the rest of the automata. This is natural, as these class I rules quickly converge to a homogeneous all-white state, such that there is no uncertainty left in the system. In an all-white state, the entropy of the system is 0, yielding mutual information and accordingly, all the PID terms to be 0 as well. While various other cluster appear, they do not correspond well to Wolfram's other 3 classes, meaning that there is no straighforward relationship between Wolfram's classification and the information distribution in elementary cellular automata. 
 
 The last claim is further justified by figure \ref{fig:eca-boxplots}, which shows the boxplots of all elementary cellular automata in terms of PID. Figure \ref{fig:eca-box-ci} shows that in general, the synergy goes up when the complexity of the automata in terms of Wolfram's classification increases. However, there are many outliers in the second class and the variance of the third class is extremely high, making it hard to draw any further conclusions. On average, shared information seems to be higher in class 2 automata, while it is almost 0 for the majority of class 3 and 4 automata. Focusing on the last two plots (figure \ref{fig:eca-box-ui-y} and \ref{fig:eca-box-ui-z}), it is evident that two neighbors at the previous timestep have more information about a cell's value at this timestep than its own value at the previous timestep does. Intuitively, this should indeed hold, since having two sources of information is usually better than having just one. 
@@ -857,7 +865,7 @@ The last claim is further justified by figure \ref{fig:eca-boxplots}, which show
 \label{fig:eca-boxplots}
 \end{figure}
 
-Coming back to \ref{fig:eca-characterization} and anlalysing some specific clusters, it becomes apparent that the PID is rather oblivious of the intuitive computational characteristics of elementary cellular automata that Wolfram's classification is based on. Instead, the PID terms seem to depend heavily on the specific local details of the emergent repeating, ubiquituous patterns in the space-time diagrams of cellular automata. 
+Coming back to \ref{fig:eca-pid-characterization} and anlalysing some specific clusters, it becomes apparent that the PID is rather oblivious of the intuitive computational characteristics of elementary cellular automata that Wolfram's classification is based on. Instead, the PID terms seem to depend heavily on the specific local details of the emergent repeating, ubiquituous patterns in the space-time diagrams of cellular automata. 
 
 In figure \ref{fig:eca-diagonal-rules}, the space-time diagrams of 6 different rules are depicted, where the dynamics were generated using random initial states. These automata all belong to Wolfram's second class, because they quickly converge into a repetitive state. The diagrams look very alike visually as well, containing densely populated diagonal lines. It would not be unreasonable to expect these rules to be clustered together in figure \ref{fig:todo}. Interestingly, however, these rules are partitioned into 2 different clusters that are spaced far apart from each other. In particular, the first 3 rules depicted (rules 6, 38 and 134) appear in cluster 2, while the remaining automata (rules 24, 130, 152) belong to cluster 3. At first glance, this partitioning might be rather confusing, but the conundrum becomes apparent when one zooms in on the space-time diagrams in figure \ref{fig:eca-diagonal-rules}. As can be seen from figure \ref{fig:eca-diagonals-zoomed}, the structure of the diagonal lines is different between rules 6 and 130. It turns out that rules 6, 38 and 134 all have diagonal lines that are composed of small "inverted L" type blocks, while the diagonals of rules 24, 130 and 152 are much simpler, having a thickness of just a single cell. 
 
@@ -982,6 +990,8 @@ Some other clusters are not as straightforward to analyse, but nevertheless, in 
 \caption{Space-time diagrams of various elementary cellular automata.}
 \label{fig:eca-complex-rules-zoomed}
 \end{figure}
+
+Another noteworthy collection of rules is cluster 5, which consists  of 3 automata that Wolfram has classified as chaotic. All the automata belonging to this cluster have 1 nat of mutual information, which is all exclusively provided by complementary information. The cluster is interesting because it shows that at least for some subset of automata, their qualitative characterization coincides with the quantitative one provided by the PID. 
 
 \newpage
 \section{Discussion}
