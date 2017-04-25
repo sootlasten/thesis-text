@@ -253,7 +253,7 @@ Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy 
 
 \begin{figure} [h]
 \begin{center}
-\includegraphics[width=\textwidth]{entropy}
+\includegraphics[width=.9\textwidth]{entropy}
 \caption{Entropy of $X$ plotted against the value of $p$.}
 \label{fig:entropy}
 \end{center}
@@ -756,9 +756,9 @@ The first subsection of this section is dedicated to measuring the order paramet
 
 To gain confidence that the Ising model simulations behave as expected, the average absolute magnetization of the 8 runs was measured. The resulting plot can be seen in figure \ref{fig:ising-128-mags}. The phase transition is clearly present, and the critical temperature is around the theoretically correct value of $T_c \approx 2.269$, as given by Onsager \cite{lars-onsanger}. At temperatures $T > T_c$, the magnetization of the Ising model is near 0, while at temperatures $T < T_c$, the absolute magnetization quickly approaches 1 as $T$ decreases. This agrees with previous practical and theoretical research works conducted on the Ising model, thus validating that the simulation is done correctly.
 
-\begin{figure} [h!]
+\begin{figure} [h]
 \begin{center}
-\includegraphics[width=\textwidth]{ising-128-mags}
+\includegraphics[width=.9\textwidth]{ising-128-mags}
 \caption{Average absolute magnetization of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-mags}
 \end{center}
@@ -770,7 +770,7 @@ In figure \ref{fig:ising-128-pid-2-nbs}, the information-theoretic functionals o
 
 \begin{figure} [h!]
 \begin{center}
-\includegraphics[width=\textwidth]{ising-128-pid-2-nbs}
+\includegraphics[width=.9\textwidth]{ising-128-pid-2-nbs}
 \caption{Average mutual information and PID terms (with 2 random neighbors considered as inputs) of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-pid-2-nbs}
 \end{center}
@@ -784,35 +784,35 @@ Shared information is the most dominant of the partial information decomposition
 
 The unique information terms are always near 0, no matter which neighbor is considered. First, it is reasonable that both of the unique information terms are identical, as the neighbors are chosen randomly. Second, the fact that there is no unique information in the system is intuitively plausible, because the interactions between the spins are completely symmetric. As for the behaviour of synergetic information, the author has no intuitive explanation for the observed pheonomena. 
 
-In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about $1$ nat) compared to figure \ref{fig:ising-128-pid-2-nbs}, because considering all 4 of the sites that interact with the center site, as opposed to just 2, should reduce the amount of uncertainty one has about the center. Further inspection shows that the PID term responsible for the increased mutual information is shared information. The complementary and unique information terms have roughly the same values in both experiments. Specifically, at all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
-
-\begin{figure} [h!]
+\begin{figure} [h]
 \begin{center}
-\includegraphics[width=\textwidth]{ising-128-pid-4-nbs}
+\includegraphics[width=.9\textwidth]{ising-128-pid-4-nbs}
 \caption{Average mutual information and PID terms (with all random neighbors considered as inputs) of a 128x128 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 2.8].}
 \label{fig:ising-128-pid-4-nbs}
 \end{center}
 \end{figure}
 
+In figure \ref{fig:ising-128-pid-4-nbs}, the results of measuring information-theoretic functionals between the center sites and all of their neighbors are illustrated. As expected, the mutual information term increases in value (about $1$ nat) compared to figure \ref{fig:ising-128-pid-2-nbs}, because considering all 4 of the sites that interact with the center site, as opposed to just 2, should reduce the amount of uncertainty one has about the center. Further inspection shows that the PID term responsible for the increased mutual information is shared information. The complementary and unique information terms have roughly the same values in both experiments. Specifically, at all temperature points, unique information terms are $0$ and synergetic information varies around $0.1$ nats. 
+
 An unanticipated difference between the first and second experiment is that when all neighbors are considered, the synergetic information term is flatter than before and peaks even deeper in the disorder phase, at temperature $T \approx 2.554$, while shared information does not change its maximum point across the 2 experiments. The former observation is of great importance and could have many practical applications. Its implications are thoroughly examined in the discussion section. 
 
 \subsubsection{PID on 64x64 Ising model}
 
-To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated with a smaller, 64x64 lattice. The experimental setup was analogous to the one used in the previous experiments, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0].
-
-\begin{figure} [h!]
+\begin{figure} [h]
 \begin{center}
-\includegraphics[width=\textwidth]{ising-64-pid-2-nbs}
+\includegraphics[width=.9\textwidth]{ising-64-pid-2-nbs}
 \caption{Average mutual information and PID terms (with 2 random neighbors considered as inputs) of a 64x64 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 3.0].}
 \label{fig:ising-64-pid-2-nbs}
 \end{center}
 \end{figure}
 
+To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated with a smaller, 64x64 lattice. The experimental setup was analogous to the one used in the previous experiments, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0].
+
 Figure \ref{fig:ising-64-pid-2-nbs} depicts the results when only 2 random immediate neighbors are considered as input to the center site in the PID framework. Although the mutual, shared and synergetic information graphs are more shaky at the phase transition due to fluctuations at the phase transition, in general the graphs are almost identical to the corresponding graphs in figure \ref{fig:ising-128-pid-2-nbs}. The mutual and shared information peaks at $T \approx 2.2772$, while synergetic information peaks at $T \approx 2.3267$.
 
-\begin{figure} [h!]
+\begin{figure} [h]
 \begin{center}
-\includegraphics[width=\textwidth]{ising-64-pid-4-nbs}
+\includegraphics[width=.9\textwidth]{ising-64-pid-4-nbs}
 \caption{Average mutual information and PID terms (with all random neighbors considered as inputs) of a 64x64 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 3.0].}
 \label{fig:ising-64-pid-4-nbs}
 \end{center}
@@ -822,21 +822,19 @@ The results of measuring PID terms when all neighboring sites are considered as 
 
 \subsection{Elementary cellular automata}
 
-In figure \ref{fig:eca-characterization}, all 88 inequivalent elementary cellular automata have been depicted based on their partial information decomposition terms. Each point represents a single rule, and the points are colored according to their Wolfram's class. Because there are 4 terms in PID, making their joint visualization on a single plot impossible, principal component analysis was used to project the 4-dimensional PID vectors into 3-dimensional space. It is important to explicitly mention that some "points" in the plot are actually clusters of several rules, but due to their almost identical PID terms, they overlap with each other, yileding a single visual mark on the plot.  For example, the cluster numbered as $1$ appears to be a single point, but there are actually 5 different rules depicted at the same location.   
+In figure \ref{fig:eca-pid-char}, all 88 inequivalent elementary cellular automata have been depicted based on their partial information decomposition terms. Each point represents a single rule, and the points are colored according to their Wolfram's class. Because there are 4 terms in PID, making their joint visualization on a single plot impossible, principal component analysis was used to project the 4-dimensional PID vectors into 3-dimensional space. It is important to explicitly mention that some "points" in the plot are actually clusters of several rules, but due to their almost identical PID terms, they overlap with each other, yielding a single visual mark on the plot.  For example, the cluster numbered as $1$ appears to be a single point, but there are actually 5 different rules depicted at this location.   
 
-\begin{figure} [h!]
+\begin{figure} [!h]
 \begin{center}
-\includegraphics[width=\textwidth]{eca-pid-characterization}
-\caption{Lol}
-\label{fig:eca-pid-characterization}
+\includegraphics[width=.9\textwidth]{eca-pid-characterization}
+\caption{All 88 inequivalent cellular automata positioned on a 3 dimensional space according to their information distribution. The automata are coloured based on their Wolfram's class. Some of the clusters of rules are highlighted and numbered, so that they can be referred to in the text.}
+\label{fig:eca-pid-char}
 \end{center}
 \end{figure}
 
 From the figure, it can be seen that the rules corresponding of Wolfram's class I are all clustered together in a single location separate from the rest of the automata. This is natural, as these class I rules quickly converge to a homogeneous all-white state, such that there is no uncertainty left in the system. In an all-white state, the entropy of the system is 0, yielding mutual information and accordingly, all the PID terms to be 0 as well. While various other cluster appear, they do not correspond well to Wolfram's other 3 classes, meaning that there is no straighforward relationship between Wolfram's classification and the information distribution in elementary cellular automata. 
 
-The last claim is further justified by figure \ref{fig:eca-boxplots}, which shows the boxplots of all elementary cellular automata in terms of PID. Figure \ref{fig:eca-box-ci} shows that in general, the synergy goes up when the complexity of the automata in terms of Wolfram's classification increases. However, there are many outliers in the second class and the variance of the third class is extremely high, making it hard to draw any further conclusions. On average, shared information seems to be higher in class 2 automata, while it is almost 0 for the majority of class 3 and 4 automata. Focusing on the last two plots (figure \ref{fig:eca-box-ui-y} and \ref{fig:eca-box-ui-z}), it is evident that two neighbors at the previous timestep have more information about a cell's value at this timestep than its own value at the previous timestep does. Intuitively, this should indeed hold, since having two sources of information is usually better than having just one. 
-
-\begin{figure}
+\begin{figure} [!h]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{eca-box-ci}
@@ -861,13 +859,13 @@ The last claim is further justified by figure \ref{fig:eca-boxplots}, which show
   \caption{Unique information of the neighbors.}
   \label{fig:eca-box-ui-z}
 \end{subfigure}
-\caption{Boxplots}
+\caption{Boxplots representing the values of specific PID terms of cellular automata belonging to Wolfram's classes II, III and IV.}
 \label{fig:eca-boxplots}
 \end{figure}
 
-Coming back to \ref{fig:eca-pid-characterization} and anlalysing some specific clusters, it becomes apparent that the PID is rather oblivious of the intuitive computational characteristics of elementary cellular automata that Wolfram's classification is based on. Instead, the PID terms seem to depend heavily on the specific local details of the emergent repeating, ubiquituous patterns in the space-time diagrams of cellular automata. 
+The last claim is further justified by figure \ref{fig:eca-boxplots}, which shows the distribution of PID values across Wolfram's classes. From panel \ref{fig:eca-box-ci} it can be seen that in general, the synergy goes up when the complexity of the automata in terms of Wolfram's classification increases. However, there are many outliers in the second class and the variance of the third class is extremely high, making it hard to further draw any specific conclusions. On average, shared information seems to be higher in class 2 automata, while it is almost 0 for the majority of class 3 and 4 automata. Focusing on the last two panels (figures \ref{fig:eca-box-ui-y} and \ref{fig:eca-box-ui-z}), it is evident that two neighbors at the previous timestep have more information about a cell's value at this timestep than its own previous value does. Intuitively, this should indeed hold, since having two sources of information is usually better than having just one. 
 
-In figure \ref{fig:eca-diagonal-rules}, the space-time diagrams of 6 different rules are depicted, where the dynamics were generated using random initial states. These automata all belong to Wolfram's second class, because they quickly converge into a repetitive state. The diagrams look very alike visually as well, containing densely populated diagonal lines. It would not be unreasonable to expect these rules to be clustered together in figure \ref{fig:todo}. Interestingly, however, these rules are partitioned into 2 different clusters that are spaced far apart from each other. In particular, the first 3 rules depicted (rules 6, 38 and 134) appear in cluster 2, while the remaining automata (rules 24, 130, 152) belong to cluster 3. At first glance, this partitioning might be rather confusing, but the conundrum becomes apparent when one zooms in on the space-time diagrams in figure \ref{fig:eca-diagonal-rules}. As can be seen from figure \ref{fig:eca-diagonals-zoomed}, the structure of the diagonal lines is different between rules 6 and 130. It turns out that rules 6, 38 and 134 all have diagonal lines that are composed of small "inverted L" type blocks, while the diagonals of rules 24, 130 and 152 are much simpler, having a thickness of just a single cell. 
+Coming back to figure \ref{fig:eca-pid-char} and anlalysing some specific clusters, it becomes apparent that the PID is rather oblivious of the intuitive computational characteristics of elementary cellular automata that Wolfram's classification is based on. For example, it does not capture the complex long-term interactions between various dynamical structures that are important in terms of computation, but happen so infrequently that their influence on the overall probability 	distribution is minimal. Instead, the PID terms seem to depend heavily on the specific local details of the emergent repeating, ubiquituous patterns in the space-time diagrams of cellular automata. To justify this conjecture, some specific examples of clusters are discussed in detail below. 
 
 \begin{figure} [!h]
 \begin{subfigure}{.5\textwidth}
@@ -906,88 +904,90 @@ In figure \ref{fig:eca-diagonal-rules}, the space-time diagrams of 6 different r
   \caption{Rule 152.}
   \label{fig:rule152}
 \end{subfigure}
-\caption{Space-time diagrams of various elementary cellular automata.}
+\caption{Space-time diagrams of various elementary cellular automata belonging to Wolfram's class II. The first 3 automata from the top belong to cluster 2 in figure \ref{fig:eca-pid-char}, while the remaining rules are from cluster 3.}
 \label{fig:eca-diagonal-rules}
 \end{figure}
+
+In figure \ref{fig:eca-diagonal-rules}, the space-time diagrams of 6 different rules are depicted, where the dynamics were generated using random initial states. These automata all belong to Wolfram's second class, because they quickly converge into a repetitive state. The diagrams look very alike visually as well, containing densely populated diagonal lines. It would not be unreasonable to expect these rules to be clustered together in figure \ref{fig:eca-pid-char}. Interestingly, however, these rules are partitioned into 2 different clusters that are spaced far apart from each other. In particular, the first 3 rules depicted (rules 6, 38 and 134) appear in cluster 2, while the remaining automata (rules 24, 130, 152) belong to cluster 3. At first glance, this partitioning might be rather confusing, but the conundrum becomes apparent when one zooms in on the space-time diagrams. As can be seen from figure  \ref{fig:eca-diagonals-zoomed}, the intricate structure of the diagonal lines is different between rules 6 and 130. It turns out that rules 6, 38 and 134 all have diagonal lines that are composed of small "inverted L" type blocks, while the diagonals of rules 24, 130 and 152 are much simpler, having a thickness of just a single cell. 
 
 \begin{figure} [!h]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule6-zoomed}
-  \caption{Rule 6 zoomed.}
+  \caption{Rule 6.}
   \label{fig:rule6-zoomed}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule130-zoomed}
-  \caption{Rule 130 zoomed.}
+  \caption{Rule 130.}
   \label{fig:rule130-zoomed}
 \end{subfigure}
-\caption{Space-time diagrams of various elementary cellular automata.}
+\caption{Zoomed space-time diagrams of rules 6 (figure \ref{fig:rule6})and 130 (figure \ref{fig:rule130}).} 
 \label{fig:eca-diagonals-zoomed}
 \end{figure}
 
 To better understand why the specific details of the diagonals yield a radical change in the PID terms, a closer quantitative look at the PID of the rules under discussion is in order. The mutual information of all of the 6 rules is almost exclusively divided between synergy and the unique information provided by the neighbors, leaving the reminaing PID terms close to 0. The first 3 rules each have roughly about $0.55$ nats of synergy and $0.25$ nats of unique information. In contrast, the remaining 3 rules have no complementary information, but their neighbors have about twice as much unique information about the cell's next state, approximately $0.62$ nats each. Thus, almost all of the information in the systems with simpler diagonals is provided uniquely by the neighbors of a site. 
 
-The former observation makes sense, because looking at the figure \ref{fig:rule130-zoomed}, the new states are almost always uniquely determined by the neighbors alone: the white background is generated by the rules that if the right neihgbor of a cell is white, this cell's next value will also be white. If, however, the left neighbor is white and the right is black, the cell's next state will be black. The latter rule produces the diagonals. In case of rule 6, there is a lot more synergy in the system, because neither the cell's previous state or the neighbors are able to produce these complex diagonals alone. The rather high unique information comes from the fact that the left neighbor being black completely determines that the cell's value will be white in the next step. 
-
-Some other clusters are not as straightforward to analyse, but nevertheless, in many cases it is still possible to give some intuitive justifications of the characterization that the PID has produced. For example, figure \ref{fig:eca-complex-rules} depicts the rules in cluster 4, which all have exactly $0.5$ nats of synergy and $0.5$ nats of unique information from the neighbors. While the automata look rather different from the distance, zooming into the lattices agains reveals the similarities. Looking at the zoomed images, it can be seen all of the automata have rather complex stairway-like patterns travelling from the upper right to the lower left corner. 
+The former numeric observations are not surprising, because looking at the dynamics of rule 6 from figure \ref{fig:rule130-zoomed}, the new states are almost always uniquely determined by the neighbors alone. Indeed, the ubiquituous white background arises mainly because if the right neighbor of a cell is white, this cell's next value will also be white. If, however, the left neighbor is white and the right is black, the cell's next state will be black. The latter relationship produces the diagonals. In case of rule 6, there is a lot more synergy in the system, because neither the cell's previous state or the neighbors are able to produce the complex "reversed L" shaped diagonals alone. The rather high unique information comes from the fact that the left neighbor being black completely determines that the cell's value will be white in the next step. 
 
 \begin{figure} [!h]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule154}
-  \caption{Rule 154 (class 2).}
+  \caption{Rule 154 (Wolfram's class 2).}
   \label{fig:rule154}
  \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule30}
-  \caption{Rule 30 (class 3).}
+  \caption{Rule 30 (Wolfram's class 3).}
   \label{fig:rule30}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule45}
-  \caption{Rule 45 (class 3).}
+  \caption{Rule 45 (Wolfram's class 3).}
   \label{fig:rule45}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule106}
-  \caption{Rule 106 (class 4).}
+  \caption{Rule 106 (Wolfram's class 4).}
   \label{fig:rule106}
 \end{subfigure}
-\caption{Space-time diagrams of various elementary cellular automata.}
+\caption{Space-time diagrams of elementary cellular automata belonging to cluster 4 in figure \ref{fig:eca-pid-char}.}
 \label{fig:eca-complex-rules}
 \end{figure}
 
-\begin{figure} [!h]
+Some other clusters are not as straightforward to analyse, but nevertheless, in many cases it is still possible to give some intuitive justifications of the characterization that the PID has produced. For example, figure \ref{fig:eca-complex-rules} depicts the rules in cluster 4, which all have exactly $0.5$ nats of synergy and $0.5$ nats of unique information from the neighbors. While the automata look rather different from the distance, zooming into the lattices again reveals the similarities. Looking at the zoomed space-time diagrams in figure \ref{fig:eca-complex-rules-zoomed}, it can be seen that what the automata under observation have in common is that they all contain rather complex stairway-like structures travelling from the upper right to the lower left.
+
+\begin{figure} [h]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule154-zoomed}
-  \caption{Rule 154 (class 2).}
+  \caption{Rule 154.}
   \label{fig:rule154-zoomed}
  \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule30-zoomed}
-  \caption{Rule 30 (class 3).}
+  \caption{Rule 30.}
   \label{fig:rule30-zoomed}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule45-zoomed}
-  \caption{Rule 45 (class 3).}
+  \caption{Rule 45.}
   \label{fig:rule45-zoomed}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{rule106-zoomed}
-  \caption{Rule 106 (class 4).}
+  \caption{Rule 106.}
   \label{fig:rule106-zoomed}
 \end{subfigure}
-\caption{Space-time diagrams of various elementary cellular automata.}
+\caption{Zoomed space-time diagrams of the automata plotted in figure \ref{fig:eca-complex-rules}.}
 \label{fig:eca-complex-rules-zoomed}
 \end{figure}
 
@@ -996,7 +996,7 @@ Another noteworthy collection of rules is cluster 5, which consists  of 3 automa
 \newpage
 \section{Discussion}
 
-This chapter starts by putting the results obtained in the Ising model into a larger context and by discussing their implications.  The possibility of analysing other dynamical complex systems with the information-theoretic tools used in this thesis is crticially examined in the second section. The chapter concludes with numerous suggestions for further work. 
+This chapter starts by putting the results obtained in the two complex systems into a larger context and by discussing their implications.  The possibility of analysing other dynamical complex systems with the information-theoretic tools used in this thesis is crticially examined in the second section. The chapter concludes with numerous suggestions for further work. 
 
 \subsection{Implications of the results}
 
