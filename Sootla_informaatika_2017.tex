@@ -212,7 +212,7 @@ In addition, another well-known class of dynamical complex system of increasing 
 
 To the author's knowledge, the work done in this thesis is the very first example of practically applying the novel PID framework to analyse complex systems. To facilitate further research, a significant portion of the thesis is devoted to providing a self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. A thorough introduction to both is absent in the literature at the time of writing this thesis (\cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific applications specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
 
-In Chapter 1, a sufficiently in-depth overview of basic information theory, partial information decomposition, the Ising model and elementary cellular automata is given. Chapter 2 outlines how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research, with a particular focus on the Ising model and elemntary cellular automata. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how both complex systems were analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model and in elementary cellular automata are given in Chapter 4. The last chapter discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
+The thesis is organized as follows. In Chapter 1, a sufficiently in-depth overview of basic information theory, partial information decomposition, the Ising model and elementary cellular automata is given. Chapter 2 outlines how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research, with a particular focus on the Ising model and elemntary cellular automata. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how both complex systems were analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model and in elementary cellular automata are given in Chapter 4. The last chapter discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
 
 \newpage
 
@@ -629,7 +629,7 @@ There is a large body of previous work in applying information theory to analyse
 
 As for real-world systems, \cite{mi-financial-markets} measured mutual information between pairs of selected stocks and found that the peaks in information take place around known market crashes. To better understand phase transitions in cognitive behaviours, \cite{mi-go} analysed mutual information between successive moves in the game of Go as a function of players' skill level. They found that information peaks around the transition from amateur to professional, "agreeing with other evidence that a radical shift in strategic thinking occurs at this juncture" \cite{mi-social-systems}. 
 
-Particularly relevant to the work at hand is the information-theoretic analysis of the Ising model. It has been analytically shown that in a 2-dimensional Ising model, the mutual information between joint states of two spin systems peaks at the critical temperature \cite{mi-ising-analytic}. \cite{barnett-ising} show empirically  that mutual information measured between pairs of neighboring spins peaks at the phase transition. In the current thesis, this result is replicated and extended by also measuring the decomposition terms of this mutual information. \cite{barnett-ising} further discover that another related quantity called transfer entropy, a directed measure that quantifies the transfer of information between two stochastic processes, peaks strictly in the disorder phase \textit{before} the phase transition. 
+Particularly relevant to the work at hand is the information-theoretic analysis of the Ising model. It has been analytically shown that in a 2-dimensional Ising model, the mutual information between joint states of two spin systems peaks at the critical temperature \cite{mi-ising-analytic}. \cite{barnett-ising} show empirically that mutual information measured between pairs of neighboring spins peaks at the phase transition. In the current thesis, this result is replicated and extended by also measuring the decomposition terms of this mutual information. \cite{barnett-ising} further discover that another related quantity called transfer entropy, a directed measure that quantifies the transfer of information between two stochastic processes, peaks strictly in the disorder phase \textit{before} the phase transition. 
 
 \subsection{Elementary cellular automata}
 
@@ -746,7 +746,7 @@ Because the emergent dynamics of a cellular automaton depend on the initial conf
 \newpage
 \section{Results}
 
-This chapter provides the main results of the thesis. The focus of the first section is on the Ising model, while the second section concentrates on elementary cellular automata. 
+This chapter provides the main results of the thesis. The focus of the first section is on the Ising model, while the second concentrates on elementary cellular automata. 
 
 \subsection{Ising model}
 
@@ -1000,23 +1000,44 @@ This chapter starts by putting the results obtained in the two complex systems i
 
 \subsection{Implications of the results}
 
+In \cite{barnett-ising}, it is shown that global transfer entropy peaks in the disorder phase in the Ising model, just before the phase transition. In other words, transfer entropy was found to be able predict the order-disorder transition before it actually takes place. In a subsequenet commentary discussing this work \cite{inf-flow-ising-commentary}, Lionel Barnett, one of the authors of the paper, argues that this result might also generalize to other real-world dynamical complex systems that undergo phase transitions. The practical importance of this could be immense. Among other things, one can imagine it being used to predict imminent epileptic seizures and financial market crashes in advance. 
 
-The fact that mutual information peaks at the phase transition also agrees with intuition. In the high temperature regime, the mutual information is low because the spins are uncorrelated, while at a high temperature resigme 
+In this thesis, it was found that one of the PID terms, complementary information, also obtains a maximum in the disorder regime in the Ising system. Taking the commentary by Barnett into account, it would be worthwhile to study various real-world systems in terms of partial information decomposition. In particular, it would be interesting to measure the synergy between various components with the hope of predicting the arising phase transition  in advance.
 
- due to large thermal oscillations. Conversely, when temperature is low, all spins are aligned, there is no uncertainty about the . At the phase transition, the temperature   ...
-
-1. First, we see that partial information decomposition is able to give informat ..
-
-2. As for the specific results obtained in the Ising model, they are very practical.
+As for elementary cellular automata, the obtained characterization of the rules based on the PID terms is a great addition to Wolfram's classification. While Wolfram's 
 
 \subsection{Limitations}
 
-1. Limitations of the estimator
-2. Limitations when inputs are not easily partitioned into 2 classes
+The two complex systems analysed in this thesis have an important property in common that makes their investigation with the PID estimator convenient, not to say possible. First, they are both binary, meaning that the individual elements of the systems can only be in two different states. Second, in both systems, each individual component of the model is directly influenced by only a handful of other agents. Indeed, in the Ising model, the energy of a single site depends only on the spins of its 4 immediate neighbors, while the next value of a cell in elementary cellular automata is determined by the 3 cells in its local neighborhood. What follows is a discussion of why both of these characteristics are paramount to a successful analysis of information distribution in complex systems. 
+
+First, the systems being binary, or more generally, discrete with relatively few possible states, ensures that the number of rows in the probability distribution that the PID numerical estimator takes as input is relatively small. The number of rows  increases polynomially in the number of states of the random variables that it contains. For example, a distribution with 3 random variables with 20 possible states would have 8000 rows. Such a large distribution would be unmanagable for the numerical estimator, which is able to maximally handle distributions with roughly 2000 rows. Note that this problem becomes also arises when the analysed system has continuous elements, since one must approximate the continuous functions using discretization, in particular, by dividing the continuous signal into a finite number of different states. To analyse the performance of the estimator, a multivariate Gaussian probability distribution was generated, discretized, and fed into the estimator. It was empirically validated that the estimator terminates and gives a solution in reasonable time (under half an hour of processing) when the level of discretization is less than 14.   
+
+Second, the systems having few directly interdependent components again ensures that the number of rows in the distributions is relatively small, the latter increasing polynomially in the number of random variables in the 3 random vectors. There is however an even more fundamental problem that has nothing to do with the numerical estimator, but rather with the fact that the PID mathematical framework has currently been developed for 2 logical input sets only. In particular, if the number of inputs in the system grows, and they are not logically partitionable to two distinct sets, it becomes increasingly hard to reasonably choose the two subsets of input channels. Even if the input space is composed of two logical sets, taking only a small subset of components from might not yield desired results. This is because  there is exponentially many ways to choose the subsets with respect to each other, and there is often no straightforward way to choose the "right" subsets. 
+
+To better understand the argument outlined in the last paragraph, it is instructive to look at the results of another preliminary experiment that was done as part of this thesis. In particular, the average information distribution between the nodes in a feedforward neural network was analysed. Since the weights of the network are initialized randomly, and are gradually , it is not 
+
+\begin{figure} [h]
+\begin{center}
+\includegraphics[width=.9\textwidth]{neural-net-loss}
+\caption{}
+\label{fig:neural-net-loss}
+\end{center}
+\end{figure}
+
+\begin{figure} [h]
+\begin{center}
+\includegraphics[width=.9\textwidth]{neural-net-pid}
+\caption{}
+\label{fig:neural-net-pid}
+\end{center}
+\end{figure}
+
+\cite{it-neural-nets}
+\cite{binary-nets}
+\cite{mnistlecun}
 
 \subsection{Future work}
 
-1. Other discrete dynamical systems like cellular automata
 2. Interpretation of the Ising model 
 3. Neural networks
 4. More generally, the PID estimator should be developed further
