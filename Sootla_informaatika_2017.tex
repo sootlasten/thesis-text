@@ -1049,7 +1049,7 @@ To better understand the argument put forth in the last paragraph, it is instruc
 \begin{figure} [h]
 \begin{center}
 \includegraphics[width=.9\textwidth]{neural-net-loss}
-\caption{Learning curves of a neural network that was trained to classify MNIST handwritten digits.}
+\caption{Learning curves of a feedforward neural network that was trained to classify MNIST handwritten digits. The blue curve represents the training loss, while the validation loss is given by the green graph.}
 \label{fig:neural-net-loss}
 \end{center}
 \end{figure}
@@ -1081,6 +1081,13 @@ Finally, there is more work to be done in analysing the information distribution
 \newpage
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
+
+In this thesis, a self-contained and sufficiently rigorous introduction to the recently developed partial information decomposition mathematical framework and to the necessarity information theory was provided. The main part of this thesis, however, consituted of applying this framework to empirically analyse the distribution of information in three well-known dynamical complex systems. 
+
+First, it was discovered that complementary information peaks in the disorder resigme of the Ising model. If found to be generalizable to real-world complex systems, this result could be of significant practical value. Second, a quantitative characterization of elementary cellular automata based on information distribution was obtained. The proposed characterization is complementary, and orthogonal, to the popular qualitatitive classification proposed by S. Wolfram. Third, feedforward neural networks were found not to be amenable to analysis within the current PID framework. However, after giving proper justification as to why the experiments done with feedforward neural networks failed to provide interesting insights, a more promising research direction was layed out. 
+
+The author of this thesis was responsible for implementing the relevant models in code and carrying out the subsequent analyses. 
+The PID numerical estimator that made measuring the PID terms possible was developed by the thesis supervisors. Even so, the estimator was not treated as a complete black box, as some minor bug fixes and modifications were done by the author of this thesis to get it working as required. 
 
 \selectlanguage{english}
 
