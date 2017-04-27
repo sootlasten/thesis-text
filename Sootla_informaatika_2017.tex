@@ -141,7 +141,7 @@ Computer Science Curriculum\\[2mm]
 
 \vspace{4mm}
 
-\huge Analysing information distribution in complex systems
+\huge Analysing Information Distribution in Complex Systems
 
 %\vspace*{\stretch{7}}
 \vspace{20mm}
@@ -185,6 +185,38 @@ Computer Science Curriculum\\[2mm]
 
 \selectlanguage{english}
 
+\newpage 
+\noindent\textbf{\large Analysing Information Distribution in Complex Systems}
+
+\vspace*{3ex}
+
+\noindent\textbf{Abstract:}
+
+\noindent
+\textcolor{red}{Abstract TODO!}
+
+\vspace*{1ex}
+
+\noindent\textbf{Keywords:}\\
+\textcolor{red}{List of keywords TODO!}
+
+\vspace*{3ex}
+
+\noindent\textbf{\large Informatsiooni distributisoon analüüsimine komplekssetes süsteemides}
+
+\vspace*{3ex}
+
+\noindent\textbf{Lühikokkuvõte:}
+
+\noindent
+\textcolor{red}{TODO!}
+
+
+\vspace*{1ex}
+
+\noindent\textbf{Võtmesõnad:}\\
+\textcolor{red}{TODO!}
+
 \newpage
 \tableofcontents
 
@@ -206,9 +238,7 @@ However, only measuring the information that is processed between \textit{two} s
 
 To capture this subtle distribution of information between two inputs and a single output, an extension to classical information theory is needed \cite{williams-beer}. The recently developed axiomatic framework called \textit{partial information decomposition} \cite{bertschinger} is such an extension. Computing this decomposition in actual probability distributions is non-trivial, however. Despite the difficulties, the computational neuroscience and theoretical computer science groups at the University of Tartu have jointly managed to develop a much-needed numerical estimator. 
 
-Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, two different systems are analysed. First, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism that undergoes a phase transition - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the estimator is deployed to measure the partial information decomposition terms in elementary cellular automata. Based on these measurements, a novel characterization of cellular automata is obtained.
-
-In addition, another well-known class of dynamical complex system of increasing practical importance, feedforward neural networks,  were analysed in terms of partial information decomposition. The obtained results did not make it to the main body of the thesis, but are discussed in the appendix. The latter experiments are also referred to in the discussion section, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
+Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, three different systems are analysed. First, the dynamics of the 2-dimensional Ising model - an extensively studied mathematical model of ferromagnetism that undergoes a phase transition - are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the estimator is deployed to measure the partial information decomposition terms in elementary cellular automata. Based on these measurements, a novel characterization of cellular automata is obtained. Finally, the average information distribution of another well-known class of dynamical complex systems of increasing practical importance, feedforward neural networks, was analysed. The obtained results did not make it to the main body of the thesis, but they are referred to in the discussion, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
 To the author's knowledge, the work done in this thesis is the very first example of practically applying the novel PID framework to analyse complex systems. To facilitate further research, a significant portion of the thesis is devoted to providing a self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. A thorough introduction to both is absent in the literature at the time of writing this thesis (\cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific applications specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
 
@@ -1008,41 +1038,45 @@ As for elementary cellular automata, the obtained characterization of the rules 
 
 \subsection{Limitations}
 
-The two complex systems analysed in this thesis have an important property in common that makes their investigation with the PID estimator convenient, not to say possible. First, they are both binary, meaning that the individual elements of the systems can only be in two different states. Second, in both systems, each individual component of the model is directly influenced by only a handful of other agents. Indeed, in the Ising model, the energy of a single site depends only on the spins of its 4 immediate neighbors, while the next value of a cell in elementary cellular automata is determined by the 3 cells in its local neighborhood. What follows is a discussion of why both of these characteristics are paramount to a successful analysis of information distribution in complex systems. 
+The two complex systems analysed in this thesis have an important property in common that makes their investigation with the PID estimator convenient, not to say possible. First, they are both binary, meaning that the individual elements of the systems can only be in two different states. Second, in both systems, each local part of the model is directly influenced by only a handful of other agents. Indeed, in the Ising model, the energy of a single site depends only on the spins of its 4 immediate neighbors, while the next value of a cell in elementary cellular automata is determined by the 3 cells in its local neighborhood. What follows is a discussion of why both of these characteristics are paramount to successful analysis of information distribution in complex systems. 
 
-First, the systems being binary, or more generally, discrete with relatively few possible states, ensures that the number of rows in the probability distribution that the PID numerical estimator takes as input is relatively small. The number of rows  increases polynomially in the number of states of the random variables that it contains. For example, a distribution with 3 random variables with 20 possible states would have 8000 rows. Such a large distribution would be unmanagable for the numerical estimator, which is able to maximally handle distributions with roughly 2000 rows. Note that this problem becomes also arises when the analysed system has continuous elements, since one must approximate the continuous functions using discretization, in particular, by dividing the continuous signal into a finite number of different states. To analyse the performance of the estimator, a multivariate Gaussian probability distribution was generated, discretized, and fed into the estimator. It was empirically validated that the estimator terminates and gives a solution in reasonable time (under half an hour of processing) when the level of discretization is less than 14.   
+First, the systems being binary, or more generally, discrete with relatively few possible states, ensures that the number of rows in the probability distribution that the PID numerical estimator takes as input is relatively small. The number of rows of the distribution increases polynomially in the number of states of the random variables that it contains. For example, a distribution with 3 random variables with 20 possible states would have 8000 rows. Such a large distribution would be unmanagable for the numerical estimator, which is able to maximally handle distributions with roughly 2000 rows. This problem also arises when the analysed system has continuous elements, since one must approximate the continuous functions using discretization, in particular, by dividing the continuous signal into a finite number of different states. To analyse the performance of the estimator, a multivariate Gaussian probability distribution was generated, discretized, and fed into the estimator. It was empirically validated that the estimator terminates and gives a solution in reasonable time (under half an hour of processing) when the level of discretization is less than 14.   
 
-Second, the systems having few directly interdependent components again ensures that the number of rows in the distributions is relatively small, the latter increasing polynomially in the number of random variables in the 3 random vectors. There is however an even more fundamental problem that has nothing to do with the numerical estimator, but rather with the fact that the PID mathematical framework has currently been developed for 2 logical input sets only. In particular, if the number of inputs in the system grows, and they are not logically partitionable to two distinct sets, it becomes increasingly hard to reasonably choose the two subsets of input channels. Even if the input space is composed of two logical sets, taking only a small subset of components from might not yield desired results. This is because  there is exponentially many ways to choose the subsets with respect to each other, and there is often no straightforward way to choose the "right" subsets. 
+Second, the systems having few directly interdependent components again ensures that the number of rows in the distributions is relatively small, the latter increasing polynomially in the number of random variables that the 3 random vectors contain. There is, however, an even more fundamental problem that has nothing to do with the numerical estimator, but rather with the fact that the PID mathematical framework has currently been developed for 2 logical input sets only. In particular, if the number of inputs in the system grows, and they are not logically partitionable into two distinct sets, it becomes increasingly hard to reasonably choose the two subsets of input channels. Even if the input space is composed of two logical sets, taking only a small subset of components from each might not yield desirable results. This is because  there is exponentially many ways to choose the subsets with respect to each other, and there is often no straightforward way to know which configuration is the "right" one. 
 
-To better understand the argument outlined in the last paragraph, it is instructive to look at the results of another preliminary experiment that was done as part of this thesis. In particular, the average information distribution between the nodes in a feedforward neural network was analysed. Since the weights of the network are initialized randomly, and are gradually , it is not 
+To better understand the argument put forth in the last paragraph, it is instructive to look at the results of another preliminary experiment that was carried out as part of this thesis. In particular, the average information distribution between the nodes in a feedforward neural network was analysed while it was trained on a classification task. The model consisted of 2 hidden units, each containing 300 neurons. While such models usually have continuous activation functions, it is not feasible to discretize these continuous signals with fine enough granularity without making their analysis with the estimator unfeasible. Thus, binary activations were used in the hidden layers of the network, as introduced in \cite{binary-nets}. The output layer of the network consisted of softmax units. The network was trained on the MNIST handwritten digit database \cite{mnistlecun} for 150 epochs. Figure \ref{fig:neural-net-loss} depicts the training and validation learning curves of this classifier.
 
 \begin{figure} [h]
 \begin{center}
 \includegraphics[width=.9\textwidth]{neural-net-loss}
-\caption{}
+\caption{Learning curves of a neural network that was trained to classify MNIST handwritten digits.}
 \label{fig:neural-net-loss}
 \end{center}
 \end{figure}
 
+In neural networks, the parameters are initialized randomly, and as a result, the model's loss is initially rather high, as can also be seen from figure \ref{fig:neural-net-loss}. During training, the weights of the network are incrementally tweaked in such a way that the performance of the model increases. Thus, neural networks can be thought of as exhibiting a phase transition, where the weights gradually move from an unorganized random state to an organized one. The training or validation loss represents the order parameter, with higher values meaning that the system has more disorder, and vice versa. Insipired by the results obtained from analysing the Ising model, the neural network under discussion was investigated with the PID numerical estimator with the hope of discovering interesting behaviour of the PID functionals near the order-disorder phase. More specifically, one could expect some interesting behaviour of some of the PID terms between the epochs 15 and 50, because it is during this time that the derivative of the loss function undergoes the most rapid change.
+
+To estimate the information distribution in the system, 200 triplets were taken for analysis. For each triplet, the two inputs were taken to be two random nodes from the last hidden layer of the network, and the output was taken to be the true target decimal value. The 200 probability distributions were subsequently fed into the PID numerical estimator and the results averaged. This procedure was repeated for each epoch, but the 200 triplets remained the same thorughout the experiment. The obtained PID functionals are illustrated in figure \ref{fig:neural-net-pid}.
+
 \begin{figure} [h]
 \begin{center}
 \includegraphics[width=.9\textwidth]{neural-net-pid}
-\caption{}
+\caption{The average information distribution between the nodes in a feedforward neural network.}
 \label{fig:neural-net-pid}
 \end{center}
 \end{figure}
 
-\cite{it-neural-nets}
-\cite{binary-nets}
-\cite{mnistlecun}
+From figure \ref{fig:neural-net-pid}, it can be seen that the mutual information behaves similar to the reflection of the training loss over the horizontal axis. This agrees with the observation made in \cite{it-neural-nets}, in which the mutual information between the neurons in a toy neural network was measured during training. Looking at the PID terms, one can see that the unique information terms follow the mutual information curve almost exactly, and that complementary and redundant information terms are both essentially 0. It is the author's belief that the PID terms are rather uninteresting largely because the inputs do not come from 2 logically distinct subsystems. Every neuron in the last layer has 299 neighbors, and there is no fundamental reason to prefer one neighbor over the other. One might argue that no natural partitioning exists in the case of the Ising model as well. However, in the latter system, a site depended only on 4 of its neighbors, making the problem much less pressing. 
 
 \subsection{Future work}
 
-2. Interpretation of the Ising model 
-3. Neural networks
-4. More generally, the PID estimator should be developed further
+There are various promising research directions in the domain of partial information decomposition itself. First, the estimator could be improved in various ways. Most notably, the optimization could be made faster, so that the larger probability distributions would also be possible to analyse. Further, the mathematical framework of partial information decomposition has currently been developed only for the bivariante input case. The general decomposition of multi-variate information remains to be developed. 
 
-fun expression to use: promising research directions.
+In the case of the Ising model, it might be of interest to study how information is distributed between the different parts of the model more theoretically. This would provide some further insight as to why the PID functionals behave as they do in this specifc model. In addition, the results obtained in the Ising system should inspire further research into real-world complex systems in which it would be of importance to predict the occurrence of a phase transition in advance. 
+
+In this thesis, elementary cellular automata were studied, in which by definition, each cell is directly influenced by only 3 cells in its local neighborhood. However, these relatively simple systems are just a special case of a larger class of models, called \textit{1-dimensional cellular automata}, where cells can depend on an arbitrary fixed number of nearby cells. It is up to further work to study the information distribution in cellular automata that are not elementary. \cite{Das1994} used genetic algorithms to discover different rules that are able to perform specific tasks, like classifying whether the majority of cells in the initial configuration have a value of 1. It could worthwhile to study if the information distribution, as measured by the PID terms, is similar in different automata that solve a common task. 
+
+There are many promising research directions when it comes to analysing the information distribution in artificial neural networks. The PID measurements obtained from analysing feedforward neural networks in this thesis were uninteresting largely because there is no natural partitioning of nodes in this model. However, such a partitioning does exist in recurrent neural networks, where each neuron has both bottom-up inputs from the previous layer and lateral contextual inputs from the same layer at the previous timestep. Applying the current numerical estimator to recurrent networks can prove to be difficult, however, as to the author's knowledge, there is no existing work validating that binarizing the activations of a reccurent model yields a reasonable model. 
 
 \newpage
 \section*{Conclusion}
@@ -1054,11 +1088,6 @@ fun expression to use: promising research directions.
 \bibliographystyle{alpha}
 \addcontentsline{toc}{section}{Bibliography}
 \bibliography{bachelor-thesis}
-
-\newpage
-\section*{Appendix A: Feedforward Neural Networks}
-\addcontentsline{toc}{section}{Appendix A: Feedforward Neural Networks}
-
 
 \appendix
 \pagebreak
