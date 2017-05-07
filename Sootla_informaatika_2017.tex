@@ -817,7 +817,7 @@ Looking at the partial information decomposition of the Ising model in figure \r
 
 Shared information is the most dominant of the partial information decomposition terms in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy in the system. This is to be expected, as the neighbors of the center site are directly influencing the latter to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is not unreasonable to assume that if the spin of one neighbor is known, the spin of the other neighor is also likely to be that same value. 
 
-The unique information terms are always near 0, no matter which neighbor is considered. First, it is reasonable that both of the unique information terms are identical, as the neighbors are chosen randomly. Second, the fact that there is no unique information in the system is also intuitively plausible, as each neighbor interacts with the center site in an identical fashion. As for the behaviour of synergetic information, the author has no intuitive explanation for the observed phenomenon. That said, it is possible that it is related to the peak of global transfer entropy (a form of conditional mutual information) in the disorder phase of the Ising model, as demonstrated by Barnett et al. \cite{barnett-ising}. Indeed, according to equation \ref{eq:mi-ui-ci} when unique information vanishes, the synergetic information becomes equal to conditional mutual information, albeit to a rather different one.
+The unique information terms are always near 0, no matter which neighbor is considered. First, it is reasonable that both of the unique information terms are identical, as the neighbors are chosen randomly. Second, the fact that there is no unique information in the system is also intuitively plausible, as each neighbor interacts with the center site in an identical fashion. As for the behaviour of synergetic information, the author has no intuitive explanation for the observed phenomenon. That said, it is possible that it is related to the peak of global transfer entropy (a form of conditional mutual information) in the disorder phase of the Ising model, as demonstrated by Barnett et al. \cite{barnett-ising}. According to equation \ref{eq:mi-ui-ci}, when unique information vanishes, synergy becomes equal to conditional mutual information as well. However, the relationship between the synergy and transfer entropy in the Ising model remains unclear, as the random variables considered as arguments to the conditional mutual information functional in this thesis do not correspond to the ones used by Barnett et al.
 
 \begin{figure} [h]
 \begin{center}
@@ -833,25 +833,25 @@ An unanticipated difference between the first and second experiment is that when
 
 \subsubsection{PID on 64x64 Ising model}
 
-\begin{figure} [h]
+\begin{figure} [h!]
 \begin{center}
-\includegraphics[width=.9\textwidth]{ising-64-pid-2-nbs}
+\includegraphics[width=.8\textwidth]{ising-64-pid-2-nbs}
 \caption{Average mutual information and PID terms (with 2 random neighbors considered as inputs) of a 64x64 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 3.0].}
 \label{fig:ising-64-pid-2-nbs}
 \end{center}
 \end{figure}
 
-To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated with a smaller, 64x64 lattice. The experimental setup was analogous to the one used in the previous experiments, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0].
-
-Figure \ref{fig:ising-64-pid-2-nbs} depicts the results when only 2 random immediate neighbors are considered as input to the center site in the PID framework. Although the mutual, shared and synergetic information graphs are more shaky at the phase transition due to fluctuations at the phase transition, in general the graphs are almost identical to the corresponding graphs in figure \ref{fig:ising-128-pid-2-nbs}. The mutual and shared information quantities peak at $T \approx 2.2772$, while synergetic information peaks at $T \approx 2.3267$.
-
-\begin{figure} [h]
+\begin{figure} [h!]
 \begin{center}
 \includegraphics[width=.9\textwidth]{ising-64-pid-4-nbs}
 \caption{Average mutual information and PID terms (with all random neighbors considered as inputs) of a 64x64 lattice Ising model evaluated at 102 temperature points spaced evenly over the interval [2.0, 3.0].}
 \label{fig:ising-64-pid-4-nbs}
 \end{center}
 \end{figure}
+
+To confirm that the observed phenomena are not specific to a lattice of size 128x128, but are general characteristics of the computational properties of the Ising model, the simulations were repeated with a smaller, 64x64 lattice. The experimental setup was analogous to the one used in the previous experiments, with the exception that the measurments were averaged over 6 different runs (instead of 8) and for each run, 50 different random sites were chosen for PID analysis (instead of 100). The simulations were run on 102 temperature points spaced evenly over the interval [2.0, 3.0].
+
+Figure \ref{fig:ising-64-pid-2-nbs} depicts the results when only 2 random immediate neighbors are considered as input to the center site in the PID framework. Although the mutual, shared and synergetic information graphs are more shaky at the phase transition due to fluctuations at the phase transition, in general the graphs are almost identical to the corresponding graphs in figure \ref{fig:ising-128-pid-2-nbs}. The mutual and shared information quantities peak at $T \approx 2.2772$, while synergetic information peaks at $T \approx 2.3267$.
 
 The results of measuring PID terms when all neighboring sites are considered as inputs to the center site are illustrated in figure \ref{fig:ising-64-pid-4-nbs}. Both mutual and shared information again peak at $T \approx 2.772$. Complementary information peaks at $T \approx 2.5148$, a little nearer to the phase transition than was the case when the lattice size was twice the size (figure \ref{fig:ising-128-pid-4-nbs}). This observation validates that the peak in synergy does not gradually move nearer to the phase transition with increasing lattice sizes, ensuring that it is a general property of the model, independent of the lattice size.
 
@@ -861,7 +861,7 @@ In figure \ref{fig:eca-pid-char}, all 88 inequivalent elementary cellular automa
 
 \begin{figure} [!h]
 \begin{center}
-\includegraphics[width=.9\textwidth]{eca-pid-characterization}
+\includegraphics[width=.8\textwidth]{eca-pid-characterization}
 \caption{All 88 inequivalent cellular automata positioned on a 3-dimensional space according to their information distribution. The automata are coloured based on their Wolfram's class. Some of the clusters of rules are highlighted and numbered, so that they can be referred to in the text.}
 \label{fig:eca-pid-char}
 \end{center}
