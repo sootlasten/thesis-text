@@ -195,24 +195,27 @@ Computer Science Curriculum\\[2mm]
 \noindent
 Information theory is a popular tool that is often utilized to capture both linear as well as non-linear relationships between different parts of dynamical complex systems. Recently, an extension to classical information theory called partial information decomposition has been developed, which allows one to partition the information that two subsystems have about a third one into unqiue, redundant and synergetic information terms. To calculate these novel quantities in practice, a numerical estimator has been developed at the University of Tartu. 
 
-This thesis provides the very first examples of applying partial information decomposition in complex systems research. Three complex systems are empirically analysed in terms of partial information decomposition using the numerical estimator. First, the synergy in the Ising model was found to peak while the system was still in the demagnetized, disorder resigme. Second, a novel automatic and quantitative characterization of elementary cellular automata based on the information distribution in the automata was obtained. Last, feedforward neural networks were discovered not to be amenable to analysis with the current tools. However, it was argued that analysing recurrent neural networks could yield more interesting results. 
+This thesis provides the very first examples of applying partial information decomposition in complex systems research. Three complex systems are empirically analysed in terms of partial information decomposition using the numerical estimator. First, the synergy in the Ising model was found to peak while the system was still in the demagnetized, disorder regime. Second, a novel automatic and quantitative characterization of elementary cellular automata based on the information distribution in the automata was obtained. Last, feedforward neural networks were discovered not to be amenable to analysis with the current tools. However, it was argued that analysing recurrent neural networks could yield more interesting results. 
 
 \vspace*{1ex}
 
-\noindent\textbf{Keywords:} dynamical complex systems, feedforward neural networks, Ising model, elementary cellular automata, numerical simulation, information theory, partial information decomposition
+\noindent\textbf{Keywords:} 
+
+Information theory, partial information decomposition, dynamical complex systems, Ising model, elementary cellular automata, feedforward neural networks, numerical simulation
 
 \vspace*{1ex}
 
-\noindent\textbf{CERCS:} P170 Computer science, numerical analysis,
-systems, control
+\noindent\textbf{CERCS:} 
+
+P170 Computer science, numerical analysis, systems, control
 
 \vspace*{3ex}
-
-\selectlanguage{estonian}
 
 \noindent\textbf{\large Informatsiooni distributisoon analüüsimine komplekssetes süsteemides}
 
 \vspace*{3ex}
+
+\selectlanguage{estonian}
 
 \noindent\textbf{Lühikokkuvõte:} 
 
@@ -223,13 +226,16 @@ Käesolev bakalaureusetöö on esimene omalaadne, pakkudes kolme mudeli näol es
 
 \vspace*{1ex}
 
-\noindent\textbf{Võtmesõnad:} dünaamilised komplekssed süteemid, pärilevivõrgud, Isingu mudel, elementaarsed rakuautomaadid, numbriline simulatsioon, informatsiooniteooria, osaline informatsiooni dekompositsioon
+\noindent\textbf{Võtmesõnad:} 
+
+Informatsiooniteooria, osaline informatsiooni dekompositsioon, dünaamilised komplekssed süteemid, 
+Isingu mudel, elementaarsed rakuautomaadid, pärilevivõrgud, numbriline simulatsioon
 
 \vspace*{1ex}
 
-\noindent\textbf{CERCS:} P170 Arvutiteadus, arvutusmeetodid, süsteemid,
-juhtimine (automaatjuhtimisteooria)
+\noindent\textbf{CERCS:} 
 
+P170 Arvutiteadus, arvutusmeetodid, süsteemid, juhtimine (automaatjuhtimisteooria)
 
 \newpage
 \tableofcontents
@@ -242,19 +248,19 @@ juhtimine (automaatjuhtimisteooria)
 
 The universe is full of systems that comprise a large number of interacting elements. Even if the immediate local interactions of these elements are rather simple, the global observable behaviour that they give rise to is often complex. Such systems, intuitively understood to be physical manifestations of the expression "the whole is more than the sum of its parts", are aptly called \textit{complex systems}. Canonical examples of complex systems include the human brain, ant colonies and financial markets. Indeed, all these systems have many relatively simple parts (e.g. neurons) whose collective behavior engenders complex phenomena (e.g. consciousness). 
 
-In addition to physical systems, many mathematical models have been developed that fall under the umbrella of complex systems. These man-made models are particularly interesting, because one has complete knowledge of how their various parts are connected together and which rules they obey while interacting with each other. Nevertheless, the emergent global structures are so complex that their development is impossible to predict from the initial conditions and the interaction rules without actually simulating the system. Cellular automata and the Ising model are the quientessential examples of such models.
+In addition to physical systems, many mathematical models have been developed that fall under the umbrella of complex systems. These theoretical models are particularly interesting, because one has complete knowledge of how their various parts are connected together and which rules they obey while interacting with each other. Nevertheless, the emergent global structures are so complex that their development is impossible to predict from the initial conditions and the interaction rules without actually simulating the system. Cellular automata and the Ising model are the quientessential examples of such models.
 
 One way to analyse these complex models is to treat them as information processing systems and measure the amount of information their elements have about each other. Often, such analysis is done by using a well-known quantity from classical information theory, \textit{mutual information}, and its various derivations, which all measure the information between a pair of interacting agents. These measures are particularly useful because of their sensitivity to both linear as well as non-linear interactions between random variables. Among other things, they allow one to quantify the amount of information that is stored \cite{active-inf-storage}, transferred \cite{transfer-entropy} and modified \cite{inf-modification} in different parts of the system.
 
 However, only measuring the information that is processed between \textit{two} subcomponents is rather restrictive. Indeed, even the simplest of logic gates have more interacting elements, being composed of a pair of inputs and an output. While one could consider the inputs as a single subcomponent, this would not capture the intricate interactions among the inputs themselves. In particular, components in the input ensemble can provide information uniquely, redundantly, or synergetically about the output \cite{williams-beer}.  
 
-To capture this subtle distribution of information between two inputs and a single output, an extension to classical information theory is needed \cite{williams-beer}. The recently developed axiomatic framework called \textit{partial information decomposition} \cite{bertschinger} is such an extension. Computing this decomposition in actual probability distributions is non-trivial, however. Despite the difficulties, the computational neuroscience and theoretical computer science groups at the University of Tartu have jointly managed to develop a much-needed numerical estimator. 
+To capture this subtle distribution of information between two inputs and a single output, an extension to classical information theory is needed \cite{williams-beer}. The recently developed axiomatic framework called \textit{partial information decomposition} (PID) \cite{bertschinger} is such an extension. Computing this decomposition in actual probability distributions is non-trivial, however. Despite the difficulties, the theoretical computer science and computational neuroscience groups at the University of Tartu have jointly managed to develop a much-needed numerical estimator. 
 
 Contextually, this thesis can be viewed as an extension to the growing body of work that analyses complex systems with information-theoretic tools. Specifically, the overarching theme of this work is exploring the possibility of charaterizing the dynamics of complex systems in terms of partial information decomposition. To this end, three different systems are analysed. First, the dynamics of the 2-dimensional Ising model, an extensively studied mathematical model of ferromagnetism that undergoes a phase transition, are simulated while measuring the information distribution between the interacting components of the system with the PID estimator. Second, the estimator is deployed to measure the partial information decomposition terms in elementary cellular automata. Based on these measurements, a novel characterization of these models is obtained. Finally, the average information distribution of another well-known class of dynamical complex systems of increasing practical importance, feedforward neural networks, was analysed. The obtained results from the latter experiment did not make it to the main body of the thesis, but they are referred to in the discussion, which uses them as concrete examples of promising research directions on one hand, and of the severe limitations of the current PID framework on the other hand. 
 
 To the author's knowledge, the work done in this thesis is the very first example of practically applying the novel PID framework to analyse complex systems. To facilitate further research, a significant portion of the thesis is devoted to providing a self-contained introduction to partial information decomposition and to the necessary information theory prerequisites. A thorough introduction to both is absent in the literature at the time of writing this thesis (a recent review article by Wibral et al.  \cite{bits-from-brains} being a notable exception, but it is still more focused on neuroscientific applications specifically). Such an overview has the potential to make the fascinating field of partial information decomposition more accessible to researchers not necessarily trained in information theory.  
 
-The thesis is organized as follows. In Chapter 1, a sufficiently in-depth overview of basic information theory, partial information decomposition, the Ising model and elementary cellular automata is given. Chapter 2 outlines how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research, with a particular focus on the Ising model and elemntary cellular automata. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how both complex systems were analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model and in elementary cellular automata are given in Chapter 4. The last chapter discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
+The thesis is organized as follows. In Chapter 1, a sufficiently in-depth overview of basic information theory, partial information decomposition, the Ising model and elementary cellular automata is given. Chapter 2 outlines how the information-theoretic tools introduced in the preceding chapter have been previously applied to complex systems research, with a particular focus on the Ising model and elementary cellular automata. Chapter 3 introduces the general methodology for numerically simulating the dynamics of the Ising model, discusses how both complex systems were analysed in terms of information distribution, and provides exact details of the experiments done in this thesis for reproducibility. The novel results obtained from measuring partial information decomposition terms in the Ising model and in elementary cellular automata are given in Chapter 4. The last chapter discusses implications of the results, takes a critical look at the possibility of using the approach taken in this thesis to analyse other kinds of complex systems, and gives suggestions for future work.  
 
 \newpage
 
@@ -272,7 +278,7 @@ In the following discussion, when not specified otherwise, it is assumed that $X
 
 \subsubsection{Entropy}
 
-The most fundamental quantitiy of information theory is \textit{entropy}, being a basic building block of all the other information-theoretic functionals introduced in this thesis. The entropy of the random variable $X$ is defined by Shannon \cite{shannon} as follows: 
+The most fundamental quantity of information theory is \textit{entropy}, being a basic building block of all the other information-theoretic functionals introduced in this thesis. The entropy of the random variable $X$ is defined by Shannon \cite{shannon} as follows: 
 
 \begin{equation}
 H(X) = -\sum_{i=1}^{n} p_X(x_i) \log p_X(x_i)
@@ -285,7 +291,7 @@ Intuitively, entropy can be thought of as the average amount of uncertainty of a
 
 $$H(X) = \mathbb{E} \left[ - \log p(X) \right] = \mathbb{E} \left[ \log \frac{1}{p(X)} \right].$$
 
-To see why this intuition should correspond to the mathematical definition, it is instructive to look at a concrete example from the aforementioned book. Suppose we have a binary random variable $X$, defined as follows: 
+To see why this intuition should correspond to the mathematical definition, it is instructive to look at a concrete example from the aforementioned book. Suppose we have a binary random variable $X$ with a Bernoulli distribution, defined as follows: 
 
 $$X = \begin{cases} 1 & \mbox{with probability } p, \\ 0, & \mbox{with probability } 1-p. \end{cases}$$
 
@@ -296,7 +302,7 @@ Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy 
 \begin{figure} [h]
 \begin{center}
 \includegraphics[width=.9\textwidth]{entropy}
-\caption{Entropy of $X$ plotted against the value of $p$.}
+\caption{Entropy of $X$ plotted against the value of $p$, the parameter of the Bernoulli distribution.}
 \label{fig:entropy}
 \end{center}
 \end{figure}
@@ -324,17 +330,14 @@ Conditional entropy can be thought of as the amount of uncertainty one has about
 
 The entropy of a pair of random variables is the entropy of one plus the conditional entropy of the other \cite{cover-thomas}: 
 
-\begin{equation}
-\begin{split}
-H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i,y_j) \\
- 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i)p(y_j|x_i) \\ 
- 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i) \\
- 	   & = -\sum_{i=1}^n p_X(x_i) \log p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i) \\ 
+\begin{align}
+H(X,Y) & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i,y_j) \nonumber \\
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i)p(y_j|x_i) \nonumber \\ 
+ 	   & = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i) \nonumber \\
+ 	   & = -\sum_{i=1}^n p_X(x_i) \log p_X(x_i) - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(y_j|x_i) \nonumber \\ 
  	   & = H(X) + H(Y|X)
 \label{eq:chain-rule-entropy}
-\end{split}
-\end{equation}
-
+\end{align}
 
 \subsubsection{Kullback-Leibler distance}
 
@@ -345,7 +348,7 @@ D(p||q) = \sum_{i = 1}^n p(x_i) \log \frac{p_X(x_i)}{q_X(x_i)}
 \label{eq:kl-distance}
 \end{equation} 
 
-The above quantity is called a distance, because it can be thought of as measuring how far two probability distributions are from each other. Importantly, the relative entropy is non-negative, with inequality exactly when the 2 distributions are equal \cite{cover-thomas}, again corresponding to our intuitive notion of distance. Indeed, when the two distributions are the same, the logarihm in equation \ref{eq:kl-distance} evaluates to 0, which in turn yields a relative entropy of 0. However, it must be stressed that since the Kullback-Leibler distance it is not symmetric and does not satisfy the triangle inequality, it is not a formal distance in the mathematically rigorous sense.
+The above quantity is called a distance, because it can be thought of as measuring how far two probability distributions are from each other. Importantly, the relative entropy is non-negative, and equal to 0 exactly when the 2 distributions are equal \cite{cover-thomas}, again corresponding to our intuitive notion of distance. Indeed, when the two distributions are the same, the logarihm in equation \ref{eq:kl-distance} evaluates to 0, which in turn yields a relative entropy of 0. However, it must be stressed that since the Kullback-Leibler distance is not symmetric and does not satisfy the triangle inequality, it is not a formal distance in the mathematically rigorous sense but rather a measure of dissimilarity.
 
 \subsubsection{Mutual information}
 
@@ -358,20 +361,18 @@ MI(X;Y) = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)p_
 
 An attentive reader might notice that the mutual information is the Kullback-Leibler distance between the joint distribution $p(x,y)$ and the product distribution $p_X(x)p_Y(y)$.
 
-Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. According to the latter observation, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. Unlike the general Kullback-Leibler distance, however, the mutual information is symmetric. It follows that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
+Because the mutual information is just a special case of Kullback-Leibler distance, all the properties that hold for relative entropy must also hold for mutual information. In particular, mutual information must be non-negative and 0 exactly when the random variables $X$ and $Y$ are independent. According to the latter observation, it can be intuitively seen as measuring how far the two random variables $X$ and $Y$ are from being independent. From equation \ref{eq:mutual-inf}, it is easy to verify that mutual information is symmetric, meaning that the value of the functional does not depend on the order of the arguments $X$ and $Y$. It follows that the amount of information $X$ has about $Y$ is always equal to the amount of information $Y$ has about $X$. 
 
 The picture of mutual information as a distance between two probability distributions yields a straightforward answer to the question: "when is there no information between the two random variables?" However, it does not help in answering the orthogonal question: "when is the information maximized?" To answer the latter, the following identity, which relates mutual information directly to entropy, is of importance: 
 
-\begin{equation}
-\begin{split}
-MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)p_Y(y_j)} \\
-		& = \sum_{i=1}^n \sum_{j=1}^m p(x_i, y_j) \log \frac{p(x_i|y_j)}{p_X(x_i)} \\ 
- 		& = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i) +\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i|y_j) \\
- 		& = -\sum_{i=1}^n \sum_{j=1}^m p_X(x_i) - \left( - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i|y_j) \right) \\ 
+\begin{align}
+MI(X;Y) & = \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log \frac{p(x_i,y_j)}{p_X(x_i)p	_Y(y_j)} \nonumber \\
+		& = \sum_{i=1}^n \sum_{j=1}^m p(x_i, y_j) \log \frac{p(x_i|y_j)}{p_X(x_i)} \nonumber \\ 
+ 		& = -\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p_X(x_i) +\sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i|y_j) \nonumber \\
+ 		& = -\sum_{i=1}^n \sum_{j=1}^m p_X(x_i) - \left( - \sum_{i=1}^n \sum_{j=1}^m p(x_i,y_j) \log p(x_i|y_j) \right) \nonumber \\ 
  		& = H(X) - H(X|Y)
 \label{eq:mutual-inf-entropy} 
-\end{split}
-\end{equation}
+\end{align}
 
 Intuitively, using identity \ref{eq:mutual-inf-entropy}, mutual information between random variables $X$ and $Y$ can be thought of as the reduction in the uncertainty of $X$ due to the knowledge of $Y$ \cite{cover-thomas}. Thus, it is maximized when knowing $Y$ completely determines $X$, yielding $H(X|Y) = 0$.  
 
@@ -387,15 +388,13 @@ Intuitively, the conditional mutual information measures the reduction in the un
 
 Another useful property that will become important in the discussion on partial information decomposition is the \textit{chain rule for information} \cite{cover-thomas}, which expresses the mutual information between a random vector and a random variable in terms of mutual informations between univariate random variables: \footnote{Note that $MI(X;Y,Z)$ means that the mutual information is measured between the random variable X and the random vector (Y,Z). In particular, a semicolon (;) separates the random vectors that the mutual information is measured between (a single random variable is considered a univariate random vector), while a comma (,) separates the random variables in a single random vector.}
 
-\begin{equation}
-\begin{split}
-MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \\ 
-		  & = H(Y) + H(Z|Y) - H(Y|X) - H(Z|Y,X) \\ 
-		  & = H(Y) - H(Y|X) + H(Z|Y) - H(Z|Y,X) \\ 
+\begin{align}
+MI(X;Y,Z) & = H(Y,Z) - H(Y,Z|X) \nonumber \\ 
+		  & = H(Y) + H(Z|Y) - H(Y|X) - H(Z|Y,X) \nonumber \\ 
+		  & = H(Y) - H(Y|X) + H(Z|Y) - H(Z|Y,X) \nonumber \\ 
 		  & = MI(X;Y) + MI(X;Z|Y)
 \label{eq:chain-rule-inf}
-\end{split}
-\end{equation}
+\end{align}
 
 When the information between two random variables is measured in a system with many other dependent variables, conditional mutual information is used to eliminate the influence of the other variables, in order to isolate the two variables of interest \cite{williams-beer}. For example, it has been used to analyse the functional connectivity of different brain regions in schizoprenic patients \cite{brain-cond-inf}.
 
@@ -403,7 +402,7 @@ When the information between two random variables is measured in a system with m
 
 Mutual information measures the amount of information two random variables, or more generally, two random vectors have about each other. However, it is often worthwhile to ask how much information does an ensemble of input (source) random variables carry about some output (target) variable. A trivial solution would be to measure the mutual information between the whole input ensemble considered as a single random vector and the output. However, this would not capture the interactions between the input variables themselves. Moreover, by considering the input ensemble as a single unit, knowledge about how the interactions between specific individual units and the output differ is lost. 
 
-This section introduces \textit{partial information decomposition (PID)} - a mathematical framework for decomposing mutual information between a group of input variables and single source variable.   
+This section introduces partial information decomposition - a mathematical framework for decomposing mutual information between a group of input variables and single source variable.   
 
 \subsubsection{Formulation}
 
@@ -477,13 +476,11 @@ MI(X;Y,Z) = SI(X:Y;Z) + UI(X:Y \setminus Z) + UI(X:Z \setminus Y) + CI(X:Y;Z)
 \end{equation}
 
 The same sources also agree on the decomposition of information that a single variable, either $Y$ or $Z$, has about the output $X$: 
-\begin{equation}
-\begin{split}
-MI(X;Y) = UI(X:Y \setminus Z) + SI(X:Y;Z) \\
+\begin{align}
+MI(X;Y) = UI(X:Y \setminus Z) + SI(X:Y;Z) \nonumber \\
 MI(X;Z) = UI(X:Z \setminus Y) + SI(X:Y;Z)
 \label{eq:pid-yz}
-\end{split}
-\end{equation}
+\end{align}
 
 It is important to note that thus far in this section, no formulas for actually calculating the PID terms have been given, only several logical relationships that such a decomposition should satisfy have been stated. The only computable quantities so far are the mutual information terms at the left hand side of equations \ref{eq:pid} and \ref{eq:pid-yz}, which can be calculated using formula \ref{eq:mutual-inf}. The discussion of computing the specific PID terms is developed in the next section, which is heavily inspired by an intuitive overview of the paper "Quantifying Unique Information" by Bertschinger et al. \cite{bertschinger}, provided by Wibral et al. \cite{pid-goal-functions} 
 
@@ -506,13 +503,11 @@ Putting the observation that unique information is constant on $\Delta_p$ and eq
 
 Using the chain rule for information (equation \ref{eq:chain-rule-inf}) as well as decompositions \ref{eq:pid} and \ref{eq:pid-yz}, the following identities can be derived: 
 
-\begin{equation}
-\begin{split}
-MI(X;Y|Z) = UI(X:Y \setminus Z) + CI(X:Y;Z) \\ 
+\begin{align}
+MI(X;Y|Z) = UI(X:Y \setminus Z) + CI(X:Y;Z) \nonumber \\ 
 MI(X;Z|Y) = UI(X:Z \setminus Y) + CI(X:Y;Z)
 \label{eq:mi-ui-ci}
-\end{split}
-\end{equation}
+\end{align}
 
 Now, if a distribution $q_0 \in \Delta_p$ could be found that yields vanishing synergy, the unique information could be calculated using quantities from classical information theory. Indeed, from equation \ref{eq:mi-ui-ci} it can be seen that when synergy is $0$, the mutual information and unique information terms coincide. Bertschinger et al. \cite{bertschinger} prove that a distribution $q_0 \in \Delta_p$ with this property only exists for specific measures of unique, shared and complementary information. They define the suitable measure for unique information as follows:
 
@@ -544,12 +539,11 @@ These 4 constrained optimization problems (\ref{eq:tilde_ui_y}, \ref{eq:tilde_ui
 
 \subsubsection{Numerical Estimator}
 
-Bertschinger et al. show that "the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ . . . are convex optimization problems on convex sets" \cite{bertschinger}. A notable property of convex functions is that their local and global minimums coincide, making the optimization problems that involve such functions relatively easy to solve. Indeed, many effictive  algorithms have been developed that solve even large convex problems both efficiently and reliably \cite{boyd}.
+Bertschinger et al. show that "the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ . . . are convex optimization problems on convex sets" \cite{bertschinger}. A notable property of convex functions is that their local and global minimums coincide, making the optimization problems that involve such functions relatively easy to solve. Indeed, many effictive  algorithms have been developed that solve even large convex problems both efficiently and reliably \cite{boyd}. 
 
-"The optimization problems in Lemma 4 can be very ill-conditioned, in the sense that there are directions in which the function varies fast, and other directions in which the function varies slowly." - BROJA. \textcolor{red}{Why is this bad?}
-\textcolor{red}{TODO! Consult Dirk on the estimator.}
+However, in this particular case, the convex optimization problem is not trivial, because "the optimization problems . . . can be very ill-conditioned, in the sense that there are directions in which the function varies fast, and other directions in which the function varies slowly." \cite{bertschinger} This means that there exists extremely small eigenvalues in the positive definite matrix that needs to be inverted as part of the convex optimization procedure, making the method numerically unstable. To alleviate the problem, the estimator iteratively finds suboptimal solutions and eliminates some of the variable configurations in it whose probabilities are close to 0. To decide which specific configurations to eliminate, a set of linear programs needs to be solved. After many iterations, a satisfactory solution is eventually found. To obtain the final joint distribution $q$, the eliminated configurations are added back to the solution with probabilities of 0. 
 
-The numerical estimator takes the approach of solving the optimization problem given in equation \ref{eq:tilde_ci} and then using the resulting distribution $q$ to find the other quantities of interest. The interface of the estimator is rather simple, abstracting away all the details of its inner workings: it takes as input a  probability distribution $p(X, Y, Z)$ and outputs the scalars $MI(X;Y,Z)$, $UI(X:Y \setminus Z)$, $UI(X:Z \setminus Y)$, $SI(X:Y;Z)$ and $CI(X:Y;Z)$. Currently, the estimator is only able to handle discrete distributions. The software is written in Python 3. The convex programming is done in CVXOPT \cite{cvxopt}, while all linear progams are solved using Gurobi \cite{gurobi}. 
+The numerical estimator takes the approach of solving the optimization problem given in equation \ref{eq:tilde_ci} and then using the resulting distribution $q$ to find the other quantities of interest. The interface of the estimator is rather simple, abstracting away all the details of its inner workings: it takes as input a  probability distribution $p(X, Y, Z)$ and outputs the scalars $MI(X;Y,Z)$, $UI(X:Y \setminus Z)$, $UI(X:Z \setminus Y)$, $SI(X:Y;Z)$ and $CI(X:Y;Z)$. The software is written in Python 3. The convex programming is done in CVXOPT \cite{cvxopt}, while all linear progams are solved using Gurobi \cite{gurobi}. 
 
 \subsection{Ising Model}
 
@@ -559,9 +553,9 @@ In this section, one of the simplest models that undergoes a phase transition - 
 
 \subsubsection{Ferromagnetism}
 
-Before introducing the Ising model, a short overview of a phycsical mechanism that it is modelling - ferromagnetism - is in order. This is done in this subsection, which is based on the book "Memory Systems: Cache, DRAM, Disk" \cite{memory-systems-cache-ram}.
+Before introducing the Ising model, a short overview of a physical mechanism that it is modelling - ferromagnetism - is in order. This is done in this subsection, which is based on the book "Memory Systems: Cache, DRAM, Disk" \cite{memory-systems-cache-ram}.
 
-Electrons in a material have magnetic moments, caused by their spins, which can be in either one of two states. These small magnetic properties of individual electrons do not usually yield a global net magnetization of the material, because the electron in the atoms often come in pairs of opposite spin states, cancelling each other out. However, in ferromagnets, there are many unpaired electrons, which line up with each other, producing a region called a \textit{domain}. While the magnetic field is strong within the domain, the material is still unmagnetized because the many domains themselves are oriented randomly with respect to one another. A characteristic property of a ferromagnetic materials is that even a rather weak external magnetic field can can cause the magnetic domains to line up with each other. When this happens, the material is said to be magnetized. Importantly, in the case of a ferromagnet, the material will remain magnetized even if the influencing external field is removed. 
+Electrons in a material have magnetic moments, caused by their spins, which can be in either one of two states. These small magnetic properties of individual electrons do not usually yield a global net magnetization of the material, because the electrons in the atoms often come in pairs of opposite spin states, cancelling each other out. However, in ferromagnets, there are many unpaired electrons, which line up with each other, producing a region called a \textit{domain}. While the magnetic field is strong within the domain, the material is still unmagnetized because the many domains themselves are oriented randomly with respect to one another. A characteristic property of a ferromagnetic materials is that even a rather weak external magnetic field can can cause the magnetic domains to line up with each other. When this happens, the material is said to be magnetized. Importantly, in the case of a ferromagnet, the material will remain magnetized even if the influencing external field is removed. 
 
 The stability of the magnetization is also dependent on the temperature of the substance. Intuitively, at high temperatures, the atoms in the substance become agitated and start to vibrate. This thermal oscillation breaks the alignment of the spins and the material demagnetizes. This is yet another example of a phase transition in which an ordered, magnetized system abruptly changes it state to an unordered one. The critical temperature at which this transition happens is called the \textit{Curie temperature}.
 
@@ -587,7 +581,7 @@ P_\beta(\boldsymbol{s}) = \frac{e^{-\beta E(\boldsymbol{s})}}{\sum_{\boldsymbol{
 
 where $E(\boldsymbol{s})$ denotes the \textit{energy} associated with the configuration $\boldsymbol{s}$, and $\beta = \frac{1}{k_B T}$, where $T$ is the temperature and $k_B$ is the Boltzmann constant. Thus, $\beta$ is proportional to the inverse temperature of the system.  
 
-The probability of a configuration $\boldsymbol{s}$ depends on 2 unrelated quantities: the internal energy of the configuration under discussion, and the temperature. Two observations that stem from equation \ref{eq:boltzmann-dist} are of importance. First, the lower the energy $E(\boldsymbol{s})$ of a configuration $\boldsymbol{s}$, the higher its probability. Second, the higher the temperature $T$ (or equivalently, the lower the parameter $\beta$), the more diffuse the distribution becomes. The latter mathematical property models the physical fact that at high temperatures, the thermal oscillation of the atoms break the alignment of the spins, demagnetizing the material. 
+The probability of a configuration $\boldsymbol{s}$ depends on 2 quantities: the internal energy of the configuration under discussion, and the temperature. Two observations that stem from equation \ref{eq:boltzmann-dist} are of importance. First, the lower the energy $E(\boldsymbol{s})$ of a configuration $\boldsymbol{s}$, the higher its probability. Second, the higher the temperature $T$ (or equivalently, the lower the parameter $\beta$), the more diffuse the distribution becomes. The latter mathematical property models the physical fact that at high temperatures, the thermal oscillation of the atoms break the alignment of the spins, demagnetizing the material. 
 
 Energy is a central quantitiy that is associated with almost any model in physics. In the Ising model, energy is given by the Hamiltonian
 
@@ -596,7 +590,7 @@ E(\boldsymbol{s}) = - \sum_{\langle ij \rangle} \epsilon s_i s_j - H \sum_{i=1}^
 \label{eq:ising-hamiltonian}
 \end{equation}
 
-where the first sum is over all different neighboring spins, $\epsilon$ is the interaction strength between adjacent spins, and $H$ denotes the strength of an exetrnal magnetic field. The latter two quantities are given constants that are specified by the properties of the magnetic material and the external environment of the system, respectively.
+where the first sum is over all different neighboring spins, $\epsilon$ is the interaction strength between adjacent spins, and $H$ denotes the strength of an external magnetic field. The latter two quantities are given constants that are specified by the properties of the magnetic material and the external environment of the system, respectively.
 
 Often, the model is simplified even further. In particular, the external magnetic field interacting with the lattice is omitted, and the interaction strength between pairs of nearest neighbors is fixed to be equal to the Boltzmann constant $k_B$, so that they cancel each other out in equation \ref{eq:ising-hamiltonian} and $\beta$ becomes exactly the inverse temperature $\frac{1}{T}$. After incorporating these assumptions into the model, the energy of a configuration $\boldsymbol{s}$ simplifies to 
 
@@ -614,7 +608,7 @@ There are many questions one could ask about the dynamics of the Ising model, bu
 \label{eq:expected-mag-ising}
 \end{equation}
 
-By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T < T_c$, the absolute magnetization is near its maximum. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
+By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T << T_c$, the absolute magnetization is near its maximum. Ernst Ising himself proved that there is no sponatneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
 \subsection{Elementary Cellular Automata}
 
@@ -678,12 +672,16 @@ the average mutual informaton between the neighboring sites at each temperature 
 
 Because enumerating all possible configurations is intractable, a more clever solution must be found. One way to \textit{approximate} the average quantities is to draw many samples (spin configurations) from the Boltzmann distribution and calculate the quantities of interest on these configurations, taking their mean in the end. If the configurations are drawn in proportion to their probabilites given by equation \ref{eq:boltzmann-dist}, the mean of the quantity of interest will become increasingly closer to the true expectation as the sample size increases. Glauber dynamics, an instance of a more general class of algorithms called Markov Chain Monte Carlo methods, allows one to iteratively draw samples from the Boltzmann distribution according to their probabilities.
 
-The Glauber dynamics method works as follows. First, an initial lattice configuration is generated arbitrarily (as demonstrated in the next section, some clever tricks in choosing the initial configuration can be done, however). Then, iteratively, a site is chosen uniformly at random from the lattice, and the spin associated with this site is flipped. The resulting configuration with a single flipped spin is either accepted or rejected. The probability of acceptance is given by equation \ref{eq:glauber-accept-prob}, where $\boldsymbol{s}$ and $\boldsymbol{s_n}$ denote the old and new lattice configurations, respectively, $T$ stands for temperature and $\Delta E(\boldsymbol{s} -> \boldsymbol{s_n}) = E(\boldsymbol{s}) - E(\boldsymbol{s_n})$ is the difference between the energies of the two successive configurations. For a more compact overview, a pseudocode for a single iteration of Glauber dynamics is given in algorithm \ref{alg:glauber-update}.
+The Glauber dynamics method works as follows. First, an initial lattice configuration is generated arbitrarily (as demonstrated in the next section, some clever tricks in choosing the initial configuration can be done, however). Then, iteratively, a site is chosen uniformly at random from the lattice, and the spin associated with this site is flipped. The resulting configuration with a single flipped spin is either accepted or rejected. The probability of acceptance is given by the following equation:
 
 \begin{equation}
 P(\boldsymbol{s} -> \boldsymbol{s_n}) = \frac{1}{1 + e^\frac{\Delta E(\boldsymbol{s} -> \boldsymbol{s_n})}{T}}
 \label{eq:glauber-accept-prob}
 \end{equation}
+
+where $\boldsymbol{s}$ and $\boldsymbol{s_n}$ denote the old and new lattice configurations, respectively, $T$ stands for temperature and $\Delta E(\boldsymbol{s} -> \boldsymbol{s_n}) = E(\boldsymbol{s}) - E(\boldsymbol{s_n})$ is the difference between the energies of the two successive configurations. 
+
+For a more compact overview of the method just described, a pseudocode of a single iteration of Glauber dynamics is given in the following algorithm:
 
 \begin{algorithm}
 \textbf{Input:} A lattice configuration $\boldsymbol{s}$ and temperature $T$\\
@@ -737,7 +735,15 @@ When implementing the Ising model with a finite lattice, one also has to decide 
 
 To estimate the PID terms in the Ising model, a 2-dimensional model with Glauber dynamics, periodic boundary conditions and a square lattice of size 128x128 was simulated. A single simulation consisted of a burn-in period of $10^4$ updates, following $10^5$ updates from which the samples were gathered. As in a related paper by Barnett et al. \cite{barnett-ising}, "each update comprised $L$ (potential) spin-flips according to Glauber transition probabilities", where $L$ is the size of the lattice. In other words, the model was simulated according to algorithm $\ref{alg:glauber-full}$ with $B=10^4$, $N=10^5$ and $L=128\times128$. This procedure was performed at 102 temperature points spaced evenly over the interval [2.0, 2.8], which encloses the theoretical phase transition at $T_c \approx 2.269$. 
 
-The obtained $10^5$ lattice configurations at each temperature  point were subsequently used to construct the probability distributions that the PID estimator takes as input. 100 sites were chosen uniformly at random at the beginning of the simulation, and they stayed the same for all temperature points. For each site, the relative frequency of its local neighborhood (the site itself along with 4 of its neighbors) was measured, yielding a total of 100 joint probability distributions of 5 random variables per temperature point. An example of one such distribution at temperature $T \approx 2.119$ is given by table 2, where the first random variable $C$ represents the center site, and the following 4 random variables represent its immediate neighbors. For example, the last row of the table illustrates that the configuration where all the spins point upwards at a specific location on the lattice has a probability of $0.776$, meaning that is appears approximately $0.776 \times 10^5 = 77 600$ times out of a total of $10^5$ configurations sampled. The high probability of all aligned spins is to be expected, since the samples are taken while the Ising model is in the ordered, low temperature resigme.
+\begin{figure} [h]
+\begin{center}
+\includegraphics[width=.9\textwidth]{ising-grid}
+\caption{100 randomly chosen sites (blue dots) of a $128\times128$ square lattice.}
+\label{fig:ising-grid}
+\end{center}
+\end{figure}
+
+The obtained $10^5$ lattice configurations at each temperature  point were subsequently used to construct the probability distributions that the PID estimator takes as input. 100 sites were chosen uniformly at random at the beginning of the simulation, and they stayed the same for all temperature points. Figure \ref{fig:ising-grid} illustrates the 100 randomly chosen sites of the $128\times128$ lattice. For each site, the relative frequency of the spin configurations of its local neighborhood (the site itself along with 4 of its neighbors) was measured, yielding a total of 100 joint probability distributions of 5 random variables per temperature point. An example of one such distribution at temperature $T \approx 2.119$ is given by table 2, where the first random variable $C$ represents the center site, and the following 4 random variables represent its immediate neighbors. For example, the last row of the table illustrates that the configuration where all the spins point upwards at a specific location on the lattice has a probability of $0.776$, meaning that is appears approximately $0.776 \times 10^5 = 77 600$ times out of a total of $10^5$ configurations sampled. The high probability of all aligned spins is to be expected, since the samples are taken while the Ising model is in the ordered, low temperature regime.
 
 % synergy table
 \begin{table}[h!]
@@ -768,7 +774,7 @@ Due to the randomness present in the Glauber dynamics and in choosing the $100$ 
 
 The average information distribution was estimated in all 88 inequivalent elementary cellular automata. \footnote{While there are 256 different rules in total, some of them are computationally equivalent. In particular, exchanging the roles of black and white in the rule table and reflecting the rule through a vertical axis does not change the computational capabilities of the automaton. Not considering rules that are equivalent under these transformations yields 88 rules that are of interest.} To gather the probability distributions for the PID estimator, 88 automata with $10^4$ cells were simulated for $10^3$ timesteps using periodic boundary conditions. For each automaton, a random initial configuration was generated, such that each cell at timestep $t=0$ was associated with a value taken uniformly at random from the set $\{0,1\}$.
 
-The input pair for the PID was taken to be the cell's 2 neighbors (considered as a single random vector) and the cell itself at timestep $t$, while the output was the cell's value at the next timestep $t+1$. This is indeed a logical setup to use, as it ensures that the input set contains all the variables that the output is a function of. Using these random variables, a single distribution was generated for each rule. Note that this differs from the methodology that was used in the case of the Ising model, where only a subset of the sites was chosen for analysis, yielding 100 different distributions for each temperature point. 
+The input pair for the PID was taken to be the cell's 2 neighbors (considered as a single random vector) and the cell itself at timestep $t$, while the output was the cell's value at the next timestep $t+1$. This is indeed a logical setup to use, as it ensures that the input set contains all the variables that the output is a function of. Using these random variables, a single global distribution was generated for each rule. Note that this differs from the methodology that was used in the case of the Ising model, where a subset of the sites was chosen for analysis, yielding 100 different local distributions and PID values, the latter of which were subsequently averaged to obtain estimates of the global measures.
 
 Because the emergent dynamics of a cellular automaton depend on the initial configuration of the lattice, the above experiment (generating initial configurations for each of the 88 automata, simulating the dynamics and generating the distribution that is fed into the estimator) was repeated 5 times, after which the resulting 5 PIDs of each rule were averaged.  
 
@@ -811,7 +817,7 @@ Looking at the partial information decomposition of the Ising model in figure \r
 
 Shared information is the most dominant of the partial information decomposition terms in figure \ref{fig:ising-128-pid-2-nbs}, meaning that there is an unproportional amount of redundancy in the system. This is to be expected, as the neighbors of the center site are directly influencing the latter to take on the same value as them, and vice versa. Thus, reasoning by transitivity, a neighboring site $A$ tries to orient its spin to be parallel to the center spin, and similarly, the center site tries to align its spin such that it points in the same direction as the spin of another neighbor $B$. Because $A$ and $B$ are actively trying to make their spins parallel to each other through the influence of the center site, it is not unreasonable to assume that if the spin of one neighbor is known, the spin of the other neighor is also likely to be that same value. 
 
-The unique information terms are always near 0, no matter which neighbor is considered. First, it is reasonable that both of the unique information terms are identical, as the neighbors are chosen randomly. Second, the fact that there is no unique information in the system is intuitively plausible, as each neighbor interacts with the center site in an identical fashion. As for the behaviour of synergetic information, the author has no intuitive explanation for the observed pheonomena. 
+The unique information terms are always near 0, no matter which neighbor is considered. First, it is reasonable that both of the unique information terms are identical, as the neighbors are chosen randomly. Second, the fact that there is no unique information in the system is also intuitively plausible, as each neighbor interacts with the center site in an identical fashion. As for the behaviour of synergetic information, the author has no intuitive explanation for the observed phenomenon. That said, it is possible that it is related to the peak of global transfer entropy, a form of conditional mutual information, in the disorder phase of the Ising model, as demonstrated by Barnett et al. \cite{barnett-ising}. Indeed, according to equation \ref{eq:mi-ui-ci} when unique information vanishes, the synergetic information becomes equal to conditional mutual information, albeit to a rather different one.
 
 \begin{figure} [h]
 \begin{center}
@@ -1025,11 +1031,11 @@ Another noteworthy collection of rules is cluster 5, which consists  of 3 automa
 \newpage
 \section{Discussion}
 
-This chapter starts by putting the results obtained in the two complex systems into a larger context and by discussing their implications.  The possibility of analysing other dynamical complex systems with the information-theoretic tools used in this thesis is crticially examined in the second section. The chapter concludes with numerous suggestions for further work. 
+This chapter starts by putting the results obtained in the two complex systems into a larger context and by discussing their implications. The possibility of analysing other dynamical complex systems with the information-theoretic tools used in this thesis is crticially examined in the second section. The chapter concludes with numerous suggestions for further work. 
 
 \subsection{Implications of the results}
 
-In the paper "Information flow in a kinetic Ising model peaks in the disordered phase" \cite{barnett-ising} it is shown that global transfer entropy peaks in the disorder phase in the Ising model, just before the phase transition. In other words, transfer entropy was found to be able predict the order-disorder transition before it actually takes place. In a subsequenet commentary discussing this work \cite{inf-flow-ising-commentary}, Lionel Barnett, one of the authors of the paper, argues that this result might also generalize to other real-world dynamical complex systems that undergo phase transitions. The practical importance of this could be immense. Among other things, one can imagine it being useful in predicting imminent epileptic seizures and financial market crashes. 
+In the paper "Information flow in a kinetic Ising model peaks in the disordered phase" \cite{barnett-ising} it is shown that global transfer entropy peaks in the disorder phase in the Ising model, just before the phase transition. In other words, transfer entropy was found to be able predict the order-disorder transition before it actually takes place. In a subsequent commentary discussing this work \cite{inf-flow-ising-commentary}, Lionel Barnett, one of the authors of the paper, argues that this result might also generalize to other real-world dynamical complex systems that undergo phase transitions. The practical importance of this could be immense. Among other things, one can imagine it being useful in predicting imminent epileptic seizures and financial market crashes. 
 
 In this thesis, it was found that one of the PID terms, complementary information, also obtains a maximum in the disorder regime in the Ising system. Taking the commentary by Barnett into account, it would be worthwhile to study various real-world systems in terms of partial information decomposition. In particular, it would be interesting to measure the synergy between various components with the hope of predicting the arising phase transition  in advance.
 
@@ -1071,11 +1077,11 @@ From figure \ref{fig:neural-net-pid}, it can be seen that the mutual information
 
 There are various promising research directions in the domain of partial information decomposition itself. First, the estimator could be improved in various ways. Most notably, the optimization could be made faster, so that larger probability distributions would also be amenable to analysis. Further, the mathematical framework of partial information decomposition has currently been developed only for the bivariante input case. The general decomposition of multi-variate information remains to be developed. 
 
-In the case of the Ising model, it might be of interest to study how information is distributed between the different parts of the model more theoretically. This would provide some further insight as to why the PID functionals behave as they do in this specifc model. In addition, the results obtained in the Ising system should inspire further research into real-world complex systems in which it would be of importance to predict the occurrence of a phase transition in advance. 
+In the case of the Ising model, it might be of interest to study how information is distributed between the different parts of the model more theoretically. This would provide some further insight as to why the PID functionals behave as they do in this specific model. In addition, the results obtained in the Ising system should inspire further research into real-world complex systems in which it would be of importance to predict the occurrence of a phase transition in advance. 
 
 In this thesis, elementary cellular automata were studied, in which by definition, each cell is directly influenced by only 3 cells in its local neighborhood. However, these relatively simple systems are just a special case of a larger class of models, called \textit{1-dimensional cellular automata}, where cells can depend on an arbitrary fixed number of nearby cells. It is up to further work to study the information distribution in cellular automata that are not elementary. Das et al. \cite{Das1994} used genetic algorithms to discover different rules that are able to perform specific computational tasks, like classifying whether the majority of cells in the initial configuration have a value of 1. It could worthwhile to study if the information distribution is similar in different automata that solve common tasks. 
 
-Finally, there is more work to be done in analysing the information distribution in artificial neural networks. The PID measurements obtained from analysing feedforward neural networks in this thesis were uninteresting largely because there is no natural partitioning of nodes in this model. However, such a partitioning does exist in recurrent neural networks, where each neuron has both bottom-up inputs from the previous layer and lateral contextual inputs from the same layer at the previous timestep. Applying the current numerical estimator to recurrent networks can prove to be difficult, however, as to the author's knowledge, there is no existing work validating that binarizing the activations of a reccurent model yields a reasonable model. 
+Finally, there is more work to be done in analysing the information distribution in artificial neural networks. The PID measurements obtained from analysing feedforward neural networks in this thesis were uninteresting largely because there is no natural partitioning of nodes in this model. However, such a partitioning does exist in recurrent neural networks, where each neuron has both bottom-up inputs from the previous layer and lateral contextual inputs from the same layer at the previous timestep. Applying the current numerical estimator to recurrent networks can prove to be difficult, however, as to the author's knowledge, there is no existing work validating that binarizing the activations of a recurrent network yields a reasonable model. 
 
 \newpage
 \section*{Conclusion}
@@ -1083,7 +1089,7 @@ Finally, there is more work to be done in analysing the information distribution
 
 In this thesis, a self-contained and sufficiently rigorous introduction to the recently developed partial information decomposition mathematical framework and to the necessary information-theoretic prerequisities was provided. The main part of this thesis, however, consituted of applying this framework to empirically analyse the distribution of information in three well-known dynamical complex systems. 
 
-First, it was discovered that complementary information peaks in the disorder resigme of the Ising model. If found to be generalizable to real-world complex systems, this result could be of significant practical value. Second, a novel quantitative characterization of elementary cellular automata based on information distribution was obtained. The proposed characterization is complementary, and orthogonal, to the popular qualitatitive classification proposed by S. Wolfram. Third, feedforward neural networks were found not to be amenable to analysis within the current PID framework. However, after giving proper justification as to why the experiments done with feedforward neural networks failed to provide interesting insights, a more promising research direction was layed out. 
+First, it was discovered that complementary information peaks in the disorder regime of the Ising model. If found to be generalizable to real-world complex systems, this result could be of significant practical value. Second, a novel quantitative characterization of elementary cellular automata based on information distribution was obtained. The proposed characterization is complementary, and orthogonal, to the popular qualitatitive classification proposed by S. Wolfram. Third, feedforward neural networks were found not to be amenable to analysis within the current PID framework. However, after giving proper justification as to why the experiments done with feedforward neural networks failed to provide interesting insights, a more promising research direction was layed out. 
 
 The author of this thesis was responsible for implementing the relevant models in code and carrying out the subsequent analyses. 
 The PID numerical estimator that made measuring the PID terms possible was developed by the thesis supervisors. Even so, the estimator was not treated as a complete black box, as some minor bug fixes and modifications were done by the author of this thesis to get it working as required. 
