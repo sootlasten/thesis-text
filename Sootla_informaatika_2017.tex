@@ -309,7 +309,7 @@ Using equation \ref{eq:entropy}, it is straightforward to calculate the entropy 
 
 Due to the fundamentality of the measure, the usage of entropy is ubiquitous throughout science and engineering. For example, in finance, it is extensively used in portfolio selection theory to measure the diversity and risk of the portfolio \cite{entropy-finance}. In civil engineering, it is a key ingredient in structural optimization design \cite{Das1994} - a subfield of optimization that is concerned with improving the design of structures with respect to various specifications (safety, cost, weight etc.). A rather interesting example of application of entropy comes from cognitive neuroscience, where it has been used to characterize different states of consciousness in the brain \cite{entropy-consciousness}.
 
-\subsubsection{Joint and Conditional Entropy}
+\subsubsection{Joint and conditional entropy}
 
 The \textit{joint entropy} \cite{cover-thomas} of the pair $(X,Y)$ is defined as 
 
@@ -537,7 +537,7 @@ Replacing these measures with the corresponding quantities in equations \ref{eq:
 
 These 4 constrained optimization problems (\ref{eq:tilde_ui_y}, \ref{eq:tilde_ui_z}, \ref{eq:tilde_si}, \ref{eq:tilde_ci}) are all equivalent in the sense that it would suffice to solve only one of these problems and the obtained optimal joint distribution $q$ would produce the optimal value for all the remaining three measures as well. 
 
-\subsubsection{Numerical Estimator}
+\subsubsection{Numerical estimator}
 
 Bertschinger et al. show that "the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ . . . are convex optimization problems on convex sets" \cite{bertschinger}. A notable property of convex functions is that their local and global minimums coincide, making the optimization problems that involve such functions relatively easy to solve. Indeed, many effective algorithms have been developed that solve even large convex problems both efficiently and reliably \cite{boyd}. 
 
@@ -545,7 +545,7 @@ However, in this particular case, the convex optimization problem is not trivial
 
 The numerical estimator takes the approach of solving the optimization problem given in equation \ref{eq:tilde_ci} and then using the resulting distribution $q$ to find the other quantities of interest. The interface of the estimator is rather simple, abstracting away all the details of its inner workings: it takes as input a  probability distribution $p(X, Y, Z)$ and outputs the scalars $MI(X;Y,Z)$, $UI(X:Y \setminus Z)$, $UI(X:Z \setminus Y)$, $SI(X:Y;Z)$ and $CI(X:Y;Z)$. The software is written in Python 3. The convex programming is done in CVXOPT \cite{cvxopt}, while all linear programs are solved using Gurobi \cite{gurobi}. 
 
-\subsection{Ising Model}
+\subsection{Ising model}
 
 In nature, many systems have the property of abruptly transitioning from one state to a completely different state due to some change in the external conditions that they are influenced by. Such a phenomenon, where a system does not change its state smoothly, but rather does it in an all-or-nothing fashion, is called a \textit{phase transition}. A large class of phase transitions, which are of great practical importance, can be thought of as shifts from an ordered state to a disordered one, or vice versa. A canonical example of this phenomenon comes form condensed matter physics, where matter transitions quickly from a fairly ordered solid state to a relatively less organized liquid state when temperature passes a specific threshold.\cite{inf-flow-ising-commentary}
 
@@ -610,7 +610,7 @@ There are many questions one could ask about the dynamics of the Ising model, bu
 
 By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T << T_c$, the absolute magnetization is near its maximum. Ernst Ising himself proved that there is no spontaneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
-\subsection{Elementary Cellular Automata}
+\subsection{Elementary cellular automata}
 
 Elementary cellular automata (ECA) are discrete dynamical complex systems that consist of a 1-dimensional array of cells, each of which has an associated binary value. Every automaton is uniquely defined by its rule table - a function that maps the value of a cell to a new value based on the cell's current value and the values of its 2 immediate neighbors. Since each rule table corresponds to a unique 8-bit binary number, there are only $2^8 = 256$ elementary cellular automata in total, each of which is associated with a unique decimal number from 0 to 255. Figure \ref{fig:eca-rule-table} gives an example of one such rule table, where the top row represents the state's all possible local neighborhoods and the bottom row represents the center state's new value. For example, one can infer from the table that if a cell has a value of 0 (white) while both of its neighbors have a value of 1 (black), then this cell will retain its value after the function has been applied. 
 
@@ -642,7 +642,7 @@ Because the set of all elementary cellular automata is rather diverse, consistin
 \end{itemize}
 
 \newpage
-\section{Related Work} 
+\section{Related work} 
 
 This chapter gives a brief overview of prior work closely related to this thesis. The first section introduces previous work on analysing complex systems that undergo a phase transition, such as the Ising model, with information-theoretic tools. The second section focuses on related work that analyse elementary cellular automata.    
 
