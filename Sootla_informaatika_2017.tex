@@ -289,7 +289,7 @@ If the base of the logarithm is 2, the units the entropy is measured in are call
 
 Intuitively, entropy can be thought of as the average amount of uncertainty of a random variable. It is indeed an \textit{average}, as the uncertainty of a single relatization $x_i$ of a random variable $X$ can be quantified by $-\log p_X(x_i)$. Viewed from this angle, the definition of entropy can be rewritten as an expectation of the random variable $-\log p(X)$: 
 
-$$H(X) = \mathbb{E} \left[ - \log p(X) \right] = \mathbb{E} \left[ \log \frac{1}{p(X)} \right].$$
+$$H(X) = \mathbb{E} \left[ - \log p_X(X) \right] = \mathbb{E} \left[ \log \frac{1}{p_X(X)} \right].$$
 
 To see why this intuition should correspond to the mathematical definition, it is instructive to look at a concrete example from the aforementioned book. Suppose we have a binary random variable $X$ with a Bernoulli distribution, defined as follows: 
 
@@ -378,7 +378,7 @@ Intuitively, using identity \ref{eq:mutual-inf-entropy}, mutual information betw
 
 \subsubsection{Conditional mutual information}
 
-Let $Z$ be a discrete random variable. The \textit{conditional mutual information} \cite{cover-thomas} of the random variables $X$ and $Y$ given $Z$ is defined as
+Let $Z$ be a discrete random variable. The \textit{conditional mutual information} \cite{cover-thomas} between the random variables $X$ and $Y$ given $Z$ is defined as
 
 \begin{equation}
 MI(X;Y|Z) = H(X|Z) - H(X|Y,Z)
@@ -433,7 +433,7 @@ Unique information quantifies the amount of information that only one of the inp
 \label{table:1}
 \end{table}
 
-Shared information quantifies the amount of information both inputs share about the output variable. It is also sometimes called \textit{redundant} information, because if both inputs contain the same information about the output, it would suffice to observe only one of the input variables. The shared information is denoted as $SI(X:Y;Z)$.\footnote{To be consistent with the "Elements of Information Theory", the notation used in this thesis for PID terms deviates a little from the one introduced by Bertschinger et al. \cite{bertschinger}. Specifically, a colon (:) is used to partition the set of random variables to a single output (on the left hand side) and a set of inputs (on the right hand side). As before, a semicolon (;) is used to separate the input variables on the right hand side, signifying that these variables are considered to be separate entities, not part of a single random vector.} Table \ref{table:2} gives a toy example of shared information. The output variable $X$ has 2 equiprobable states, each of which is again uniquely specified by the two inputs $Y$ and $Z$. However, in this example, it would actually suffice to observe only one of the inputs $Y$ or $Z$ to uniquely determine the output. This can easily be verified by noticing that the output $X$ is merely a replication of either input. In other words, one of the input variables is redundant, since the two inputs share all their information about the output.
+Shared information quantifies the amount of information both inputs share about the output variable. It is also sometimes called \textit{redundant} information, because if both inputs contain the same information about the output, it would suffice to observe only one of the input variables. The shared information is denoted as $SI(X:Y;Z)$.\footnote{To be consistent with "Elements of Information Theory", the notation used in this thesis for PID terms deviates a little from the one introduced by Bertschinger et al. \cite{bertschinger} Specifically, a colon (:) is used to partition the set of random variables to a single output (on the left hand side) and a set of inputs (on the right hand side). As before, a semicolon (;) is used to separate the input variables on the right hand side, signifying that these variables are considered to be separate entities, not part of a single random vector.} Table \ref{table:2} gives a toy example of shared information. The output variable $X$ has 2 equiprobable states, each of which is again uniquely specified by the two inputs $Y$ and $Z$. However, in this example, it would actually suffice to observe only one of the inputs $Y$ or $Z$ to uniquely determine the output. This can easily be verified by noticing that the output $X$ is merely a replication of either input. In other words, one of the input variables is redundant, since the two inputs share all their information about the output.
 
 % redundant information table
 \begin{table}[h!]
@@ -450,7 +450,7 @@ Shared information quantifies the amount of information both inputs share about 
 \label{table:2}
 \end{table}
 
-Complementary or \textit{synergetic} information quantifies the amount of information that is only present when both inputs are considered jointly. The complementary information is denoted as $CI(X:Y;Z)$. Table \ref{table:3} depicts the \texttt{XOR}-gate, the canonical example for illustrating the concept of synergy. As before, the output $X$ is fully specified by the two inputs $Y$ and $Z$. However, in this case \textit{both} inputs $Y$ and $Z$ must be present for the output to be fully determined, and observing a single input $Y$ would not provide the observer \textit{any} information about the output $X$. Indeed, given a specific value of either $Y$ or $Z$, two equiprobable values for $X$ remain, exactly as was the case before observing none of the inputs. 
+Complementary or \textit{synergetic} information quantifies the amount of information that is only present when both inputs are considered jointly. The complementary information is denoted as $CI(X:Y;Z)$. Table \ref{table:3} depicts the \texttt{XOR}-gate, the canonical example for illustrating the concept of synergy. As before, the output $X$ is fully specified by the two inputs $Y$ and $Z$. However, in this case \textit{both} inputs $Y$ and $Z$ must be present for the output to be fully determined, and observing a single input $Y$ or $Z$ alone would not provide the observer \textit{any} information about the output $X$. Indeed, given a specific value of either $Y$ or $Z$, two equiprobable values for $X$ remain, exactly as was the case before observing none of the inputs. 
 
 % synergy table
 \begin{table}[h!]
@@ -535,13 +535,13 @@ Replacing these measures with the corresponding quantities in equations \ref{eq:
 \label{eq:tilde_ci}
 \end{equation}
 
-These 4 constrained optimization problems (\ref{eq:tilde_ui_y}, \ref{eq:tilde_ui_z}, \ref{eq:tilde_si}, \ref{eq:tilde_ci}) are all equivalent in the sense that it would suffice to solve only one of these problems and the obtained optimal joint distribution $q$ would produce the optimal value for all the remaining three measures as well. 
+These 4 constrained optimization problems (equations \ref{eq:tilde_ui_y}, \ref{eq:tilde_ui_z}, \ref{eq:tilde_si}, \ref{eq:tilde_ci}) are all equivalent in the sense that it would suffice to solve only one of these problems and the obtained optimal joint distribution $q$ would produce the optimal value for all the remaining three measures as well. 
 
 \subsubsection{Numerical estimator}
 
 Bertschinger et al. show that "the optimization problems involved in the definitions of $\widetilde{UI}$, $\widetilde{SI}$ and $\widetilde{CI}$ . . . are convex optimization problems on convex sets" \cite{bertschinger}. A notable property of convex functions is that their local and global minimums coincide, making the optimization problems that involve such functions relatively easy to solve. Indeed, many effective algorithms have been developed that solve even large convex problems both efficiently and reliably \cite{boyd}. 
 
-However, in this particular case, the convex optimization problem is not trivial, because "the optimization problems . . . can be very ill-conditioned, in the sense that there are directions in which the function varies fast, and other directions in which the function varies slowly." \cite{bertschinger} This means that there exists extremely small eigenvalues in the positive definite matrix that needs to be inverted as part of the convex optimization procedure, making the method numerically unstable. To alleviate the problem, the estimator iteratively finds suboptimal solutions and eliminates some of the variable configurations in it whose probabilities are close to 0. To decide which specific configurations to eliminate, a set of linear programs needs to be solved. After many iterations, a satisfactory solution is eventually found. To obtain the final joint distribution $q$, the eliminated configurations are added back to the solution with probabilities of 0. 
+However, in this particular case, the convex optimization problem is not trivial, because "the optimization problems . . . can be very ill-conditioned, in the sense that there are directions in which the function varies fast, and other directions in which the function varies slowly." \cite{bertschinger} This means that there exists extremely small eigenvalues in the positive definite matrix that needs to be inverted as part of the convex optimization procedure, making the method numerically unstable. To alleviate the problem, the estimator iteratively finds suboptimal solutions and eliminates some of the variable configurations in them whose probabilities are close to 0. To decide which specific configurations to eliminate, a set of linear programs needs to be solved. After many iterations, a satisfactory solution is eventually found. To obtain the final joint distribution $q$, the eliminated configurations are added back to the solution with probabilities of 0. 
 
 The numerical estimator takes the approach of solving the optimization problem given in equation \ref{eq:tilde_ci} and then using the resulting distribution $q$ to find the other quantities of interest. The interface of the estimator is rather simple, abstracting away all the details of its inner workings: it takes as input a  probability distribution $p(X, Y, Z)$ and outputs the scalars $MI(X;Y,Z)$, $UI(X:Y \setminus Z)$, $UI(X:Z \setminus Y)$, $SI(X:Y;Z)$ and $CI(X:Y;Z)$. The software is written in Python 3. The convex programming is done in CVXOPT \cite{cvxopt}, while all linear programs are solved using Gurobi \cite{gurobi}. 
 
@@ -553,9 +553,9 @@ In this section, one of the simplest models that undergoes a phase transition - 
 
 \subsubsection{Ferromagnetism}
 
-Before introducing the Ising model, a short overview of a physical mechanism that it is modelling - ferromagnetism - is in order. This is done in this subsection, which is based on the book "Memory Systems: Cache, DRAM, Disk" \cite{memory-systems-cache-ram}.
+Before introducing the Ising model, a short overview of a physical mechanism that it is modelling - ferromagnetism - is in order. This is given in the current subsection, which is based on the chapter dubbed "Ferromagnetism" in the book "Memory Systems: Cache, DRAM, Disk" \cite{memory-systems-cache-ram}.
 
-Electrons in a material have magnetic moments, caused by their spins, which can be in either one of two states. These small magnetic properties of individual electrons do not usually yield a global net magnetization of the material, because the electrons in the atoms often come in pairs of opposite spin states, cancelling each other out. However, in ferromagnets, there are many unpaired electrons, which line up with each other, producing a region called a \textit{domain}. While the magnetic field is strong within the domain, the material is still unmagnetized because the many domains themselves are oriented randomly with respect to one another. A characteristic property of a ferromagnetic materials is that even a rather weak external magnetic field can can cause the magnetic domains to line up with each other. When this happens, the material is said to be magnetized. Importantly, in the case of a ferromagnet, the material will remain magnetized even if the influencing external field is removed. 
+Electrons in a material have magnetic moments, caused by their spins, the latter of which can be in either one of two states. These small magnetic properties of individual electrons do not usually yield a global net magnetization of the material, because the electrons in the atoms often come in pairs of opposite spin states, cancelling each other out. However, in ferromagnets, there are many unpaired electrons, which line up with each other, producing a region called a \textit{domain}. While the magnetic field is strong within the domain, the material is still unmagnetized because the many domains themselves are oriented randomly with respect to one another. A characteristic property of a ferromagnetic materials is that even a rather weak external magnetic field can can cause the magnetic domains to line up with each other. When this happens, the material is said to be magnetized. Importantly, in the case of a ferromagnet, the material will remain magnetized even if the influencing external field is removed. 
 
 The stability of the magnetization is also dependent on the temperature of the substance. Intuitively, at high temperatures, the atoms in the substance become agitated and start to vibrate. This thermal oscillation breaks the alignment of the spins and the material demagnetizes. This is yet another example of a phase transition in which an ordered, magnetized system abruptly changes it state to an unordered one. The critical temperature at which this transition happens is called the \textit{Curie temperature}.
 
@@ -579,7 +579,7 @@ P_\beta(\boldsymbol{s}) = \frac{e^{-\beta E(\boldsymbol{s})}}{\sum_{\boldsymbol{
 \label{eq:boltzmann-dist}
 \end{equation}
 
-where $E(\boldsymbol{s})$ denotes the \textit{energy} associated with the configuration $\boldsymbol{s}$, and $\beta = \frac{1}{k_B T}$, where $T$ is the temperature and $k_B$ is the Boltzmann constant. Thus, $\beta$ is proportional to the inverse temperature of the system.  
+where the sum in the denominator is over all possible spin configurations, $E(\boldsymbol{s})$ denotes the \textit{energy} associated with the configuration $\boldsymbol{s}$, and $\beta = \frac{1}{k_B T}$, where $T$ is the temperature and $k_B$ is the Boltzmann constant. Thus, $\beta$ is proportional to the inverse temperature of the system.  
 
 The probability of a configuration $\boldsymbol{s}$ depends on 2 quantities: the internal energy of the configuration under discussion, and the temperature. Two observations that stem from equation \ref{eq:boltzmann-dist} are of importance. First, the lower the energy $E(\boldsymbol{s})$ of a configuration $\boldsymbol{s}$, the higher its probability. Second, the higher the temperature $T$ (or equivalently, the lower the parameter $\beta$), the more diffuse the distribution becomes. The latter mathematical property models the physical fact that at high temperatures, the thermal oscillation of the atoms break the alignment of the spins, demagnetizing the material. 
 
@@ -592,7 +592,7 @@ E(\boldsymbol{s}) = - \sum_{\langle ij \rangle} \epsilon s_i s_j - H \sum_{i=1}^
 
 where the first sum is over all different neighboring spins, $\epsilon$ is the interaction strength between adjacent spins, and $H$ denotes the strength of an external magnetic field. The latter two quantities are given constants that are specified by the properties of the magnetic material and the external environment of the system, respectively.
 
-Often, the model is simplified even further. In particular, the external magnetic field interacting with the lattice is omitted, and the interaction strength between pairs of nearest neighbors is fixed to be equal to the Boltzmann constant $k_B$, so that they cancel each other out in equation \ref{eq:ising-hamiltonian} and $\beta$ becomes exactly the inverse temperature $\frac{1}{T}$. After incorporating these assumptions into the model, the energy of a configuration $\boldsymbol{s}$ simplifies to 
+Often, the model is simplified even further, and it is this simplified system that is analysed in this thesis. In particular, the external magnetic field interacting with the lattice is omitted, and the interaction strength between pairs of nearest neighbors is fixed to be equal to the Boltzmann constant $k_B$, so that they cancel each other out in equation \ref{eq:ising-hamiltonian} and $\beta$ becomes exactly the inverse temperature $\frac{1}{T}$. After incorporating these assumptions into the model, the energy of a configuration $\boldsymbol{s}$ simplifies to 
 
 \begin{equation}
 H(\boldsymbol{s}) = - \sum_{\langle ij \rangle} s_i s_j
@@ -604,11 +604,11 @@ From equation \ref{eq:ising-hamiltonian-simple}, it can be seen that the spins i
 There are many questions one could ask about the dynamics of the Ising model, but perhaps the most interesting and most extensively studied is the following: how does the magnetization of the lattice change with temperature? Since for a fixed value of $\beta$, the lattice configurations are random variables, an \textit{expectation} of the magnetization must be found, using the following formula:
 
 \begin{equation}
-\langle M \rangle_\beta = \sum_{\boldsymbol{s}} M_\beta(\boldsymbol{s}) P_\beta(\boldsymbol{s})
+\langle M \rangle_\beta = \sum_{\boldsymbol{s}} M(\boldsymbol{s}) P_\beta(\boldsymbol{s})
 \label{eq:expected-mag-ising}
 \end{equation}
 
-By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T << T_c$, the absolute magnetization is near its maximum. Ernst Ising himself proved that there is no spontaneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value of the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
+By saying that there is a phase transition in the Ising model, what is meant is that there exists a critical temperature $T_c$ such that for temperatures $T > T_c$, the expected magnetization given by equation \ref{eq:expected-mag-ising} is 0 (or quickly approaches zero if $T$ is near $T_c$). Conversely, if $T << T_c$, the absolute magnetization is near its maximum. Ernst Ising himself proved that there is no spontaneous magnetization and therefore, no phase transition in the 1-dimensional Ising model \cite{Ising1925}. On the other hand, in 1944, Lars Onsager showed \cite{lars-onsanger} that the 2-dimensional Ising model with a square lattice does undergo a phase transition in the absence of an external magnetic field. Furthermore, he gave the exact value for the parameter $\beta$ at which the swift order-disorder transition takes place. For higher dimensional Ising models, no analytic solution for the phase transition exists. 
 
 \subsection{Elementary cellular automata}
 
@@ -632,7 +632,7 @@ Elementary cellular automata can be simulated in time by simultaneously applying
 \end{center}
 \end{figure} 
 
-Because the set of all elementary cellular automata is rather diverse, consisting of both computationally interesting as well as uninteresting rules, it would make sense to try to group them based on the apparent complexity of their behaviour. In his seminal paper "Universality and Complexity in Cellular Automata" \cite{wolfram-classification}, Stephen Wolfram did just that. After qualitatively analysing the global structures that the different rules give rise to given random initial states, he proposes a classification scheme that partitions all elementary cellular automata into four classes. The proposed classes are as follows:
+Because the set of all elementary cellular automata is rather diverse, consisting of both computationally interesting as well as uninteresting rules, it would make sense to try to group them based on the apparent complexity of their behaviour. In his seminal paper "Universality and Complexity in Cellular Automata" \cite{wolfram-classification}, Stephen Wolfram did just that. After qualitatively analysing the global structures that the different rules give rise to given random initial states, he proposed a classification scheme that partitions all elementary cellular automata into four classes. The proposed classes are as follows:
 
 \begin{itemize}
 \item Class 1: Cellular automata which converge to a homogeneous state. For example, rule 0, which takes any state into a 0 state, belongs to this class.
